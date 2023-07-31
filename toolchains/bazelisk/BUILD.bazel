@@ -1,0 +1,6 @@
+load(":name-version-sha.bzl", "binaries")
+
+filegroup(
+    name = "bazelisk",
+    srcs = binaries(),
+)
