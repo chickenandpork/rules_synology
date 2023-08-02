@@ -1,0 +1,9 @@
+load("//:synology/defs.bzl", "INFO_file")
+
+INFO_file(
+    package_name = "xx",
+    description = "X after X after X",
+    maintainer = "Allan Clark",
+    os_min_ver = "7.0",
+    package_version = "1.2.3-435",
+)
