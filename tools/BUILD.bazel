@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+alias(
+    name = "buildifier",
+    actual = ":gazelle",
+)
+
+# In some ways, having build buildifier and gazelle is redundant
+
+gazelle(name = "gazelle")
+
+go_binary(
+    name = "resize",
+    embed = [":tools_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "tools_lib",
+    srcs = [
+        "main.go",
+        "resize.go",
+    ],
+    importpath = "github.com/chickenandpork/bazelspk/tools",
+    visibility = ["//visibility:private"],
+    deps = ["@com_github_disintegration_imaging//:go_default_library"],
+)

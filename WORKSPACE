@@ -1,6 +1,15 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
+    name = "bazel_gazelle",
+    sha256 = "727f3e4edd96ea20c29e8c2ca9e8d2af724d8c7778e7923a854b2c80952bc405",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.30.0/bazel-gazelle-v0.30.0.tar.gz",
+        "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.30.0/bazel-gazelle-v0.30.0.tar.gz",
+    ],
+)
+
+http_archive(
     name = "bazel_skylib",
     sha256 = "66ffd9315665bfaafc96b52278f57c7e2dd09f5ede279ea6d39b2be471e7e3aa",
     urls = [
@@ -9,9 +18,59 @@ http_archive(
     ],
 )
 
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "6dc2da7ab4cf5d7bfc7c949776b1b7c733f05e56edc4bcd9022bb249d2e2a996",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.39.1/rules_go-v0.39.1.zip",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.39.1/rules_go-v0.39.1.zip",
+    ],
+)
+
 load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 
 bazel_skylib_workspace()
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_download_sdk", "go_register_toolchains", "go_rules_dependencies")
+
+# We give the SDK keys and SHA256s to reduce the delay during Analysis to hit a remote server and
+# dynamically choose from its responses.  Also avoids impact of sunset versions disappearing from
+# the live query we're processing.
+go_download_sdk(
+    name = "go_sdk",
+    sdks = {
+        # NOTE: In most cases the whole sdks attribute is not needed.
+        # There are 2 "common" reasons you might want it:
+        #
+        # 1. You need to use an modified GO SDK, or an unsupported version
+        #    (for example, a beta or release candidate)
+        #
+        # 2. You want to avoid the dependency on the index file for the
+        #    SHA-256 checksums. In this case, You can get the expected
+        #    filenames and checksums from https://go.dev/dl/
+        "linux_amd64": ("go1.19.5.linux-amd64.tar.gz", "36519702ae2fd573c9869461990ae550c8c0d955cd28d2827a6b159fda81ff95"),
+        "darwin_amd64": ("go1.19.5.darwin-amd64.tar.gz", "23d22bb6571bbd60197bee8aaa10e702f9802786c2e2ddce5c84527e86b66aa0"),
+        "darwin_arm64": ("go1.19.5.darwin-arm64.tar.gz", "4a67f2bf0601afe2177eb58f825adf83509511d77ab79174db0712dc9efa16c8"),
+    },
+    #goos = "linux",
+    #goarch = "amd64",
+    version = "1.19.5",
+)
+
+go_rules_dependencies()
+
+go_register_toolchains()  # version defaults to that given in ":go_sdk" above
+
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("//:bzl/go_dependencies.bzl", "go_dependencies")
+
+# gazelle:repository_macro bzl/go_dependencies.bzl%go_dependencies
+go_dependencies()
+
+gazelle_dependencies(
+    go_repository_default_config = "@//:WORKSPACE",
+    go_sdk = "go_sdk",
+)
 
 #
 # Toolchains
