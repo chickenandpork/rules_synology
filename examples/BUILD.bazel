@@ -1,4 +1,4 @@
-load("//:synology/defs.bzl", "info_file", "maintainer")
+load("//:synology/defs.bzl", "images", "info_file", "maintainer")
 
 info_file(
     name = "xxinfo",
@@ -9,8 +9,14 @@ info_file(
     package_version = "1.2.3-435",
 )
 
+# Create icon images
+images(
+    name = "icons",
+    src = "@screaming_goat//file",
+)
+
 maintainer(
     name = "bart",
-    maintainer_email = "bart_bloggins@example.com",
     maintainer_name = "Bart Bloggins",
+    maintainer_url = "http://geocites.com/the-bartman",
 )

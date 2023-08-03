@@ -1,4 +1,4 @@
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 http_archive(
     name = "bazel_gazelle",
@@ -24,6 +24,14 @@ http_archive(
     urls = [
         "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.39.1/rules_go-v0.39.1.zip",
         "https://github.com/bazelbuild/rules_go/releases/download/v0.39.1/rules_go-v0.39.1.zip",
+    ],
+)
+
+http_file(
+    name = "screaming_goat",
+    sha256 = "030c1aadeaf9b7b01b27d4966a64173fbfe2e0eea2ec3577543fb8838c3013f0",
+    urls = [
+        "https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/816/2019/01/22193028/Screaming-Goat-832-832x476.jpg",
     ],
 )
 

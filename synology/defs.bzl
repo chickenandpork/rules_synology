@@ -66,5 +66,22 @@ info_file = rule(
     },
 )
 
+def images(name = "images", src = ":PACKAGE_ICON.PNG"):
+    sizes = [16, 24, 32, 48, 64, 72, 90, 120, 256]
+
+    [native.genrule(
+        name = "{}_{}".format(name, sz),
+        srcs = [src],
+        outs = ["PACKAGE_ICON_{}.PNG".format(sz)],
+        #cmd = "echo $(location //tools:resize) -src=$< -size={} -dest=$@ XXXXX".format(sz),
+        cmd = "$(location //tools:resize) -src=$< -size={} -dest=$@".format(sz),
+        tools = ["//tools:resize"],
+    ) for sz in sizes]
+
+    native.filegroup(
+        name = "{}.group".format(name),
+        srcs = [":{}_{}".format(name, sz) for sz in sizes],
+    )
+
 # pass-thru
 maintainer = _maintainer
