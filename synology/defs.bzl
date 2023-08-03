@@ -1,16 +1,9 @@
 # Formats guided by https://global.download.synology.com/download/Document/Software/DeveloperGuide/Os/DSM/All/enu/DSM_Developer_Guide_7_enu.pdf
 
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("//:synology/maintainer.bzl", "Maintainer", _maintainer = "maintainer")
 
-def INFO_file(
-        package_name,
-        package_version,
-        os_min_ver,
-        description,
-        maintainer,
-        arch = ["noarch"],
-        rule_name = None,
-        info_filename = None):
+def INFO_file(ctx):
     # Build a manifest per some fairly predictable ordering: key:value pairs, but by wrapping as
     # parameters, we have the option of generating or deriving values.
     #
@@ -31,20 +24,47 @@ def INFO_file(
     #    ie: "x86_64 alpine", defaults to "noarch"
     # maintainer: freeform string representation of the package maintainer
     # rule_name: optional name of the generated rule rather than ${package_name}_INFO
+    #
+    # I strongly envision most use of this function will be indirectly through other rules that
+    # simplify the build of cmake, autotools, go-specific, react front-ends, etc.
+
+    if ctx.outputs.out:
+        outfile = ctx.outputs.out
+    else:
+        outfile = ctx.actions.declare_file("INFO")
 
     content = [
-        'package="{}"'.format(package_name),
-        'version="{}"'.format(package_version),
-        'os_min_ver="{}"'.format(os_min_ver),
-        'description="{}"'.format(description),
-        'maintainer="{}"'.format(maintainer),
-        'arch="{}"'.format(" ".join(arch)),
+        'package="{}"'.format(ctx.attr.package_name),
+        'version="{}"'.format(ctx.attr.package_version),
+        'os_min_ver="{}"'.format(ctx.attr.os_min_ver),
+        'description="{}"'.format(ctx.attr.description),
+        'maintainer="{}"'.format(ctx.attr.maintainer[Maintainer].name),
+        'arch="{}"'.format(" ".join(ctx.attr.arch_strings)),
     ]
 
-    # future optional bits
-    #if os_min_ver:
-    #    content.append('os_min_ver="{}"'.format(os_min_ver))
+    # optional bits
+    if ctx.attr.maintainer[Maintainer].url:
+        content.append('maintainer_url="{}"'.format(ctx.attr.maintainer[Maintainer].url))
 
     content.append("")  # ensure the file ends with a Newline by appending a zero-len line
 
-    write_file(rule_name or "{}_INFO".format(package_name), info_filename or "INFO", content)
+    ctx.actions.write(outfile, "\n".join(content), is_executable = False)
+
+    return [DefaultInfo(files = depset([outfile]))]
+
+info_file = rule(
+    doc = "Create an INFO file: the intent is to simplify and provide a single choke-point for sanity-checking and instantiating defaults that may accelerate a new project creation",
+    implementation = INFO_file,  # TODO: rename
+    attrs = {
+        "package_name": attr.string(doc = "Name of the package, unique within Synology SPKs, hopefully resembles external package name", mandatory = True),
+        "package_version": attr.string(doc = "Version of the package; although I recommend semver-ish X.Y.Z-BUILDNUM, Synology describes as being any string of numbers separated by periods, dash, or underscore", mandatory = True),
+        "os_min_ver": attr.string(doc = """Earliest version of DSM that can install the package; ie "DSM 7.1.1-42962".  There seems to be no handling of the extended hard-to-parse suffixes used by Synology such as "DSM 7.1.1-42962 Update 6".""", mandatory = True),
+        "description": attr.string(doc = "Brief description of the package: copy-paste from the upstream if permissible.  Although this can be a looooong single-line string, it does display on the UIs to install a package, so brevity is still encouraged.", mandatory = True),
+        "maintainer": attr.label(doc = "Maintainer of the build logic for the component (primary if multiple, a person)", providers = [Maintainer], mandatory = True),
+        "arch_strings": attr.string_list(doc = """array of architectures (current strings): [ "alpine", ...] (default: ["noarch"]).""", default = ["noarch"], mandatory = False),
+        "out": attr.output(doc = "Name of the Info file, if INFO is not preferred.", mandatory = False),
+    },
+)
+
+# pass-thru
+maintainer = _maintainer
