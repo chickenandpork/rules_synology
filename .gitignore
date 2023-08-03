@@ -1,0 +1,5 @@
+bazel-bazel-pkg-spk
+bazel-bin
+bazel-out
+bazel-testlogs
+
