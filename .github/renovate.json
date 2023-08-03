@@ -12,6 +12,10 @@
       "matchManagers": [
         "bazel"
       ]
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
     }
   ],
   "regexManagers": [
