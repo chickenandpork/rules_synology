@@ -1,9 +1,16 @@
-load("//:synology/defs.bzl", "INFO_file")
+load("//:synology/defs.bzl", "info_file", "maintainer")
 
-INFO_file(
+info_file(
+    name = "xxinfo",
     package_name = "xx",
     description = "X after X after X",
-    maintainer = "Allan Clark",
+    maintainer = ":bart",
     os_min_ver = "7.0",
     package_version = "1.2.3-435",
+)
+
+maintainer(
+    name = "bart",
+    maintainer_email = "bart_bloggins@example.com",
+    maintainer_name = "Bart Bloggins",
 )
