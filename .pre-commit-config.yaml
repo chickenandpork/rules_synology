@@ -1,0 +1,47 @@
+# To install the dependencies for this file:
+# 1) pip install pre-commit
+#   (really, "sudo python3 -m pip install pre-commit")
+#   (really, I've been carrying this boilerplate for years, but now it's all python3?)
+#
+# 2) pre-commit install --allow-missing-config
+#
+# yamllint checks this .pre-commit-config file as well
+---
+repos:
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.26.1
+    hooks:
+      - id: yamllint
+        args: [
+          '-d',
+          '{extends: relaxed, rules: {line-length: {max: 120}}}'
+        ]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: no-commit-to-branch
+      - id: trailing-whitespace
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        language_version: python3
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.18.3
+    hooks:
+      - id: check-github-workflows
+      - id: check-renovate
+  - repo: local
+    hooks:
+      - id: buildifier
+        name: bazel run //tools:gazelle
+        description: Cleans up BUILD files as confirmed in starlark linter
+        language: system
+        entry: bazel run //tools:gazelle
+        # the "identify" needs to be updated to recognize bazel files directly
+        files: .*\.bazel$ .*\.bzl$ WORKSPACE$
+      - id: golines
+        name: GoLines line-limiter (runs gofmt)
+        language: system
+        entry: golines -w
+        files: .*\.go$

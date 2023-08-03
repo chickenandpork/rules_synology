@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-
 	destFilename := flag.String(
 		"dest",
 		"",
