@@ -2,6 +2,8 @@
 
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("//:synology/maintainer.bzl", "Maintainer", _maintainer = "maintainer")
+load("//:synology/port-service-configure.bzl", _service_config = "service_config", _protocol_file="protocol_file")
+load("//:synology/resource-configure.bzl", _resource_config = "resource_config")
 
 def INFO_file(ctx):
     # Build a manifest per some fairly predictable ordering: key:value pairs, but by wrapping as
@@ -84,4 +86,8 @@ def images(name = "images", src = ":PACKAGE_ICON.PNG"):
     )
 
 # pass-thru
+
 maintainer = _maintainer
+protocol_file = _protocol_file
+resource_config = _resource_config
+service_config = _service_config

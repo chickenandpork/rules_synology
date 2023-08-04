@@ -1,4 +1,4 @@
-load("//:synology/defs.bzl", "images", "info_file", "maintainer")
+load("//:synology/defs.bzl", "images", "info_file", "maintainer", "service_config", "protocol_file", "resource_config")
 
 info_file(
     name = "xxinfo",
@@ -8,6 +8,14 @@ info_file(
     os_min_ver = "7.0",
     package_version = "1.2.3-435",
 )
+
+service_config(name="xx-main",title="XX service port",description="XX service",dst_ports = "1337/tcp")
+service_config(name="xx-admin",title="XX admin port",description="XX admin",dst_ports = "9090/tcp")
+
+protocol_file(name="file", package_name="xx",service_config = [":xx-main", "xx-admin"])
+protocol_file(name="file2", out="bob.sc",service_config = [":xx-main", "xx-admin"])
+
+resource_config(name="rez", resources= [ ":file"])
 
 # Create icon images
 images(
