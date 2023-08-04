@@ -2,7 +2,8 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"io"
+	"log"
 )
 
 func main() {
@@ -18,8 +19,14 @@ func main() {
 	)
 	maxSize := flag.Int("size", 256, "Max size of either X or Y for image resize")
 	srcFilename := flag.String("src", "PACKAGE_ICON.PNG", "Source filename for image resize")
+	verbose := flag.Bool("verbose", false, "Be a bit more verbose on outputs")
 
 	flag.Parse()
+	if *verbose {
+		log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	} else {
+		log.SetOutput(io.Discard)
+	}
 
 	dest := *destFilename
 	if len(dest) < 1 {
@@ -29,8 +36,8 @@ func main() {
 	err := ResizeImageFromFile(*srcFilename, dest, *maxSize)
 
 	if err == nil {
-		fmt.Println("OK:", dest)
+		log.Println("OK:", dest)
 	} else {
-		fmt.Println("result:", dest, err)
+		log.Println("result:", dest, err)
 	}
 }
