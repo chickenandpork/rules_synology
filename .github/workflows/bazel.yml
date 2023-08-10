@@ -11,6 +11,7 @@ on:
     types:
       - opened
       - reopened
+  push:
 
 jobs:
   build:
