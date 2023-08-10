@@ -1,7 +1,9 @@
-load("//:synology/defs.bzl", "images", "info_file", "maintainer", "service_config", "protocol_file", "resource_config")
+load("//:synology/defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_files", "pkg_mkdirs", "strip_prefix")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
 
 info_file(
-    name = "xxinfo",
+    name = "info",
     package_name = "xx",
     description = "X after X after X",
     maintainer = ":bart",
@@ -9,13 +11,42 @@ info_file(
     package_version = "1.2.3-435",
 )
 
-service_config(name="xx-main",title="XX service port",description="XX service",dst_ports = "1337/tcp")
-service_config(name="xx-admin",title="XX admin port",description="XX admin",dst_ports = "9090/tcp")
+service_config(
+    name = "xx-main",
+    description = "XX service",
+    dst_ports = "1337/tcp",
+    title = "XX service port",
+)
 
-protocol_file(name="file", package_name="xx",service_config = [":xx-main", "xx-admin"])
-protocol_file(name="file2", out="bob.sc",service_config = [":xx-main", "xx-admin"])
+service_config(
+    name = "xx-admin",
+    description = "XX admin",
+    dst_ports = "9090/tcp",
+    title = "XX admin port",
+)
 
-resource_config(name="rez", resources= [ ":file"])
+protocol_file(
+    name = "file",
+    package_name = "xx",
+    service_config = [
+        ":xx-main",
+        "xx-admin",
+    ],
+)
+
+protocol_file(
+    name = "file2",
+    out = "bob.sc",
+    service_config = [
+        ":xx-main",
+        "xx-admin",
+    ],
+)
+
+resource_config(
+    name = "rez",
+    resources = [":file"],
+)
 
 # Create icon images
 images(
@@ -27,4 +58,43 @@ maintainer(
     name = "bart",
     maintainer_name = "Bart Bloggins",
     maintainer_url = "http://geocites.com/the-bartman",
+)
+
+pkg_files(
+    name = "conf",
+    srcs = [
+        ":rez",
+    ],
+    attributes = pkg_attributes(
+        mode = "0444",
+    ),
+    prefix = "conf",
+    visibility = ["//visibility:public"],
+)
+
+#pkg_filegroup(
+#    name = "config",
+#    srcs = [
+#        ":rez",
+#    ],
+#    prefix = "conf",
+#)
+
+pkg_tar(
+    name = "package",
+    srcs = [
+        "@bazelisk_darwin_amd64//file",
+    ],
+    extension = "tgz",
+)
+
+pkg_tar(
+    name = "spk",
+    srcs = [
+        ":conf",
+        ":icons.group",
+        ":package",
+        ":info",
+    ],
+    extension = "tar",
 )

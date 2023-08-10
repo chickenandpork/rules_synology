@@ -9,3 +9,4 @@ Can we build SPKs with a Bazel Cross toolchain?
 ### Older
 
  - https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/6.0/enu/DSM_Developer_Guide_6_0.pdf
+ - https://help.synology.com/developer-guide/examples/compile_tmux.html

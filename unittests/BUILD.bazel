@@ -7,4 +7,3 @@ maintainer(
     maintainer_url = "http://i-fix-things.com/manny",
     visibility = ["//visibility:public"],
 )
-
