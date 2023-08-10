@@ -93,8 +93,8 @@ pkg_tar(
     srcs = [
         ":conf",
         ":icons.group",
-        ":package",
         ":info",
+        ":package",
     ],
     extension = "tar",
 )

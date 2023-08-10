@@ -74,6 +74,7 @@ write_file(
 
 diff_test(
     name = "file_test",
+    size = "small",
     file1 = ":file",
     file2 = ":file-expected",
 )
