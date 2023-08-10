@@ -88,6 +88,7 @@ INFO_FILES = [
 # these unittests validate generated INFO files based ultimately on INFO_FILES array members
 [sh_test(
     name = "validate_maint_{}".format(n["suffix"]),
+    size = "small",
     srcs = [":check_{}".format(n["key"])],
     args = ["$(location :maint_{}) '{}'".format(
         n["suffix"],
