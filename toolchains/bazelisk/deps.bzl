@@ -27,4 +27,4 @@ def deps():
     p = preferred_release()
     for a in p:
         name = a.replace("-", "_")
-        http_file(name = name, urls = [p[a]["url"]], sha256 = p[a]["sha256"], executable = True)
+        http_file(name = name, urls = [p[a]["url"]], sha256 = p[a]["sha256"], downloaded_file_path="bazelisk", executable = True)

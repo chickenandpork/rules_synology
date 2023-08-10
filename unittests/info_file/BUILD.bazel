@@ -1,0 +1,97 @@
+#load("@bazel_skylib//lib:unittest.bzl", "asserts", "analysistest")
+load("//synology:defs.bzl", "info_file", "maintainer")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+
+INFO_FILES = [
+    {
+        "suffix": "name1",
+        "key": "maintainer",
+        "value": "Roger Dodger",
+    },
+    {
+        "suffix": "name2",
+        "key": "maintainer",
+        "value": "Bart Bloggins",
+    },
+    {
+        "suffix": "name3",
+        "key": "maintainer",
+        "value": "Xart Xloggins",
+    },
+    {
+        "suffix": "url1",
+        "key": "maintainer_url",
+        "value": "Xart Xloggins",
+    },
+]
+
+# This creates copy-pasta check_{} targets where check_xx generates a shell-test script that
+# searches for a key/value "xx=..." to match a second given parameter
+[write_file(
+    name = "check_{}".format(key),
+    out = "validate_{}.sh".format(key),
+    content = [
+        "".join([
+            "VAL=$(awk -F= -vKEY=",
+            key,
+            """ '($1 == KEY) {s=$2; gsub(/^"/, "", s); gsub(/"$/, "", s); print s;}' $1) """,
+        ]),
+        'if [ "${VAL}" = "$2" ]; then',
+        '  echo "Passed"',
+        "  exit 0",
+        "else",
+        '  echo "Failed"',
+        "  exit 1",
+        "fi",
+    ],
+    is_executable = True,
+) for key in [
+    "maintainer",
+    "maintainer_url",
+]]  # TODO: gen this list from unique values of INFO_FILES[].key
+
+# These two targets would need to be hand-copy-pasta for every new key to check.  They are
+# essentially similar but change the maintainer values key to change.check.  This is a bit overkill
+# for a provider that currently has only 2 parameters, but may expand.
+#
+# maintainer_instance_name{1,2,3} have corresponding changing maintainer_name
+# maintainer_instance_url1 has corresponding change to maintainer_url
+#
+# Each is later used in an info_file(name=maint_{name1,name2,name3,url1}, ...) to generate an INFO
+# file for each change, and to check the result using a
+# sh_test(name="validate_maint_{name1,name2,name3,url1}, ...)
+
+[maintainer(
+    name = "maintainer_instance_{}".format(n["suffix"]),
+    maintainer_name = n["value"],
+    maintainer_url = "http://geocities.com/bart_bloggins",
+) for n in [i for i in INFO_FILES if i["key"] == "maintainer"]]
+
+[maintainer(
+    name = "maintainer_instance_{}".format(n["suffix"]),
+    maintainer_name = "Bart Bloggins",
+    maintainer_url = n["value"],
+) for n in [i for i in INFO_FILES if i["key"] == "maintainer_url"]]
+
+# This array of info_file(...) is used to define similar generated INFO files which are tested in
+# the sh_test(name="validate_maint_...", ) below
+[info_file(
+    name = "maint_{}".format(n["suffix"]),
+    package_name = "maint_{}".format(n["suffix"]),
+    out = "INFO_{}".format(n["suffix"]),
+    description = "test suffix: {}".format(n["suffix"]),
+    maintainer = ":maintainer_instance_{}".format(n["suffix"]),
+    os_min_ver = "10.3.2",
+    package_version = "1.2.3",
+) for n in INFO_FILES]
+
+# these unittests validate generated INFO files based ultimately on INFO_FILES array members
+[sh_test(
+    name = "validate_maint_{}".format(n["suffix"]),
+    srcs = [":check_{}".format(n["key"])],
+    args = ["$(location :maint_{}) '{}'".format(
+        n["suffix"],
+        n["value"],
+    )],
+    data = [":maint_{}".format(n["suffix"])],
+) for n in INFO_FILES]

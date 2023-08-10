@@ -1,4 +1,4 @@
-bazel-bazel-pkg-spk
+bazel-rules_synology
 bazel-bin
 bazel-out
 bazel-testlogs
