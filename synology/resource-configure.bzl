@@ -4,7 +4,7 @@
 # short-term.  If you don't have time or feel uncomfortable submitting a PR, please submit a
 # sanitized test-case so that a unittest can be built to represent what you need to be unblocked.
 
-load("//synology:port-service-configure.bzl", "PortConfigInfo")
+load("@rules_synology//synology:port-service-configure.bzl", "PortConfigInfo")
 
 def _resource_config_impl(ctx):
     resource_list = {}

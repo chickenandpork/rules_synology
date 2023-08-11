@@ -1,9 +1,9 @@
 # Formats guided by https://global.download.synology.com/download/Document/Software/DeveloperGuide/Os/DSM/All/enu/DSM_Developer_Guide_7_enu.pdf
 
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("//synology:maintainer.bzl", "Maintainer", _maintainer = "maintainer")
-load("//synology:port-service-configure.bzl", _service_config = "service_config", _protocol_file="protocol_file")
-load("//synology:resource-configure.bzl", _resource_config = "resource_config")
+load("@rules_synology//synology:maintainer.bzl", "Maintainer", _maintainer = "maintainer")
+load("@rules_synology//synology:port-service-configure.bzl", _service_config = "service_config", _protocol_file="protocol_file")
+load("@rules_synology//synology:resource-configure.bzl", _resource_config = "resource_config")
 
 def INFO_file(ctx):
     # Build a manifest per some fairly predictable ordering: key:value pairs, but by wrapping as

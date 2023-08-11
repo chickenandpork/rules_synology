@@ -98,7 +98,7 @@ gazelle_dependencies(
 # Toolchains
 #
 
-#load("//synology:deps.bzl", "deps")
+#load("@rules_synology//synology:deps.bzl", "deps")
 # deps()
 
 # Toolchain to bring in a binary to test packaging
