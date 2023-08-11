@@ -44,4 +44,4 @@ repos:
         name: GoLines line-limiter (runs gofmt)
         language: system
         entry: golines -w
-        files: .*\.go$
+        files: \.go$
