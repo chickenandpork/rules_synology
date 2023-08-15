@@ -1,5 +1,5 @@
 load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
-load("//synology:defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
+load("@rules_synology//synology:defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 
 info_file(
