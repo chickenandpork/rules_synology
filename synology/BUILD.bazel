@@ -1,0 +1,18 @@
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+
+# I personally go back-and-forth about dozens of little files, or files here-doc'd into the build
+# logic.  Clearly, this is here-doc'd, but I can't promise consistency.
+write_file(
+    name = "stub_script",
+    out = "stub.sh",
+    content = [
+        "#!/bin/sh",
+        """# per DSM_Developer_Guide_7_enu.pdf p53 "scripts", "the simplest implementation of script is just""",
+        """# doing nothing".""",
+        "",
+        "exit 0",
+        "",
+    ],
+    is_executable = True,
+    visibility = ["//visibility:public"],
+)

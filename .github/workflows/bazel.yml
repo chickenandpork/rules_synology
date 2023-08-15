@@ -42,3 +42,11 @@ jobs:
             (cd ${d} && bazel build //...);
             echo "::endgroup::"
             done
+      - name: Test examples to ensure functionality
+        # runs `bazel test` when subdirs have a "tests" subdir, assuming it includes unittests
+        run: |
+            for d in $(find examples -name tests -exec dirname {} \; ); do
+            echo "::group::test example: ${d}"
+            (cd ${d} && bazel test //...);
+            echo "::endgroup::"
+            done
