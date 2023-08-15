@@ -1,0 +1,3 @@
+# ignore the examples which are used to document suggested usage, validate this project, and -- in future -- repro issues
+examples/example-server
+
