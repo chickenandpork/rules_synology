@@ -57,13 +57,25 @@ pkg_tar(
     package_dir = "/usr/bin",
 )
 
-SCRIPTS = [ "preinst", "postinst", "preuninst", "postuninst", "preupgrade", "postupgrade", "start-stop-status" ]
-[ copy_file(name = "stub_{}".format(f), src="@rules_synology//synology:stub_script", out=f) for f in SCRIPTS ]
+SCRIPTS = [
+    "preinst",
+    "postinst",
+    "preuninst",
+    "postuninst",
+    "preupgrade",
+    "postupgrade",
+    "start-stop-status",
+]
 
+[copy_file(
+    name = "stub_{}".format(f),
+    src = "@rules_synology//synology:stub_script",
+    out = f,
+) for f in SCRIPTS]
 
 pkg_files(
     name = "scripts",
-    srcs = [ ":stub_{}".format(f) for f in SCRIPTS ],
+    srcs = [":stub_{}".format(f) for f in SCRIPTS],
     attributes = pkg_attributes(
         mode = "0755",
     ),
