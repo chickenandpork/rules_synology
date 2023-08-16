@@ -85,6 +85,8 @@ def images(name = "images", src = ":PACKAGE_ICON.PNG"):
         srcs = [":{}_{}".format(name, sz) for sz in sizes],
     )
 
+SPK_REQUIRED_SCRIPTS = [ "preinst", "postinst", "preuninst", "postuninst", "preupgrade", "postupgrade" ]
+
 # pass-thru
 
 maintainer = _maintainer

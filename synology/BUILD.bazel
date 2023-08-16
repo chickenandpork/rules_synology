@@ -16,3 +16,25 @@ write_file(
     is_executable = True,
     visibility = ["//visibility:public"],
 )
+
+write_file(
+    name = "stub_sss_script",
+    out = "stub_sss.sh",
+    content = [
+        "#!/bin/sh",
+        "",
+        """case "$1" in""",
+        """    start)""",
+        """        ;;""",
+        """    stop)""",
+        """        ;;""",
+        """    status)""",
+        """        ;;""",
+        """esac""",
+        "",
+        "exit 0",
+        "",
+    ],
+    is_executable = True,
+    visibility = ["//visibility:public"],
+)
