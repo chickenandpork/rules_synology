@@ -21,6 +21,13 @@ http_archive(
 )
 
 http_archive(
+    name = "com_github_aignas_rules_shellcheck",
+    sha256 = "4e7cc56d344d0adfd20283f7ad8cb4fba822c0b15ce122665b00dd87a27a74b6",
+    strip_prefix = "rules_shellcheck-0.1.1",
+    url = "https://github.com/aignas/rules_shellcheck/archive/refs/tags/v0.1.1.tar.gz",
+)
+
+http_archive(
     name = "io_bazel_rules_go",
     sha256 = "278b7ff5a826f3dc10f04feaf0b70d48b68748ccd512d7f98bf442077f043fe3",
     urls = [
@@ -49,6 +56,11 @@ http_file(
 
 load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
 rules_pkg_dependencies()
+
+load("@com_github_aignas_rules_shellcheck//:deps.bzl", "shellcheck_dependencies")
+
+shellcheck_dependencies()
+
 load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 
 bazel_skylib_workspace()
