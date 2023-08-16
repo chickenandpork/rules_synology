@@ -1,12 +1,15 @@
 load("@rules_pkg//pkg:verify_archive.bzl", "verify_archive_test")
 load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 
-copy_file (name="spk", src = "//spk/exampleserver:spk", out="spk.tar")
+copy_file(
+    name = "spk",
+    src = "//spk/exampleserver:spk",
+    out = "spk.tar",
+)
 
 verify_archive_test(
     name = "spk_contains_required_scripts",
-    target = ":spk",
-    max_size=25,
+    max_size = 25,
     must_contain = [
         "INFO",
         "PACKAGE_ICON_120.PNG",
@@ -18,10 +21,8 @@ verify_archive_test(
         "PACKAGE_ICON_64.PNG",
         "PACKAGE_ICON_72.PNG",
         "PACKAGE_ICON_90.PNG",
-
         "conf/resource",
         "package.tgz",
-
         "scripts/postinst",
         "scripts/postuninst",
         "scripts/postupgrade",
@@ -30,6 +31,5 @@ verify_archive_test(
         "scripts/preupgrade",
         "scripts/start-stop-status",
     ],
+    target = ":spk",
 )
-
-

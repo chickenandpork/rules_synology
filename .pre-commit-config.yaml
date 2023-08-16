@@ -39,7 +39,15 @@ repos:
         language: system
         entry: bazel run //tools:gazelle
         # the "identify" needs to be updated to recognize bazel files directly
-        files: .*\.bazel$ .*\.bzl$ WORKSPACE$
+        files: '\.bazel$|\.bzl$|WORKSPACE'
+      - id: buildifier-examples
+        name: bazel run //tools:gazelle in examples
+        description: Cleans up BUILD files as confirmed in starlark linter
+        language: system
+        entry: bash tools/gazelle-examples.sh
+        # the "identify" needs to be updated to recognize bazel files directly
+        files: '\.bazel$|\.bzl$|WORKSPACE'
+        require_serial: true
       - id: golines
         name: GoLines line-limiter (runs gofmt)
         language: system
