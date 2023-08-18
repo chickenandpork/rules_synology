@@ -9,10 +9,6 @@ load("@rules_synology//synology:resource-configure.bzl", _resource_config = "res
 
 SPK_REQUIRED_SCRIPTS = [ "preinst", "postinst", "preuninst", "postuninst", "preupgrade", "postupgrade" ]
 
-register_toolchains(
-    "//toolchains:arm64_gcc_linux_x86_64",
-)
-
 # pass-thru
 
 images = _images

@@ -103,3 +103,8 @@ gazelle_dependencies()
 load("@rules_synology//:deps.bzl", synology_deps = "deps")
 
 synology_deps()
+
+register_toolchains(
+    "@rules_synology//toolchains:arm64_gcc_linux_x86_64",
+)
+

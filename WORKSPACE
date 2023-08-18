@@ -110,8 +110,12 @@ gazelle_dependencies(
 # Toolchains
 #
 
-#load("@rules_synology//synology:deps.bzl", "deps")
-# deps()
+load("@rules_synology//:deps.bzl", synology_deps="deps")
+synology_deps()
+
+register_toolchains(
+    "@rules_synology//toolchains:arm64_gcc_linux_x86_64",
+)
 
 # Toolchain to bring in a binary to test packaging
 load("//toolchains/bazelisk:deps.bzl", bazelisk_deps = "deps")
