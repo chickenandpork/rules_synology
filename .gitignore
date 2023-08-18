@@ -3,3 +3,12 @@ bazel-bin
 bazel-out
 bazel-testlogs
 
+# examples dirs
+examples/cross-helloworld/bazel-cross-helloworld
+examples/cross-helloworld/bazel-bin
+examples/cross-helloworld/bazel-out
+examples/cross-helloworld/bazel-testlogs
+examples/example-server/bazel-example-server
+examples/example-server/bazel-bin
+examples/example-server/bazel-out
+examples/example-server/bazel-testlogs

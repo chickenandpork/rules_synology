@@ -1,0 +1,110 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+# We likely don't need protobuf, grpc, go etc for this example as it's just a CC Hello World, but
+# I'll plan to remove it when I've split this out to a Go Cross Example.
+
+http_archive(
+    name = "rules_proto_grpc",
+    sha256 = "928e4205f701b7798ce32f3d2171c1918b363e9a600390a25c876f075f1efc0a",
+    strip_prefix = "rules_proto_grpc-4.4.0",
+    urls = ["https://github.com/rules-proto-grpc/rules_proto_grpc/releases/download/4.4.0/rules_proto_grpc-4.4.0.tar.gz"],
+)
+
+# Needed to use the same DRY patch to correct missing and unreachable templates in rules_pkg-0.9.1.
+# Similar to the inclusion of GRPC, Go, Protobuf, we also might not need rules_pkg for this
+# example, so this may trim out later.
+local_repository(
+    name = "patches",
+    path = "../../patches",
+)
+
+http_archive(
+    name = "rules_pkg",
+    patch_args = ["-p1"],
+    patches = [
+        "@patches//:rules_pkg-0.9.1.patch",
+    ],
+    sha256 = "8f9ee2dc10c1ae514ee599a8b42ed99fa262b757058f65ad3c384289ff70c4b8",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
+        "https://github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
+    ],
+)
+
+# When reusing for your own project, consider using:
+# git_repository(
+#     name = "rules_synology",
+#     commit = "9e79430c176e94ad6f4e2f5ef38cb30697d3b7ca",
+#     remote = "https://github.com/chickenandpork/rules_synology.git",
+# )
+
+local_repository(
+    name = "rules_synology",
+    path = "../..",
+)
+
+# we need something as the basis of our icons :)
+http_file(
+    name = "screaming_goat",
+    sha256 = "030c1aadeaf9b7b01b27d4966a64173fbfe2e0eea2ec3577543fb8838c3013f0",
+    urls = [
+        "https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/816/2019/01/22193028/Screaming-Goat-832-832x476.jpg",
+    ],
+)
+
+load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
+
+rules_pkg_dependencies()
+
+load("@rules_proto_grpc//:repositories.bzl", "rules_proto_grpc_repos", "rules_proto_grpc_toolchains")
+
+rules_proto_grpc_toolchains()
+
+rules_proto_grpc_repos()
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
+rules_proto_dependencies()
+
+rules_proto_toolchains()
+
+load("@rules_proto_grpc//:repositories.bzl", "bazel_gazelle", "io_bazel_rules_go")  # buildifier: disable=same-origin-load
+
+io_bazel_rules_go()
+
+bazel_gazelle()
+
+load("@rules_proto_grpc//go:repositories.bzl", rules_proto_grpc_go_repos = "go_repos")
+
+rules_proto_grpc_go_repos()
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+go_register_toolchains(
+    version = "1.17.1",
+)
+
+# We likely don't need gazelle for this example as it's just a CC Hello World, but I'll plan to
+# remove it when I've split this out to a Go Cross Example.
+
+# gazelle:repo bazel_gazelle
+
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("//:bzl/go_dependencies.bzl", "go_dependencies")
+
+# gazelle:repository_macro bzl/go_dependencies.bzl%go_dependencies
+go_dependencies()
+
+gazelle_dependencies()
+
+load("@rules_synology//:deps.bzl", synology_deps = "deps")
+
+synology_deps()
+
+register_toolchains(
+    "@rules_synology//toolchains:arm64_gcc_linux_x86_64",
+)
+

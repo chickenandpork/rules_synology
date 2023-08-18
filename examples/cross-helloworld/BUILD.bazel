@@ -1,0 +1,11 @@
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+gazelle(
+    name = "gazelle",
+    prefix = "github.com/chickenandpork/bazel-spk-go-grpc-simpleserver",
+)
+
+cc_binary(
+    name = "main",
+    srcs = ["main.cc"],
+)

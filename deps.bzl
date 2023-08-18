@@ -1,6 +1,7 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("@bazel_gazelle//:deps.bzl", "go_repository")
+load("@rules_synology//toolchains:deps.bzl", toolchain_deps = "deps")
 
 def deps():
     maybe(
@@ -26,3 +27,5 @@ def deps():
         sum = "h1:hVwzHzIUGRjiF7EcUjqNxk3NCfkPxbDKRdnNE1Rpg0U=",
         version = "v0.0.0-20191009234506-e7c1f5e7dbb8",
     )
+
+    toolchain_deps()
