@@ -41,14 +41,12 @@ service_config = rule(
     },
 )
 
-
 PortConfigInfo = provider(
     fields = {
         "protocol_file": "The single file representing a ser of one or more Port configs (port-forwards) for mege into a resource file.",
         "struct": "A struct that will be converted to JSON (in writing of the resource file, not here).",
-    }
+    },
 )
-
 
 def _protocol_file_impl(ctx):
     content = []  # collect generated strings
@@ -74,7 +72,7 @@ def _protocol_file_impl(ctx):
         if b.src_ports:
             content.append('src.ports="{}"'.format(b.src_ports))
 
-        content.append('')  # trailing blank line
+        content.append("")  # trailing blank line
 
     cont = "\n".join(content)
     ctx.actions.write(outfile, cont)
@@ -86,18 +84,16 @@ def _protocol_file_impl(ctx):
         ),
         PortConfigInfo(
             protocol_file = protocol_filename,
-            struct = { "protocol-file": protocol_filename },
+            struct = {"protocol-file": protocol_filename},
         ),
     ]
-
-
 
 protocol_file = rule(
     doc = """The Protocol file is used as a wrapper/collector of service_configs: a building-block to generate the actual file as a buildable object for use in a Port Config resource.  Format is an INI file, as discussed in the DSM_Developer_Guide_7_enu.pdf, section "Port" on p 128 in my copy (search for "Configure Format Template").  Effectively, it builds the file that is pointed-to by a port-config.protocol-file entry in a resource JSON file.""",
     implementation = _protocol_file_impl,
     attrs = {
         "out": attr.output(),
-        "package_name": attr.string(mandatory=False),
-        "service_config": attr.label_list(mandatory=False, providers = [ServiceConfigInfo]),
+        "package_name": attr.string(mandatory = False),
+        "service_config": attr.label_list(mandatory = False, providers = [ServiceConfigInfo]),
     },
 )
