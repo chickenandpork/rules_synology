@@ -25,16 +25,16 @@ def _resource_config_impl(ctx):
     ctx.actions.write(
         outfile,
         "\n".join([
-            json.encode_indent(resource_list, indent="  "),
-            ""
-        ])
+            json.encode_indent(resource_list, indent = "  "),
+            "",
+        ]),
     )
 
     return [
         DefaultInfo(
             files = depset(direct = [outfile]),
             runfiles = ctx.runfiles(files = [outfile]),
-        )
+        ),
     ]
 
 resource_config = rule(
@@ -42,6 +42,6 @@ resource_config = rule(
     implementation = _resource_config_impl,
     attrs = {
         "resources": attr.label_list(mandatory = True, providers = [PortConfigInfo]),
-        "out": attr.output(mandatory=False),
+        "out": attr.output(mandatory = False),
     },
 )
