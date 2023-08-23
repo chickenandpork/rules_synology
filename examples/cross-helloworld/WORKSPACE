@@ -106,5 +106,5 @@ synology_deps()
 
 register_toolchains(
     "@rules_synology//toolchains:arm64_gcc_linux_x86_64",
+    "@rules_synology//toolchains:denverton-gcc850_glibc226_x86_64-GPL",
 )
-

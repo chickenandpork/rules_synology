@@ -8,3 +8,21 @@ The current build command is:
 
 (cd examples/cross-helloworld && bazel build :main --platforms=@rules_synology//toolchains:toolchain_arm64_gcc --incompatible_enable_cc_toolchain_resolution )
 
+## Updated
+
+A slight update reduces the toil in testing on a linux/x86 container.  Really, the later we add
+offers a bazelisk binary as "bazel" and a .bazelrc:
+```
+build --platforms=@rules_synology//models:ds1819+  --incompatible_enable_cc_toolchain_resolution --toolchain_resolution_debug=.*
+```
+
+... so the new command is (notice how the working path is two subdirs into the workspace dir):
+
+```
+docker build -t test-x86 - < tools/dockcross-linux-x86-bazel/Dockerfile
+docker run --rm -it -v $(pwd):/rules_synology -w /rules_synology/examples/cross-helloworld test-x86:latest /bin/bash 
+bazel build //...
+```
+
+The resuling bazel-bin/main -- actually at rules_synology/examples/cross-helloworld/bazel-bin/main
+-- will be a Hello World that runs on a Denverton such as my DS1819+
