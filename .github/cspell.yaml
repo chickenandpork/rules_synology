@@ -1,0 +1,29 @@
+---
+# cSpell Settings
+
+version: "0.2"
+
+# flagWords - list of words to be always considered incorrect
+# This is useful for offensive words and common spelling errors.
+# For example "hte" should be "the"
+flagWords:
+  - hte
+
+language: en
+
+# words - list of words to be always considered correct: an Allowlist per-se
+words:
+  # Synology Architecture name
+  - Denverton
+  - allanc
+  - bazel
+  - bazelisk
+  - bazelrc
+  - bazelspk
+  - chickenandpork
+  - dockcross
+  - helloworld
+  - ibazel
+  - softlink
+  - subdir
+  - subdirs

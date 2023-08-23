@@ -31,6 +31,16 @@ repos:
     hooks:
       - id: check-github-workflows
       - id: check-renovate
+  - repo: https://github.com/streetsidesoftware/cspell-cli
+    rev: v6.2.0
+    hooks:
+      - id: cspell
+        # a local allowlist of dictionary words in .github/cspell.yaml.  This can get comical --
+        # adding new words in every PR -- but the cost/benefit balance may avoid some embarassing
+        # typos
+        args: [ '--config', '.github/cspell.yaml' ]
+        types: [file, markdown]
+
   - repo: local
     hooks:
       - id: buildifier
