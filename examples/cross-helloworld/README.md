@@ -20,9 +20,9 @@ build --platforms=@rules_synology//models:ds1819+  --incompatible_enable_cc_tool
 
 ```
 docker build -t test-x86 - < tools/dockcross-linux-x86-bazel/Dockerfile
-docker run --rm -it -v $(pwd):/rules_synology -w /rules_synology/examples/cross-helloworld test-x86:latest /bin/bash 
+docker run --rm -it -v $(pwd):/rules_synology -w /rules_synology/examples/cross-helloworld test-x86:latest /bin/bash
 bazel build //...
 ```
 
-The resuling bazel-bin/main -- actually at rules_synology/examples/cross-helloworld/bazel-bin/main
+The resulting bazel-bin/main -- actually at rules_synology/examples/cross-helloworld/bazel-bin/main
 -- will be a Hello World that runs on a Denverton such as my DS1819+
