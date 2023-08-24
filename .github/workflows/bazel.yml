@@ -50,37 +50,3 @@ jobs:
             (cd ${d} && bazel test //...);
             echo "::endgroup::"
             done
-  merge:
-    runs-on: ubuntu-latest
-    permissions:  # let's trim these after it's working
-      # actions: read|write|none
-      checks: write
-      contents: write
-      deployments: write
-      discussions: write
-      id-token: write
-      issues: write
-      packages: write
-      pages: write
-      pull-requests: write
-      repository-projects: write
-      # security-events: read|write|none
-      statuses: write
-    steps:
-      - name: Merge Workflow for tagged PRs
-        uses: squalrus/merge-bot@v0.4.5
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          blocking_labels: do not merge, invalid
-          # reviewers: true  -- don't actually need a review, just a tag
-          labels: automerge
-          method: squash
-          # "By default the pull request will be blocked by incomplete/failing checks."
-          checks_enabled: true
-          #
-          # coupled with a change in config: https://github.com/chickenandpork/rules_synology/settings,
-          # "Pull Requests" section, "[x] Automatically delete head branches"
-          delete_source_branch: false
-          reviewers: false
-          test: true
-
