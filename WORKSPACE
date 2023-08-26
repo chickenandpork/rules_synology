@@ -114,9 +114,9 @@ load("@rules_synology//:deps.bzl", synology_deps = "deps")
 
 synology_deps()
 
-register_toolchains(
-    "@rules_synology//toolchains:arm64_gcc_linux_x86_64",
-)
+load("@rules_synology//:go_deps.bzl", synology_go_deps = "deps")
+
+synology_go_deps()
 
 # Toolchain to bring in a binary to test packaging
 load("//toolchains/bazelisk:deps.bzl", bazelisk_deps = "deps")
