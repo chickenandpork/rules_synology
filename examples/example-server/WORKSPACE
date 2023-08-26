@@ -94,3 +94,7 @@ gazelle_dependencies()
 load("@rules_synology//:deps.bzl", synology_deps = "deps")
 
 synology_deps()
+
+load("@rules_synology//:go_deps.bzl", synology_go_deps = "deps")
+
+synology_go_deps()
