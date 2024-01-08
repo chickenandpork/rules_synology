@@ -39,6 +39,7 @@ def info_file_impl(ctx):
         'description="{}"'.format(ctx.attr.description),
         'maintainer="{}"'.format(ctx.attr.maintainer[Maintainer].name),
         'arch="{}"'.format(" ".join(ctx.attr.arch_strings)),
+        'thirdparty="yes"',
     ]
 
     # optional bits
