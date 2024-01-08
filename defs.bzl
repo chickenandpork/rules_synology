@@ -5,6 +5,7 @@ load("@rules_synology//synology:images.bzl", _images = "images")
 load("@rules_synology//synology:info-file.bzl", _info_file = "info_file")
 load("@rules_synology//synology:maintainer.bzl", "Maintainer", _maintainer = "maintainer")
 load("@rules_synology//synology:port-service-configure.bzl", _protocol_file = "protocol_file", _service_config = "service_config")
+load("@rules_synology//synology:privilege-configure.bzl", _privilege_config = "privilege_config")
 load("@rules_synology//synology:resource-configure.bzl", _resource_config = "resource_config")
 
 SPK_REQUIRED_SCRIPTS = ["preinst", "postinst", "preuninst", "postuninst", "preupgrade", "postupgrade"]
@@ -14,6 +15,7 @@ SPK_REQUIRED_SCRIPTS = ["preinst", "postinst", "preuninst", "postuninst", "preup
 images = _images
 info_file = _info_file
 maintainer = _maintainer
+privilege_config = _privilege_config
 protocol_file = _protocol_file
 resource_config = _resource_config
 service_config = _service_config
