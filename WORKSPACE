@@ -22,9 +22,9 @@ http_archive(
 
 http_archive(
     name = "com_github_aignas_rules_shellcheck",
-    sha256 = "2a343f36784824e731da772488f6a104b45e6ce517b4f2f39f2cfac555970dc5",
-    strip_prefix = "rules_shellcheck-0.3.0",
-    url = "https://github.com/aignas/rules_shellcheck/archive/refs/tags/0.3.0.tar.gz",
+    sha256 = "798c7ff488a949e51d7d41d853d79164ce5c5335364ba32f972b79df8dd6be62",
+    strip_prefix = "rules_shellcheck-0.3.2",
+    url = "https://github.com/aignas/rules_shellcheck/archive/refs/tags/0.3.2.tar.gz",
 )
 
 http_archive(
