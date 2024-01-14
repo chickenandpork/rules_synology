@@ -20,10 +20,10 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
-    permissions:
-      # actions: read|write|none
-      #checks: write
-      contents: write
+    permissions: write-all
+      ## actions: read|write|none
+      ##checks: write
+      #contents: write
     steps:
       - id: automerge
         name: automerge
