@@ -41,7 +41,7 @@ constraint_setting(
 PLATFORMS = {
     "ds1819+": {
         "arch": "denverton",
-        "version": "7.1.1",
+        "version": "7.1.1",  # trimmed to "7.1" below: ...format(".".join(v["version"].split(".")[:2])),
     },
 }
 

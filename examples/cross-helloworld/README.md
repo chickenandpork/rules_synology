@@ -10,13 +10,14 @@ The current build command is:
 
 ## Updated
 
-A slight update reduces the toil in testing on a linux/x86 container.  Really, the later we add
-offers a bazelisk binary as "bazel" and a .bazelrc:
+A slight update reduces the toil in testing on a linux/x86 container from this:
 ```
 build --platforms=@rules_synology//models:ds1819+  --incompatible_enable_cc_toolchain_resolution --toolchain_resolution_debug=.*
 ```
 
-... so the new command is (notice how the working path is two subdirs into the workspace dir):
+... to this: the new command leverages a layer we add that offers a bazelisk binary as "bazel" and a
+.bazelrc that "burns in" selection of the DS1819+ architecture, a Denverton (notice how the working
+path is two subdirs into the workspace dir):
 
 ```
 docker build -t test-x86 - < tools/dockcross-linux-x86-bazel/Dockerfile
