@@ -27,8 +27,8 @@ toolchain(
         "@platforms//cpu:x86_64",
     ],
     target_compatible_with = [
-        "@rules_synology//models:denverton",
-        "@rules_synology//models:7.1",
+        "@rules_synology//arch:denverton",
+        "@rules_synology//dsm:7.1",
     ],
     toolchain = "@denverton-gcc850_glibc226_x86_64-GPL//:cc_toolchain",
     toolchain_type = "@rules_cc//cc:toolchain_type",

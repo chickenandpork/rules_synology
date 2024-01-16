@@ -1,42 +1,8 @@
-config_setting(
-    name = "arm",
-    values = {"cpu": "arm"},
-)
-
-config_setting(
-    name = "x86",
-    values = {"cpu": "x86"},
-)
-
-constraint_setting(
-    name = "synology_arch",
-)
-
-[constraint_value(
-    name = a,
-    constraint_setting = ":synology_arch",
-    visibility = ["//visibility:public"],
-) for a in ["denverton"]]
+load("@rules_synology//dsm:dsm.bzl", "dsm_range")
 
 constraint_setting(
     name = "synology_model",
 )
-
-[constraint_value(
-    name = n,
-    constraint_setting = ":synology_model",
-    visibility = ["//visibility:public"],
-) for n in ["DS1819plus"]]
-
-constraint_setting(
-    name = "synology_rel_majmin",
-)
-
-[constraint_value(
-    name = v,
-    constraint_setting = ":synology_rel_majmin",
-    visibility = ["//visibility:public"],
-) for v in ["7.1"]]
 
 PLATFORMS = {
     "ds1819+": {
@@ -48,7 +14,7 @@ PLATFORMS = {
 [platform(
     name = k,
     constraint_values = [
-        "@rules_synology//models:{}".format(v["arch"]),
-        "@rules_synology//models:{}".format(".".join(v["version"].split(".")[:2])),
+        "@rules_synology//arch:{}".format(v["arch"]),
+        "@rules_synology//dsm:{}".format(".".join(v["version"].split(".")[:2])),
     ],
 ) for k, v in PLATFORMS.items()]
