@@ -1,0 +1,19 @@
+config_setting(
+    name = "arm",
+    values = {"cpu": "arm"},
+)
+
+config_setting(
+    name = "x86",
+    values = {"cpu": "x86"},
+)
+
+constraint_setting(
+    name = "synology_arch",
+)
+
+[constraint_value(
+    name = a,
+    constraint_setting = ":synology_arch",
+    visibility = ["//visibility:public"],
+) for a in ["denverton"]]

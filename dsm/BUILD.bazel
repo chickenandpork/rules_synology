@@ -1,0 +1,12 @@
+load("@rules_synology//dsm:dsm.bzl", "dsm_range")
+
+constraint_setting(
+    name = "dsm_rel_majmin",
+)
+
+[constraint_value(
+    name = v,
+    constraint_setting = ":dsm_rel_majmin",
+    visibility = ["//visibility:public"],
+) for v in dsm_range ]
+
