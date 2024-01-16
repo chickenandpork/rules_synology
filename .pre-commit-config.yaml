@@ -16,6 +16,7 @@ repos:
           '-d',
           '{extends: relaxed, rules: {line-length: {max: 120}}}'
         ]
+        files: .*\.(yml|yaml)$
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
