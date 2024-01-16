@@ -4,9 +4,9 @@
 
 ## Status
 
-rules_synology is targetting the Denverton architecture initially -- it's what I have to test with
+rules_synology is targeting the Denverton architecture initially -- it's what I have to test with
 -- but new toolchains can be added on request (via github "Issues").  Minimum-Viable may be the
-Denverton, but if you're willing to sign up as a tester, I'm willibng to make changes to help you
+Denverton, but if you're willing to sign up as a tester, I'm willing to make changes to help you
 unblock yourself.
 
 ## Overview
@@ -21,7 +21,7 @@ bazel build //... --platforms=@rules_synology/models:ds918
 ```
 
 The longer-term objective would be to allow as minimal initial config to define a package,
-leveraging sensible defaults: perhaps a series of macros or facade-patterm wrappers to keep minimal
+leveraging sensible defaults: perhaps a series of macros or facade-pattern wrappers to keep minimal
 the user-investment to try these rules.  If the barrier-to-entry remains low, we can help more to
 try this resource, helping as many as possible bring more cool things to Synology users.
 

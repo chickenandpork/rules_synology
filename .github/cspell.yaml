@@ -20,10 +20,13 @@ words:
   - bazelisk
   - bazelrc
   - bazelspk
+  - buildifier
+  - bzlmod
   - chickenandpork
   - dockcross
   - helloworld
   - ibazel
+  - proto
   - softlink
   - subdir
   - subdirs

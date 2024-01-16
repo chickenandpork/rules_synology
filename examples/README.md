@@ -1,7 +1,7 @@
 # Build examples
 
 These examples should be near-copy-paste functional as builds from which to base your own builds.
-Checking the WORSPACE for each, there should be simply a change from using the rules_synology as a
+Checking the WORKSPACE for each, there should be simply a change from using the rules_synology as a
 local_repository to a reference by version, URL, checksum to pull the rules from the canonical
 releases.
 
