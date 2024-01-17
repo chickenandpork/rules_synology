@@ -28,7 +28,7 @@ jobs:
       - run: mkdir -p "${TEST_TMPDIR}"
       - run: env | sort
       - name: Mount bazel cache  # Optional
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           # needs to be an absolute path, not a variable; I've made it match TEST_TMPDIR above
           path: /tmp/bazel
