@@ -1,5 +1,12 @@
 load("@rules_synology//config:platforms.bzl", "PLATFORMS")
 
+# This BUILD file is simply a namespace separation so that we can show "//models:ds224+" as
+# something that makes sense to more Synology people than bog-standard Bazel people.
+#
+# DO NOT create new targets in the directory; it's a namespace only
+#
+# All changes are made in the config/platforms.bzl file
+
 constraint_setting(
     name = "synology_model",
 )
@@ -9,9 +16,9 @@ constraint_setting(
     name = k,
     constraint_values = [
         "@rules_synology//arch:{}".format(v["synoarch"]),
+        "@rules_synology//dsm:{}".format(".".join(v["version"].split(".")[:2])),
         "@platforms//cpu:{}".format(v["cpu"]),
         "@platforms//os:{}".format(v["os"]),
-        "@rules_synology//dsm:{}".format(".".join(v["version"].split(".")[:2])),
     ],
 ) for k, v in PLATFORMS.items()]
 

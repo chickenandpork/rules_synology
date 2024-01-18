@@ -1,6 +1,14 @@
 load("@rules_synology//toolchains:deps.bzl", TOOLCHAINS = "TOOLCHAINS_SHORT_LC")
 
-#TOOLCHAINS gets generated value such as ["denverton", "geminilake"]
+# This BUILD file is simply a namespace separation so that we can show "//arch:denverton" as
+# something that makes sense to more Synology people than bog-standard Bazel people.
+#
+# All changes are made in the toolchains in the toolchains/deps.bzl and accessed via
+# toolchains/extension.bzl in a MODULE.bazel file
+#
+# DO NOT create new targets in the directory; it's a namespace only
+#
+# from toolchains/deps.bzl, TOOLCHAINS gets generated value such as ["denverton", "geminilake"]
 #
 # to check current values:
 # bazel query @rules_synology//arch/...
@@ -15,19 +23,26 @@ config_setting(
     values = {"cpu": "arm"},
 )
 
-config_setting(
-    name = "x86",
-    values = {"cpu": "x86"},
-)
+load("@bazel_skylib//lib:selects.bzl", "selects")
 
-constraint_setting(
+# TODO: Move to DRY on config/
+# https://kb.synology.com/en-global/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have
+PACKAGE_ARCHES = {
+    "denverton": { "cpu": "x86", "desc": "Intel Atom C3538 (x86 64bit)" },
+    "geminilake": { "alias": "GLK", "cpu": "x86", "desc": "Intel Celeron J4125 (x86 64bit)" },
+    "r1000": { "cpu": "x86", "desc": "AMD Ryzen R1xxx (x86-64)" },
+    "rtd1619b": { "cpu": "arm64", "desc": "Realtek RTD1619B (armv8-A)" },
+    "v1000": { "cpu": "x86", "desc": "AMD Ryzen V1xxxB (x86-64)" },
+}
+
+constraint_setting(  # effectively an ENUM TYPE
     name = "synology_arch",
 )
 
 # to check: bazel query 'kind("constraint_value", @rules_synology//arch/...)'
 [constraint_value(
     name = a,
-    constraint_setting = ":synology_arch",
+    constraint_setting = "synology_arch",
     visibility = ["//visibility:public"],
 ) for a in TOOLCHAINS]
 
