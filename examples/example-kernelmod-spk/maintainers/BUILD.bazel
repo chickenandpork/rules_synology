@@ -1,0 +1,8 @@
+load("@rules_synology//:defs.bzl", "maintainer")
+
+maintainer(
+    name = "chickenandpork",
+    maintainer_name = "Allan Clark",
+    maintainer_url = "http://github.com/chickenandpork",
+    visibility = ["//visibility:public"],
+)
