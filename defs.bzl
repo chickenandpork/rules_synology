@@ -7,6 +7,7 @@ load("@rules_synology//synology:maintainer.bzl", "Maintainer", _maintainer = "ma
 load("@rules_synology//synology:port-service-configure.bzl", _protocol_file = "protocol_file", _service_config = "service_config")
 load("@rules_synology//synology:privilege-configure.bzl", _privilege_config = "privilege_config")
 load("@rules_synology//synology:resource-configure.bzl", _resource_config = "resource_config")
+load("@rules_synology//synology:usr-local-linker.bzl", _usr_local_linker = "usr_local_linker" )
 
 SPK_REQUIRED_SCRIPTS = ["preinst", "postinst", "preuninst", "postuninst", "preupgrade", "postupgrade"]
 
@@ -19,3 +20,4 @@ privilege_config = _privilege_config
 protocol_file = _protocol_file
 resource_config = _resource_config
 service_config = _service_config
+usr_local_linker = _usr_local_linker
