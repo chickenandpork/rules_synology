@@ -8,5 +8,4 @@ constraint_setting(
     name = v,
     constraint_setting = ":dsm_rel_majmin",
     visibility = ["//visibility:public"],
-) for v in dsm_range ]
-
+) for v in dsm_range]
