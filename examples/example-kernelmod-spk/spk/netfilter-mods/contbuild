@@ -1,0 +1,14 @@
+set -x
+(cd /synology/env && tar Jxf /tarballs/base.txz && tar Jxf /tarballs/env.txz && tar Jxf /tarballs/dev.txz && tar Jxf /tarballs/linux.txz -C usr/local)
+
+chroot /synology/env bash -c 'cd /usr/local/linux-4.4.x/ && \
+grep -v CONFIG_IP_NF_TARGET_REJECT synoconfigs/denverton | grep -v CONFIG_NETFILTER_XT_MATCH_COMMENT | grep -v CONFIG_NFS_FS | grep -v CONFIG_NFSD > .config && \
+echo 'CONFIG_NFS_FS=n' >> .config && \
+echo 'CONFIG_NFSD=n' >> .config && \
+echo 'CONFIG_IP_NF_TARGET_REJECT=m' >> .config && \
+echo 'CONFIG_NETFILTER_XT_MATCH_COMMENT=m' >> .config && \
+make modules'
+
+find /synology/env/usr/local/linux-4.4.x/ | grep -E '(REJECT|comment).ko$'
+cp $(find /synology/env/usr/local/linux-4.4.x/ | grep -E '(REJECT|comment).ko$') /mods/
+

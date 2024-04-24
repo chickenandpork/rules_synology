@@ -1,0 +1,21 @@
+FROM ubuntu:22.04
+#FROM ubuntu:24.04
+
+RUN apt-get update && apt-get install -y curl xz-utils
+RUN mkdir -p /tarballs/
+RUN curl -o /tarballs/linux.txz https://global.synologydownload.com/download/ToolChain/Synology%20NAS%20GPL%20Source/7.2-64570/denverton/linux-4.4.x.txz
+RUN curl -o /tarballs/gcc.txz https://global.synologydownload.com/download/ToolChain/toolchain/7.2-63134/Intel%20x86%20Linux%204.4.302%20%28Denverton%29/denverton-gcc1220_glibc236_x86_64-GPL.txz
+RUN curl -o /tarballs/base.txz https://global.synologydownload.com/download/ToolChain/toolkit/7.2/base/base_env-7.2.txz
+RUN curl -o /tarballs/dev.txz https://global.synologydownload.com/download/ToolChain/toolkit/7.2/denverton/ds.denverton-7.2.dev.txz
+RUN curl -o /tarballs/env.txz https://global.synologydownload.com/download/ToolChain/toolkit/7.2/denverton/ds.denverton-7.2.env.txz
+
+RUN mkdir -p /synology/env
+COPY spk/containerd/contbuild /synology/env/contbuild
+RUN chmod +x /synology/env/contbuild
+
+#RUN cd /synology/env
+#RUN tar Jxvf /tarballs/base.txz
+#RUN tar Jxvf /tarballs/dev.txz
+#RUN tar Jxvf /tarballs/env.txz
+#RUN tar Jxvf tarballs/linux.txz -C usr/local
+

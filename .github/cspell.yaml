@@ -23,9 +23,12 @@ words:
   - buildifier
   - bzlmod
   - chickenandpork
+  - crossbuild
   - dockcross
   - helloworld
   - ibazel
+  - kernelmod
+  - netfilter
   - proto
   - softlink
   - subdir

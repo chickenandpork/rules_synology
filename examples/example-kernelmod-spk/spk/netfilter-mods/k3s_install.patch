@@ -1,0 +1,11 @@
+--- bazel-example-binary-spk/external/k3s_install/file/install.sh	2024-01-21 23:23:41
++++ ss	2024-01-22 00:57:41
+@@ -1054,7 +1054,7 @@
+     setup_env "$@"
+     download_and_verify
+     setup_selinux
+-    create_symlinks
++    INSTALL_K3S_BIN_DIR_READ_ONLY=false create_symlinks
+     create_killall
+     create_uninstall
+     systemd_disable
