@@ -62,10 +62,10 @@ http_file(
 
 http_archive(
     name = "prebuilt_denverton_kmods",
-    build_file_content = """filegroup(name="mods", srcs = glob(["net/**"]), visibility = ["//visibility:public"])""",
-    sha256 = "cae47a9e2be6bf30f674315ac4153666bb5f488fc10de86cd3fe4336f2aab113",
+    build_file_content = """filegroup(name="mods", srcs = [".config"]+glob(["net/**"]), visibility = ["//visibility:public"])""",
+    sha256 = "d620c87afca2ee79ff13bc21e9b0b4e6ed2f942be362478ef7304c46fdbecb49",
     urls = [
-        "https://github.com/chickenandpork/synology-kmods-netfilter-iptables/releases/download/v1.0.0/denverton-7.2.txz"
+        "https://github.com/chickenandpork/synology-kmods-netfilter-iptables/releases/download/v1.1.0/denverton-7.2.txz"
     ],
 )
 
