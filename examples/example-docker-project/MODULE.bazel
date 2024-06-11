@@ -1,0 +1,31 @@
+module(
+    name = "example-docker-project",
+    version = "1.0",
+)
+
+bazel_dep(name = "buildifier_prebuilt", version = "7.3.1", dev_dependency = True)
+
+bazel_dep(name = "aspect_bazel_lib", version = "2.9.1")
+bazel_dep(name = "platforms", version = "0.0.10")
+bazel_dep(name = "rules_pkg", version = "1.0.1")
+bazel_dep(name = "rules_synology")
+
+# When reusing for your own project, don't use this local-override
+local_path_override(
+    module_name = "rules_synology",
+    path = "../..",
+)
+
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
+# Application icon, sourced from the cncf.io site
+http_file(
+    name = "tux_icon",
+    sha256 = "36f75566e62856c91e6d4fbfb3722909666be43cec8530f222602cb3fa6de436",
+    urls = [
+        "https://banner2.cleanpng.com/20180324/toe/kisspng-tux-racer-penguin-linux-clip-art-linux-5ab6fb0d51dbe6.0868076115219412613353.jpg",
+    ],
+)
+
+# register toolchains by wildcard :) (thanks, github/cameron-martin)
+register_toolchains("@rules_synology//toolchains:all")

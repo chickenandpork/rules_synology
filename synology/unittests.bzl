@@ -8,7 +8,7 @@ load("@bazel_skylib//rules:write_file.bzl", "write_file")
 
 # Wrap the test in a handy function to expand the components as needed: the intend is to ensure
 # that the given binary matches the target platform and is indeed cross-compiled
-def confirm_binary_matches_platform(binary):
+def confirm_binary_matches_platform(binary, size = "small"):
     token = binary.replace(":", "_")
     token = token.replace("/", "_")
 
@@ -50,8 +50,22 @@ def confirm_binary_matches_platform(binary):
 
     native.sh_test(
         name = "{}_test_file_arch".format(token),
-        size = "small",
+        size = size,
         srcs = [":{}_test_arch".format(token)],
         args = ["$(location {})".format(binary)],
         data = [binary],
+    )
+
+def spk_component(name, spk, filename):
+    """
+    Pull a member component from the SPK archive for further testing
+
+    spk_component pulls a component from the SPK file by passing the filename to an unpack; the result should be usable to confirm that the SPK packed up what was expected.
+    """
+
+    native.genrule(
+        name = name,
+        srcs = [spk],
+        outs = [filename],
+        cmd = "tar xfO $< {} > $@".format(filename),
     )

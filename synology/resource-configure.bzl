@@ -4,6 +4,7 @@
 # short-term.  If you don't have time or feel uncomfortable submitting a PR, please submit a
 # sanitized test-case so that a unittest can be built to represent what you need to be unblocked.
 
+load("@rules_synology//synology:docker-project.bzl", "DockerProject")
 load("@rules_synology//synology:port-service-configure.bzl", "PortConfigInfo")
 load("@rules_synology//synology:usr-local-linker.bzl", "UsrLocalLinker")
 
@@ -16,7 +17,9 @@ def _resource_config_impl(ctx):
         outfile = ctx.actions.declare_file("resource")
 
     for r in ctx.attr.resources:
-        if PortConfigInfo in r and r[PortConfigInfo]:
+        if DockerProject in r and r[DockerProject]:
+            resource_list["docker-project"] = r[DockerProject].struct
+        elif PortConfigInfo in r and r[PortConfigInfo]:
             resource_list["port-config"] = r[PortConfigInfo].struct
         elif UsrLocalLinker in r and r[UsrLocalLinker]:
             if "usr-local-linker" not in resource_list:
@@ -28,7 +31,11 @@ def _resource_config_impl(ctx):
                     "lib": resource_list["usr-local-linker"]["lib"] + r[UsrLocalLinker].lib,
                 })
         else:
-            print("WARNING: no providers generated from port_config, usr_local_linker() were found.  May be an error in resource_config(name = {},...)".format(ctx.attr.name))
+            print(
+                "WARNING: no providers generated from docker_project(), port_config()," +
+                " usr_local_linker() were found.  May be an error in resource_config(name = {},...)"
+                    .format(ctx.attr.name),
+            )
 
     # appending "" element and joining results in a finishing blank line which has no effect on JSON
     # parsers but gives a blank line at end which is easier to `cat` the results when manually

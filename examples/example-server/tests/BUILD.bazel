@@ -3,7 +3,7 @@ load("@rules_pkg//pkg:verify_archive.bzl", "verify_archive_test")
 
 copy_file(
     name = "spk",
-    src = "//spk/exampleserver:spk",
+    src = "//spk/exampleserver",
     out = "spk.tar",
 )
 

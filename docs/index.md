@@ -2,6 +2,7 @@
 
 ## Specific Actions
 
+* [docker_project()](docs.md#docker_project): Create services using `docker-compose` files
 * [usr_local_linker()](docs.md#usr_local_linker): link SPK components to bin, lib, or etc
 
 ## Common Rules
@@ -16,4 +17,4 @@
 
 ## Validation
 
-* [confirm_binary_arch()](docs.md#confirm_binary_arch)
+* [confirm_binary_matches_platform()](docs.md#confirm_binary_matches_platform)
