@@ -24,8 +24,7 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/chickenandpork/bazel-spk-go-grpc-simpleserver/api"
-	//pb "github.com/chickenandpork/rules_synology/examples/example-server/api"
+	pb "github.com/chickenandpork/rules_synology/examples/example-server/api"
 
 	"go.uber.org/atomic"
 	"go.uber.org/zap"

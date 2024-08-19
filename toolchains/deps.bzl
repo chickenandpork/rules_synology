@@ -1,6 +1,20 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
+# URL from https://archive.synology.com/download/ToolChain/toolchain/7.1-42661
+syno_toolchains ={
+    "denverton-gcc850_glibc226_x86_64-GPL": {
+        "common_name": "Denverton",
+        "prefix": "x86_64-pc-linux-gnu",
+        "sha256": "06e77a4fc703d5dd593f1ca7580ef65eca7335329dfeed44ff80789394d8f23c",
+    },
+    "geminilake-gcc850_glibc226_x86_64-GPL": {
+        "common_name": "GeminiLake",
+        "prefix": "x86_64-pc-linux-gnu",
+        "sha256": "653789339d20262c31546371ab457d99faff88729e16cf91f3f7cced5606daf6",
+    },
+}
+
 def deps():
     maybe(
         repo_rule = http_archive,
@@ -11,25 +25,19 @@ def deps():
         build_file = "@rules_synology//toolchains:arm64_gcc_linux_x86_64.BUILD",
     )
 
-    # by convention, the toolchain name matches the name of the external repo wrapping the toolchain
-    native.register_toolchains(
-        "@rules_synology//toolchains:arm64_gcc_linux_x86_64",
-    )
+    for arch, parts in syno_toolchains.items():
+        print("define toolchain {}".format(arch))
+        maybe(
+            repo_rule = http_archive,
+            name = arch,
+            urls = [
+                "https://global.synologydownload.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28{}%29/{}.txz".format(parts["common_name"], arch),
+            ],
+            strip_prefix = parts["prefix"],
+            sha256 = parts["sha256"],
+            build_file = "@rules_synology//toolchains:{}.BUILD".format(arch),
+        )
 
-    # URL from https://archive.synology.com/download/ToolChain/toolchain/7.1-42661
-    maybe(
-        repo_rule = http_archive,
-        name = "denverton-gcc850_glibc226_x86_64-GPL",
-        urls = [
-            "https://global.synologydownload.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Denverton%29/denverton-gcc850_glibc226_x86_64-GPL.txz",
-        ],
-        strip_prefix = "x86_64-pc-linux-gnu",
-        # MD5 bb29ea30fe3fb44604e18a53ad020e67
-        sha256 = "06e77a4fc703d5dd593f1ca7580ef65eca7335329dfeed44ff80789394d8f23c",
-        build_file = "@rules_synology//toolchains:denverton-gcc850_glibc226_x86_64-GPL.BUILD",
-    )
-
-    # by convention, the toolchain name matches the name of the external repo wrapping the toolchain
-    native.register_toolchains(
-        "@rules_synology//toolchains:denverton-gcc850_glibc226_x86_64-GPL",
-    )
+TOOLCHAINS = syno_toolchains.keys()
+TOOLCHAINS_SHORT_LC = [ v["common_name"].lower() for k,v in syno_toolchains.items()]
+TOOLCHAINS_PLUS_ARM = TOOLCHAINS + [ "arm64_gcc_linux_x86_64" ]

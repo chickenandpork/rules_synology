@@ -6,15 +6,26 @@ constraint_setting(
 
 PLATFORMS = {
     "ds1819+": {
-        "arch": "denverton",
+        "cpu": "x86_64",
+        "os": "linux",
+        "synoarch": "denverton",
         "version": "7.1.1",  # trimmed to "7.1" below: ...format(".".join(v["version"].split(".")[:2])),
+    },
+    "ds224+": {
+        "cpu": "x86_64",
+        "os": "linux",
+        "synoarch": "geminilake",
+        "version": "7.1.1",
     },
 }
 
+# to check available models: bazel query 'kind("platform", @rules_synology//models/...)'
 [platform(
     name = k,
     constraint_values = [
-        "@rules_synology//arch:{}".format(v["arch"]),
+        "@rules_synology//arch:{}".format(v["synoarch"]),
+        "@platforms//cpu:{}".format(v["cpu"]),
+        "@platforms//os:{}".format(v["os"]),
         "@rules_synology//dsm:{}".format(".".join(v["version"].split(".")[:2])),
     ],
 ) for k, v in PLATFORMS.items()]

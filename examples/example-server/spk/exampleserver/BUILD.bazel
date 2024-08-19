@@ -1,6 +1,6 @@
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_files", "pkg_mkdirs", "strip_prefix")
 load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
-load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 load("@rules_synology//:defs.bzl", "SPK_REQUIRED_SCRIPTS", "images", "info_file", "maintainer", "privilege_config", "protocol_file", "resource_config", "service_config")
 
 info_file(

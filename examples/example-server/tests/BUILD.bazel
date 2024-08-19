@@ -1,5 +1,5 @@
-load("@rules_pkg//pkg:verify_archive.bzl", "verify_archive_test")
 load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load("@rules_pkg//pkg:verify_archive.bzl", "verify_archive_test")
 
 copy_file(
     name = "spk",
