@@ -1,2 +1,2 @@
-6.5.0
+7.3.1
 # https://github.com/bazelbuild/bazel/issues/17289 : default enable_bzlmod empty MODULES.bazel caused split-brain in dependencies
