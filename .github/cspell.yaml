@@ -24,6 +24,7 @@ words:
   - bzlmod
   - chickenandpork
   - crossbuild
+  - crosstool
   - dockcross
   - helloworld
   - ibazel

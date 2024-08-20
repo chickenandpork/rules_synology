@@ -132,6 +132,16 @@ So that WORKSPACE Needs to be simplified; if in doubt, refer to the example whic
 PR, but swap out the `local_repository(name="rules_synology", ...)` for the `git_repository()`
 
 
+## Testing
+
+In order to ensure that the crosstool selection still works despite whatever changes, I've cut a
+script that shows an example of running the cross-build, and confirming that the cross toolchain is
+considered and ultimately chosen.
+
+```
+bash -x  examples/cross-helloworld/confirm-cross-selection.bash
+```
+
 
 
 ## References:
