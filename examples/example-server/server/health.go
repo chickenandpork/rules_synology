@@ -19,10 +19,11 @@ type gRPCHealthServer struct {
 // down
 //
 // This can be used with
-//  health.RegisterHealthcheckServer(
-//      gRPCServer,  // grpc.NewServer(...)
-//	newGRPCHealthServer(aLogger, requestedShutdown),
-//  )
+//
+//	 health.RegisterHealthcheckServer(
+//	     gRPCServer,  // grpc.NewServer(...)
+//		newGRPCHealthServer(aLogger, requestedShutdown),
+//	 )
 func newGRPCHealthServer(l *zap.SugaredLogger, requestedShutdown *atomic.Bool) health.HealthServer {
 	return &gRPCHealthServer{
 		logger:            l,
