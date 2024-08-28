@@ -10,7 +10,8 @@
     {
       "enabled": true,
       "matchManagers": [
-        "bazel"
+        "bazel",
+        "bazel-module"
       ]
     },
     {
