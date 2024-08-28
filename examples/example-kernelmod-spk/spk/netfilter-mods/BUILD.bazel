@@ -1,7 +1,7 @@
-load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_files", "pkg_mkdirs", "strip_prefix")
-load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
 load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_files", "pkg_mkdirs", "strip_prefix")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
 load("@rules_synology//:defs.bzl", "SPK_REQUIRED_SCRIPTS", "images", "info_file", "maintainer", "privilege_config", "protocol_file", "resource_config", "service_config", "usr_local_linker")
 
 info_file(
@@ -22,7 +22,7 @@ privilege_config(
 
 usr_local_linker(
     name = "usrlinks",
-    bin = [ "netfilter-mods" ],
+    bin = ["netfilter-mods"],
 )
 
 resource_config(
@@ -81,7 +81,10 @@ pkg_tar(
     name = "stub_{}".format(f),
     src = "@rules_synology//synology:stub_script",
     out = f,
-) for f in SPK_REQUIRED_SCRIPTS if f not in ["postinst", "preuninst"]]
+) for f in SPK_REQUIRED_SCRIPTS if f not in [
+    "postinst",
+    "preuninst",
+]]
 
 write_file(
     name = "insmod_sss_script",
@@ -91,12 +94,26 @@ write_file(
         "",
         """case "$1" in""",
         """    start)""",
-        """        exit 0""" ]+[
-        """        insmod /lib/modules/{}.ko""".format(n) for n in [ "xt_comment", "nf_reject_ipv4", "ipt_REJECT" ]] + [
+        """        exit 0""",
+    ] + [
+        """        insmod /lib/modules/{}.ko""".format(n)
+        for n in [
+            "xt_comment",
+            "nf_reject_ipv4",
+            "ipt_REJECT",
+        ]
+    ] + [
         """        ;;""",
         """    stop)""",
-        """        exit 0""" ]+[
-        """        rmmod /lib/modules/{}.ko""".format(n) for n in [ "ipt_REJECT", "nf_reject_ipv4", "xt_comment" ]] + [
+        """        exit 0""",
+    ] + [
+        """        rmmod /lib/modules/{}.ko""".format(n)
+        for n in [
+            "ipt_REJECT",
+            "nf_reject_ipv4",
+            "xt_comment",
+        ]
+    ] + [
         """        ;;""",
         """    status)""",
         """        ;;""",
@@ -148,7 +165,14 @@ write_file(
 
 pkg_files(
     name = "scripts",
-    srcs = [":insmod_sss_script", ":insmod_postinst", ":insmod_preuninst"] + [":stub_{}".format(f) for f in SPK_REQUIRED_SCRIPTS if f not in ["postinst", "preuninst"]],
+    srcs = [
+        ":insmod_postinst",
+        ":insmod_preuninst",
+        ":insmod_sss_script",
+    ] + [":stub_{}".format(f) for f in SPK_REQUIRED_SCRIPTS if f not in [
+        "postinst",
+        "preuninst",
+    ]],
     attributes = pkg_attributes(
         mode = "0755",
     ),
