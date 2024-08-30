@@ -11,7 +11,8 @@
       "enabled": true,
       "matchManagers": [
         "bazel",
-        "bazel-module"
+        "bazel-module",
+        "golang"
       ]
     },
     {
