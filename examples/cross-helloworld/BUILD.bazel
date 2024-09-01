@@ -1,6 +1,6 @@
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
-load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@gazelle//:def.bzl", "gazelle")
 
 cc_binary(
     name = "main",
