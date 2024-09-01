@@ -1,4 +1,4 @@
-load("@rules_synology//dsm:dsm.bzl", "dsm_range")
+load("@rules_synology//config:platforms.bzl", VERSIONS="MINOR_VERSIONS")
 
 constraint_setting(
     name = "dsm_rel_majmin",
@@ -8,4 +8,4 @@ constraint_setting(
     name = v,
     constraint_setting = ":dsm_rel_majmin",
     visibility = ["//visibility:public"],
-) for v in dsm_range]
+) for v in VERSIONS]
