@@ -23,7 +23,8 @@
       "enabled": true,
       "matchManagers": [
         "bazel",
-        "bazel-module"
+        "bazel-module",
+        "gomod"
       ]
     },
     {
