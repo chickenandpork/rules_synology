@@ -1,23 +1,8 @@
-load("@rules_synology//dsm:dsm.bzl", "dsm_range")
+load("@rules_synology//config:platforms.bzl", "PLATFORMS")
 
 constraint_setting(
     name = "synology_model",
 )
-
-PLATFORMS = {
-    "ds1819+": {
-        "cpu": "x86_64",
-        "os": "linux",
-        "synoarch": "denverton",
-        "version": "7.1.1",  # trimmed to "7.1" below: ...format(".".join(v["version"].split(".")[:2])),
-    },
-    "ds224+": {
-        "cpu": "x86_64",
-        "os": "linux",
-        "synoarch": "geminilake",
-        "version": "7.1.1",
-    },
-}
 
 # to check available models: bazel query 'kind("platform", @rules_synology//models/...)'
 [platform(
