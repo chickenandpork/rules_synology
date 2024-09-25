@@ -41,7 +41,7 @@ cc_toolchain_config(
     abi_version = "unknown",
     abi_libc_version = "unknown",
     tool_paths = {
-        "gcc": "bin/aarch64-none-linux-gnu-g++",
+        "gcc": "bin/aarch64-none-linux-gnu-gcc",
         "cpp": "bin/aarch64-none-linux-gnu-cpp",
         "ar": "bin/aarch64-none-linux-gnu-ar",
         "nm": "bin/aarch64-none-linux-gnu-nm",
