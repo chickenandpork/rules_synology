@@ -35,18 +35,10 @@ jobs:
           key: _bazel_runner
       - run: bazel build //...
       - run: bazel test //...
-      - name: Build examples to ensure functionality
+      - name: Build / Test examples to ensure functionality
         run: |
             for d in $(find examples -name WORKSPACE -exec dirname {} \; ); do
             echo "::group::example: ${d}"
-            (cd ${d} && bazel build //...);
-            echo "::endgroup::"
-            done
-      - name: Test examples to ensure functionality
-        # runs `bazel test` when subdirs have a "tests" subdir, assuming it includes unittests
-        run: |
-            for d in $(find examples -name tests -exec dirname {} \; ); do
-            echo "::group::test example: ${d}"
-            (cd ${d} && bazel test //...);
+            (cd ${d} && bazel build //... && test 1 -le $(bazel query 'kind("test", "//...")' 2> /dev/null | wc -l ) && bazel test //...);
             echo "::endgroup::"
             done

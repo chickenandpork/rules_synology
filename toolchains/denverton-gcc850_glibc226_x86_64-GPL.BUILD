@@ -6,7 +6,7 @@
 # load("@rules_synology//:deps.bzl", synology_deps="deps")
 # synology_deps()
 #
-# bazel build :main --platforms=@rules_synology//toolchains:toolchain_arm64_gcc --incompatible_enable_cc_toolchain_resolution
+# bazel build :main --platforms=@rules_synology//models:ds1819+ --incompatible_enable_cc_toolchain_resolution
 
 load("@bazel_tools//tools/cpp:unix_cc_toolchain_config.bzl", "cc_toolchain_config")
 
@@ -41,7 +41,7 @@ cc_toolchain_config(
     abi_version = "unknown",
     abi_libc_version = "unknown",
     tool_paths = {
-        "gcc": "bin/x86_64-pc-linux-gnu-g++",
+        "gcc": "bin/x86_64-pc-linux-gnu-gcc",
         "cpp": "bin/x86_64-pc-linux-gnu-cpp",
         "ar": "bin/x86_64-pc-linux-gnu-ar",
         "nm": "bin/x86_64-pc-linux-gnu-nm",
