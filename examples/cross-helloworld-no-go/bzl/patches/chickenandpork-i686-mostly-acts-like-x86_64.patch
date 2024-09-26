@@ -1,0 +1,13 @@
+diff -ur python/private/toolchains_repo.bzl python/private/toolchains_repo.bzl
+--- python/private/toolchains_repo.bzl	2023-08-22 21:07:31.000000000 +0000
++++ python/private/toolchains_repo.bzl	2023-09-11 23:48:54.047829875 +0000
+@@ -429,6 +429,9 @@
+             arguments = [repo_utils.which_checked(rctx, "uname"), "-m"],
+             logger = logger,
+         ).stdout.strip()
++
++        if arch == "i686":
++              arch = "x86_64"
+
+         # Normalize the os_name.
+         if "mac" in os_name.lower():

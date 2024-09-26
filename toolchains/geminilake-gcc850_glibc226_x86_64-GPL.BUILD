@@ -6,7 +6,7 @@
 # load("@rules_synology//:deps.bzl", synology_deps="deps")
 # synology_deps()
 #
-# bazel build :main --platforms=@rules_synology//toolchains:toolchain_arm64_gcc --incompatible_enable_cc_toolchain_resolution
+# bazel build :main --platforms=@rules_synology//models:ds224+ --incompatible_enable_cc_toolchain_resolution
 
 load("@bazel_tools//tools/cpp:unix_cc_toolchain_config.bzl", "cc_toolchain_config")
 

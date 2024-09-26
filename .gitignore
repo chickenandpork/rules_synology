@@ -2,5 +2,4 @@ bazel-*
 
 # examples dirs
 examples/*/bazel-*
-
 examples/*/MODULE.bazel.*

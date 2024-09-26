@@ -1,0 +1,78 @@
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@buildifier_prebuilt//:rules.bzl", "buildifier")
+
+buildifier(
+    name = "buildifier.check",
+    exclude_patterns = [
+        "./.git/*",
+    ],
+    lint_mode = "warn",
+    mode = "diff",
+)
+
+alias(
+    name = "gazelle",
+    actual = "buildifier.check",
+)
+
+cc_binary(
+    name = "main",
+    srcs = ["main.cc"],
+)
+
+TOOLCHAINS = [
+    "armada37xx",
+    "denverton",
+    "geminilake",
+]
+
+[constraint_value(
+    name = a,
+    constraint_setting = ":synology_arch",
+    visibility = ["//visibility:public"],
+) for a in TOOLCHAINS]
+
+# Create a file from the template below, substituting the "expected" output to "file" into the
+# script to leverage caching and to hope to make it reflect the current platform
+#
+# to check:   bazel query --output=build //:test_arch
+expand_template_rule(
+    name = "test_arch",
+    out = "test_arch.sh",
+    is_executable = True,
+    substitutions = select({
+        "@rules_synology//arch:armada37xx": {"DETECT_STRING": " ELF 64-bit LSB pie executable, ARM aarch64"},
+        "@rules_synology//arch:denverton": {"DETECT_STRING": " ELF 64-bit LSB pie executable, x86-64"},
+        "@rules_synology//arch:geminilake": {"DETECT_STRING": " ELF 64-bit LSB pie executable, x86-64"},
+        "//conditions:default": {"DETECT_STRING": "no-possible-match"},
+    }),
+    template = ":test_arch_tmpl",
+)
+
+# A template created at build to put the file, substitution, and testcase all in the same file
+write_file(
+    name = "test_arch_tmpl",
+    out = "test_arch_tmpl.sh",
+    content = [
+        """echo "params: $*" >&2 """,
+        "",
+        "TMP=$(mktemp)",
+        """trap "rm -f ${TMP} ${TMP}2" EXIT""",
+        "",
+        "file $(readlink -f $1) > ${TMP} || exit 2",
+        """cat ${TMP}""",
+        """exec grep "DETECT_STRING" ${TMP} >/dev/null""",
+        "",
+    ],
+)
+
+# test_file_arch tests the output of a "file ./main" against the compiled min.cc to ensure the
+# proper toolchain was used despite the host arch.
+sh_test(
+    name = "test_file_arch",
+    size = "small",
+    srcs = [":test_arch"],
+    args = ["$(location :main)"],
+    data = [":main"],
+)

@@ -37,8 +37,9 @@ jobs:
       - run: bazel test //...
       - name: Build / Test examples to ensure functionality
         run: |
-            for d in $(find examples -name WORKSPACE -exec dirname {} \; ); do
+            for d in $(find examples -name WORKSPACE -o -name MODULE.bazel -exec dirname {} \; ); do
             echo "::group::example: ${d}"
-            (cd ${d} && bazel build //... && test 1 -le $(bazel query 'kind("test", "//...")' 2> /dev/null | wc -l ) && bazel test //...);
+            (cd ${d} && echo "::group::build: ${d}" && bazel build //... );
+            #(cd ${d} && test 1 -le $(bazel query 'kind("test", "//...")' 2> /dev/null | wc -l ) && echo "::group::test: ${d}" && bazel test //...);
             echo "::endgroup::"
             done

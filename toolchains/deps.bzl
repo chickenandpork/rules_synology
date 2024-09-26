@@ -3,6 +3,15 @@ load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
 # URL from https://archive.synology.com/download/ToolChain/toolchain/7.1-42661
 syno_toolchains ={
+    # https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Marvell%20Armada%2037xx%20Linux%204.4.302/armada37xx-gcc1220_glibc236_armv8-GPL.txz
+    # https://global.synologydownload.com/download/ToolChain/toolchain/7.1-42661/Marvell%20Armada%2037xx%20Linux%204.4.180/armada37xx-gcc850_glibc226_armv8-GPL.txz
+    "armada37xx-gcc850_glibc226_armv8-GPL": {
+        "common_name": "Armada37xx",
+        "prefix": "aarch64-unknown-linux-gnu",
+        "sha256": "8188ffc98675e9185900e54550ea21962fa690974eb66cea3e5209591c000ff3",
+        "subdir": "Marvell%20Armada%2037xx%20Linux%204.4.180",
+    },
+    # https://global.synologydownload.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28Denverton%29/denverton-gcc850_glibc226_x86_64-GPL.txz
     "denverton-gcc850_glibc226_x86_64-GPL": {
         "common_name": "Denverton",
         "prefix": "x86_64-pc-linux-gnu",
@@ -42,3 +51,5 @@ def deps():
 TOOLCHAINS = syno_toolchains.keys()
 TOOLCHAINS_SHORT_LC = [ v["common_name"].lower() for k,v in syno_toolchains.items()]
 TOOLCHAINS_PLUS_ARM = TOOLCHAINS + [ "arm64_gcc_linux_x86_64" ]
+
+
