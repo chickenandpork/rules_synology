@@ -3,5 +3,4 @@ bazel-*
 # examples dirs
 examples/*/bazel-*
 
-# ignore cruft from bazel-7.0.0 default MODULE file(s) until we can upgrade to 7.0.0
-examples/*/MODULE.bazel*
+examples/*/MODULE.bazel.*

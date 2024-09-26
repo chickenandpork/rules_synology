@@ -10,7 +10,6 @@ load("@rules_synology//toolchains:deps.bzl", TOOLCHAINS = "TOOLCHAINS_SHORT_LC")
 #    @rules_synology//arch:synology_arch  <-- to be removed
 #    @rules_synology//arch:x86  <-- to be removed
 
-
 config_setting(
     name = "arm",
     values = {"cpu": "arm"},
@@ -30,4 +29,4 @@ constraint_setting(
     name = a,
     constraint_setting = ":synology_arch",
     visibility = ["//visibility:public"],
-) for a in TOOLCHAINS ]
+) for a in TOOLCHAINS]

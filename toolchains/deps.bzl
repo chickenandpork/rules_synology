@@ -7,11 +7,13 @@ syno_toolchains ={
         "common_name": "Denverton",
         "prefix": "x86_64-pc-linux-gnu",
         "sha256": "06e77a4fc703d5dd593f1ca7580ef65eca7335329dfeed44ff80789394d8f23c",
+        "subdir": "Intel%20x86%20Linux%204.4.180%20%28Denverton%29",
     },
     "geminilake-gcc850_glibc226_x86_64-GPL": {
         "common_name": "GeminiLake",
         "prefix": "x86_64-pc-linux-gnu",
         "sha256": "653789339d20262c31546371ab457d99faff88729e16cf91f3f7cced5606daf6",
+        "subdir": "Intel%20x86%20Linux%204.4.180%20%28GeminiLake%29",
     },
 }
 
@@ -27,11 +29,10 @@ def deps():
 
     for arch, parts in syno_toolchains.items():
         print("define toolchain {}".format(arch))
-        maybe(
-            repo_rule = http_archive,
+        http_archive(
             name = arch,
             urls = [
-                "https://global.synologydownload.com/download/ToolChain/toolchain/7.1-42661/Intel%20x86%20Linux%204.4.180%20%28{}%29/{}.txz".format(parts["common_name"], arch),
+                "https://global.synologydownload.com/download/ToolChain/toolchain/7.1-42661/{}/{}.txz".format(parts["subdir"], arch),
             ],
             strip_prefix = parts["prefix"],
             sha256 = parts["sha256"],
