@@ -1,5 +1,17 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        ".github/workflows/.*.yml"
+      ],
+      "matchStrings": [
+        "renovatebot datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION: (?<currentValue>.*)\\s"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}"
+    }
+  ],
   "extends": [
     "config:base"
   ],
@@ -10,21 +22,21 @@
     {
       "enabled": true,
       "matchManagers": [
-        "bazel"
+        "bazel",
+        "bazel-module",
+        "gomod"
       ]
     },
     {
-      "matchUpdateTypes": ["patch", "minor"],
-      "automerge": true
+      "automerge": true,
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ]
     }
   ],
-  "regexManagers": [
-   {
-     "fileMatch": [".github/workflows/.*.yml"],
-      "matchStrings": [
-        "renovatebot datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION: (?<currentValue>.*)\\s"
-      ],
-      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}"
-    }
+  "postUpdateOptions": [
+    "gomodMassage",
+    "gomodTidy"
   ]
 }

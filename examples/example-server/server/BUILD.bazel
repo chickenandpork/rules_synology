@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_binary(
     name = "server",
@@ -15,7 +15,7 @@ go_library(
     importpath = "github.com/chickenandpork/rules_synology/examples/example-server/server",
     visibility = ["//visibility:private"],
     deps = [
-        "//api",
+        "//api:helloworld_go_proto",
         "@org_golang_google_grpc//:grpc",
         "@org_golang_google_grpc//health/grpc_health_v1",
         "@org_golang_google_grpc//reflection",

@@ -1,5 +1,5 @@
-load("@bazel_gazelle//:def.bzl", "gazelle")
-load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@gazelle//:def.bzl", "gazelle")
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
 
 alias(
     name = "buildifier",
@@ -24,5 +24,5 @@ go_library(
     ],
     importpath = "github.com/chickenandpork/rules_synology/tools",
     visibility = ["//visibility:private"],
-    deps = ["@com_github_disintegration_imaging//:go_default_library"],
+    deps = ["@com_github_disintegration_imaging//:imaging"],
 )

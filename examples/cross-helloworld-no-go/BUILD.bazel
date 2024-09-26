@@ -1,18 +1,28 @@
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("@gazelle//:def.bzl", "gazelle")
+load("@buildifier_prebuilt//:rules.bzl", "buildifier")
+
+buildifier(
+    name = "buildifier.check",
+    exclude_patterns = [
+        "./.git/*",
+    ],
+    lint_mode = "warn",
+    mode = "diff",
+)
+
+alias(
+    name = "gazelle",
+    actual = "buildifier.check",
+)
 
 cc_binary(
     name = "main",
     srcs = ["main.cc"],
 )
 
-gazelle(
-    name = "gazelle",
-    prefix = "github.com/chickenandpork/rules_synology/examples/cross-helloworld",
-)
-
 TOOLCHAINS = [
+    "armada37xx",
     "denverton",
     "geminilake",
 ]
@@ -32,6 +42,7 @@ expand_template_rule(
     out = "test_arch.sh",
     is_executable = True,
     substitutions = select({
+        "@rules_synology//arch:armada37xx": {"DETECT_STRING": " ELF 64-bit LSB pie executable, ARM aarch64"},
         "@rules_synology//arch:denverton": {"DETECT_STRING": " ELF 64-bit LSB pie executable, x86-64"},
         "@rules_synology//arch:geminilake": {"DETECT_STRING": " ELF 64-bit LSB pie executable, x86-64"},
         "//conditions:default": {"DETECT_STRING": "no-possible-match"},
