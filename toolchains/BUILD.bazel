@@ -64,3 +64,12 @@ toolchain(
     toolchain = "@geminilake-gcc850_glibc226_x86_64-GPL//:cc_toolchain",
     toolchain_type = "@rules_cc//cc:toolchain_type",
 )
+
+filegroup(
+    name = "all_toolchains",
+    srcs = [
+        ":armada37xx-gcc850_glibc226_armv8-GPL",
+        ":denverton-gcc850_glibc226_x86_64-GPL",
+        ":geminilake-gcc850_glibc226_x86_64-GPL",
+    ],
+)

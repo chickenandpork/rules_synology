@@ -14,3 +14,8 @@ constraint_setting(
         "@rules_synology//dsm:{}".format(".".join(v["version"].split(".")[:2])),
     ],
 ) for k, v in PLATFORMS.items()]
+
+filegroup(
+    name = "all_models",
+    srcs = [":{}".format(k) for k in PLATFORMS.keys()],
+)

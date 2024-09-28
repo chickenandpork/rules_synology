@@ -9,3 +9,8 @@ constraint_setting(
     constraint_setting = ":dsm_rel_majmin",
     visibility = ["//visibility:public"],
 ) for v in VERSIONS]
+
+filegroup(
+    name = "all_dsm",
+    srcs = [":{}".format(v) for v in VERSIONS],
+)
