@@ -55,7 +55,7 @@ pkg_tar(
     ],
     extension = "tgz",
     package_dir = "/",
-    deps = [":package-bin"],
+    deps = [":package-mods", ":package-kconfig"],
 )
 
 # models:1819+ activates arch:denverton
@@ -67,13 +67,22 @@ alias(
 )
 
 pkg_tar(
-    name = "package-bin",
+    name = "package-kconfig",
+    srcs = select({
+        "@rules_synology//arch:denverton": ["@prebuilt_denverton_kmods//:kernelconfig"],
+    }),
+    extension = "tgz",
+    package_dir = "/etc",
+    stamp = 1,
+)
+
+pkg_tar(
+    name = "package-mods",
     srcs = [
         ":netfilter-mods",
-        ":run-install.sh",
     ],
     extension = "tgz",
-    package_dir = "/usr/bin",
+    package_dir = "/lib/modules",
     stamp = 1,
 )
 
