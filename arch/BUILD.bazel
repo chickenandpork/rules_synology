@@ -30,3 +30,8 @@ constraint_setting(
     constraint_setting = ":synology_arch",
     visibility = ["//visibility:public"],
 ) for a in TOOLCHAINS]
+
+filegroup(
+    name = "all_arch",
+    srcs = [":{}".format(a) for a in TOOLCHAINS],
+)

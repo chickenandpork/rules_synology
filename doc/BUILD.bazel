@@ -1,0 +1,98 @@
+load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+
+#
+# bazel query 'kind("constraint_value", deps(//arch/...))'
+# bazel query 'kind("constraint_value", deps(//arch:all_arch))'
+# //arch:armada37xx
+# //arch:denverton
+# //arch:geminilake
+
+# map the static files checked into the repo to the function that generates them
+_STATIC_TO_GENERATOR_MAP = {
+    "arch": "constraint_value",
+    "dsm": "constraint_value",
+    "models": "platform",
+    "toolchains": "toolchain",  # still has additional result: the toolchain_type is added
+    # ...
+}
+
+# One gen-{} rule for each of the STATIC_TO_GENERATOR_MAP to generate a file of targets from a
+# genquery so that it would be accurate, if at least not quite the format we want.
+#
+# Whenever a new item is added to dsm, models, toolchains, or arch, gen-{} will get updated on a
+#
+#   bazel run //doc:update
+
+[genquery(
+    name = "gen-{0}".format(key),
+    expression = """kind("{1}", deps(//{0}:all_{0}))""".format(key, kind),
+    scope = ["//{0}:all_{0}".format(key)],
+) for key, kind in _STATIC_TO_GENERATOR_MAP.items()]
+
+# One munge-{} rule for each of the STATIC_TO_GENERATOR_MAP to convert the file from:
+#   //arch:armada37xx
+#   //arch:denverton
+# to
+#   armada37xx
+#   denverton
+#
+# The results of genquery being not quite the format we want, this becomes more directly usable
+# when reduced to just the arch ro model involved.  Ultimately, whenever a new item is added to
+# dsm, models, toolchains, or arch, gen-{} changes, causing munge-{} to filter it -- just need to
+# remember to run
+#
+#   bazel run //doc:update
+
+[genrule(
+    name = "munge-{0}".format(k),
+    srcs = [":gen-{0}".format(k)],
+    outs = ["munge_{0}".format(k)],
+    cmd = "sed -e 's@//{0}:@@g' $< | grep -v '^@@bazel_tools//tools/cpp:toolchain_type' | sort >$@".format(k),
+) for k in _STATIC_TO_GENERATOR_MAP.keys()]
+
+# This is that you can `bazel run` and it can write to the source folder
+sh_binary(
+    name = "update",
+    srcs = ["update.sh"],
+    data = [":munge-{}".format(k) for k in _STATIC_TO_GENERATOR_MAP.keys()],
+)
+
+# Create a test target for each _STATIC_TO_GENERATOR_MAP so that Bazel will detect if the generated
+# content for the current tree differes from the stored copy, helping to flag that we need to run:
+#
+#   bazel run //doc:update
+[
+    diff_test(
+        name = "check_" + k,
+        size = "small",
+        # Make it trivial for devs to understand that if
+        # this test fails, they just need to run the updater
+        # Note, you need bazel-skylib version 1.1.1 or greater
+        # to get the failure_message attribute
+        failure_message = "Please run:  bazel run //doc:update",
+        file1 = k + ".txt",
+        file2 = ":munge-{0}".format(k),
+    )
+    for k in _STATIC_TO_GENERATOR_MAP.keys()
+]
+
+# Generate the updater script so that updating the generated, munged, stored files is as simple as
+# possible.  Whenever the tests "check_{}" give signal, then the developer needs to run this rule
+# to mitigate the issue, effectively manually bringing the generated value stored back in the tree
+# up-to-date, but in the most trivial effort possible.
+write_file(
+    name = "gen_update",
+    out = "update.sh",
+    content = [
+        # would need tweaks for Windows as this is written for Bash
+        "#!/usr/bin/env bash",
+        "cd $BUILD_WORKSPACE_DIRECTORY",
+    ] + [
+        # Paths are now relative to the workspace, ie rules_synology.  This function allows us to
+        # generate a runnable script that copies the output files from bazel-bin to the source
+        # directories
+        "cp -fv bazel-bin/doc/munge_{0} doc/{0}.txt".format(k)
+        for k in _STATIC_TO_GENERATOR_MAP.keys()
+    ],
+)
