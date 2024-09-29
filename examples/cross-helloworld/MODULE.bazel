@@ -27,21 +27,5 @@ go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
 #Download toolchain for this version for both host and some platform targets (maybe the right ones)
 go_sdk.download(version = "1.20.5")
 
-toolchains = use_extension("@rules_synology//toolchains:extensions.bzl", "synology_deps")
-use_repo(
-    toolchains,
-    "arm64_gcc_linux_x86_64",
-    "denverton-gcc850_glibc226_x86_64-GPL",
-    "geminilake-gcc850_glibc226_x86_64-GPL",
-)
-
-## (thanks, github/cameron-martin)
-#register_toolchains("@rules_synology//toolchains:all")
-# needs cleaning of non-toolchain rules in that BUILD
-
-# bazel query 'kind("toolchain", @rules_synology//...)'
-register_toolchains(
-    "@rules_synology//toolchains:arm64_gcc_linux_x86_64",
-    "@rules_synology//toolchains:denverton-gcc850_glibc226_x86_64-GPL",
-    "@rules_synology//toolchains:geminilake-gcc850_glibc226_x86_64-GPL",
-)
+# register toolchains by wildcard :) (thanks, github/cameron-martin)
+register_toolchains("@rules_synology//toolchains:all")
