@@ -1,0 +1,37 @@
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load("@rules_pkg//pkg:verify_archive.bzl", "verify_archive_test")
+
+
+
+copy_file(
+    name = "spk",
+    src = "//spk/netfilter-mods:spk",
+    out = "spk.tar",
+)
+
+verify_archive_test(
+    name = "spk_contains_required_scripts",
+    max_size = 25,
+    must_contain = [
+        "INFO",
+        "PACKAGE_ICON_120.PNG",
+        "PACKAGE_ICON_16.PNG",
+        "PACKAGE_ICON_24.PNG",
+        "PACKAGE_ICON_256.PNG",
+        "PACKAGE_ICON_32.PNG",
+        "PACKAGE_ICON_48.PNG",
+        "PACKAGE_ICON_64.PNG",
+        "PACKAGE_ICON_72.PNG",
+        "PACKAGE_ICON_90.PNG",
+        "conf/resource",
+        "package.tgz",
+        "scripts/postinst",
+        "scripts/postuninst",
+        "scripts/postupgrade",
+        "scripts/preinst",
+        "scripts/preuninst",
+        "scripts/preupgrade",
+        "scripts/start-stop-status",
+    ],
+    target = ":spk",
+)
