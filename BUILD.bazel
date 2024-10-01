@@ -1,1 +1,8 @@
 # gazelle:prefix github.com/chickenandpork/rules_synology
+
+load("@gazelle//:def.bzl", "gazelle")
+
+gazelle(
+    name = "gazelle",
+    prefix = "github.com/chickenandpork/rules_synology",
+)
