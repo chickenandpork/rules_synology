@@ -3,13 +3,10 @@ module(
     version = "1.0",
 )
 
-bazel_dep(name = "rules_synology")
-
 bazel_dep(name = "gazelle", version = "0.39.0", dev_dependency = True)
 bazel_dep(name = "rules_go", version = "0.50.1", dev_dependency = True)
 bazel_dep(name = "rules_pkg", version = "1.0.1")
-bazel_dep(name = "rules_proto_grpc", version = "5.0.0")
-bazel_dep(name = "rules_proto_grpc_go", version = "5.0.0")
+bazel_dep(name = "rules_synology")
 
 http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
