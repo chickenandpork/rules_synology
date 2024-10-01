@@ -1,15 +1,9 @@
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("@gazelle//:def.bzl", "gazelle")
 
 cc_binary(
     name = "main",
     srcs = ["main.cc"],
-)
-
-gazelle(
-    name = "gazelle",
-    prefix = "github.com/chickenandpork/rules_synology/examples/cross-helloworld",
 )
 
 TOOLCHAINS = [

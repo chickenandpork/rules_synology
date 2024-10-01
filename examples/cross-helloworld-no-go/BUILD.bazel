@@ -1,20 +1,5 @@
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("@buildifier_prebuilt//:rules.bzl", "buildifier")
-
-buildifier(
-    name = "buildifier.check",
-    exclude_patterns = [
-        "./.git/*",
-    ],
-    lint_mode = "warn",
-    mode = "diff",
-)
-
-alias(
-    name = "gazelle",
-    actual = "buildifier.check",
-)
 
 cc_binary(
     name = "main",

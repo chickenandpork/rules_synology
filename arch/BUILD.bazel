@@ -18,24 +18,41 @@ load("@rules_synology//toolchains:deps.bzl", TOOLCHAINS = "TOOLCHAINS_SHORT_LC")
 #    @rules_synology//arch:synology_arch  <-- to be removed
 #    @rules_synology//arch:x86  <-- to be removed
 
+load("@bazel_skylib//lib:selects.bzl", "selects")
+
 config_setting(
     name = "arm",
     values = {"cpu": "arm"},
 )
 
-load("@bazel_skylib//lib:selects.bzl", "selects")
-
 # TODO: Move to DRY on config/
 # https://kb.synology.com/en-global/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have
 PACKAGE_ARCHES = {
-    "denverton": { "cpu": "x86", "desc": "Intel Atom C3538 (x86 64bit)" },
-    "geminilake": { "alias": "GLK", "cpu": "x86", "desc": "Intel Celeron J4125 (x86 64bit)" },
-    "r1000": { "cpu": "x86", "desc": "AMD Ryzen R1xxx (x86-64)" },
-    "rtd1619b": { "cpu": "arm64", "desc": "Realtek RTD1619B (armv8-A)" },
-    "v1000": { "cpu": "x86", "desc": "AMD Ryzen V1xxxB (x86-64)" },
+    "denverton": {
+        "cpu": "x86",
+        "desc": "Intel Atom C3538 (x86 64bit)",
+    },
+    "geminilake": {
+        "alias": "GLK",
+        "cpu": "x86",
+        "desc": "Intel Celeron J4125 (x86 64bit)",
+    },
+    "r1000": {
+        "cpu": "x86",
+        "desc": "AMD Ryzen R1xxx (x86-64)",
+    },
+    "rtd1619b": {
+        "cpu": "arm64",
+        "desc": "Realtek RTD1619B (armv8-A)",
+    },
+    "v1000": {
+        "cpu": "x86",
+        "desc": "AMD Ryzen V1xxxB (x86-64)",
+    },
 }
 
-constraint_setting(  # effectively an ENUM TYPE
+constraint_setting(
+    # effectively an ENUM TYPE
     name = "synology_arch",
 )
 
