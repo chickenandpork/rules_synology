@@ -33,6 +33,7 @@ jobs:
         id: release
         with:
           release-type: simple
+          include-v-in-tag: false
       -
         name: Clone Repo
         if: ${{ steps.release.outputs.release_created }}

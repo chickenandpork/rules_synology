@@ -23,7 +23,9 @@ words:
   - bazelspk
   - buildifier
   - bzlmod
+  - bzlmodify
   - ibazel
+  - rulesets
   # Vanity
   - allanc
   - chickenandpork
@@ -34,6 +36,7 @@ words:
   - ThirdParty
   - RobertRoss
   # Actual useful words
+  - Automerge
   - BUILDNUM
   - buildable
   - configfile
@@ -41,6 +44,7 @@ words:
   - crosstool
   - dockcross
   - helloworld
+  - golines
   - kernelmod
   - maint
   - mkdocs
@@ -51,3 +55,4 @@ words:
   - softlinks
   - subdir
   - subdirs
+  - varargs
