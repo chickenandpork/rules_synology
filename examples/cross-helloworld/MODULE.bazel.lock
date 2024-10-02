@@ -618,8 +618,8 @@
     },
     "@@rules_synology~//toolchains:extensions.bzl%synology_deps": {
       "general": {
-        "bzlTransitiveDigest": "ywQPZZeMerk4G4yYLSswcJD4gz/SLoBlTS/bri22ZyA=",
-        "usagesDigest": "qOLW0o7CSqZAZ0u/Z2KCamcetzvXtO4XhUtVAmDBPt4=",
+        "bzlTransitiveDigest": "4aamTKz6bE/IMJXKeCbrA4M8rnAYPLiEXUyAThJQl8I=",
+        "usagesDigest": "05DPFO/YVr7A6WPzaOsWOJhs12LaxoOCPbQjxjgjjoA=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -670,6 +670,18 @@
               "strip_prefix": "arm-gnu-toolchain-12.2.rel1-x86_64-aarch64-none-linux-gnu",
               "sha256": "6e8112dce0d4334d93bd3193815f16abe6a2dd5e7872697987a0b12308f876a4",
               "build_file": "@@rules_synology~//toolchains:arm64_gcc_linux_x86_64.BUILD"
+            }
+          },
+          "armada37xx-gcc850_glibc226_armv8-GPL": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_archive",
+            "attributes": {
+              "urls": [
+                "https://global.synologydownload.com/download/ToolChain/toolchain/7.1-42661/Marvell%20Armada%2037xx%20Linux%204.4.180/armada37xx-gcc850_glibc226_armv8-GPL.txz"
+              ],
+              "strip_prefix": "aarch64-unknown-linux-gnu",
+              "sha256": "8188ffc98675e9185900e54550ea21962fa690974eb66cea3e5209591c000ff3",
+              "build_file": "@@rules_synology~//toolchains:armada37xx-gcc850_glibc226_armv8-GPL.BUILD"
             }
           },
           "bazelisk_darwin_amd64": {
