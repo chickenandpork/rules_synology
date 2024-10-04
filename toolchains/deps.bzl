@@ -2,7 +2,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
 # URL from https://archive.synology.com/download/ToolChain/toolchain/7.1-42661
-syno_toolchains ={
+syno_toolchains = {
     # https://global.synologydownload.com/download/ToolChain/toolchain/7.2-72746/Marvell%20Armada%2037xx%20Linux%204.4.302/armada37xx-gcc1220_glibc236_armv8-GPL.txz
     # https://global.synologydownload.com/download/ToolChain/toolchain/7.1-42661/Marvell%20Armada%2037xx%20Linux%204.4.180/armada37xx-gcc850_glibc226_armv8-GPL.txz
     "armada37xx-gcc850_glibc226_armv8-GPL": {
@@ -49,7 +49,5 @@ def deps():
         )
 
 TOOLCHAINS = syno_toolchains.keys()
-TOOLCHAINS_SHORT_LC = [ v["common_name"].lower() for k,v in syno_toolchains.items()]
-TOOLCHAINS_PLUS_ARM = TOOLCHAINS + [ "arm64_gcc_linux_x86_64" ]
-
-
+TOOLCHAINS_SHORT_LC = [v["common_name"].lower() for k, v in syno_toolchains.items()]
+TOOLCHAINS_PLUS_ARM = TOOLCHAINS + ["arm64_gcc_linux_x86_64"]

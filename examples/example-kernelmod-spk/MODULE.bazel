@@ -1,11 +1,17 @@
-module(name = "examples_example-kernel-mod", version = "1.0")
+module(
+    name = "examples_example-kernel-mod",
+    version = "1.0",
+)
 
 bazel_dep(name = "rules_pkg", version = "1.0.1")
-bazel_dep(name = "rules_python", version="0.35.0")  # can remain implicit in most builds
+bazel_dep(name = "rules_python", version = "0.35.0")  # can remain implicit in most builds
 bazel_dep(name = "rules_synology")
 
 # When reusing for your own project, don't use this local-override
-local_path_override(module_name = "rules_synology", path = "../..")
+local_path_override(
+    module_name = "rules_synology",
+    path = "../..",
+)
 
 http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
@@ -14,11 +20,12 @@ http_file(
     name = "tux_icon",
     sha256 = "36f75566e62856c91e6d4fbfb3722909666be43cec8530f222602cb3fa6de436",
     urls = [
-        "https://banner2.cleanpng.com/20180324/toe/kisspng-tux-racer-penguin-linux-clip-art-linux-5ab6fb0d51dbe6.0868076115219412613353.jpg"
+        "https://banner2.cleanpng.com/20180324/toe/kisspng-tux-racer-penguin-linux-clip-art-linux-5ab6fb0d51dbe6.0868076115219412613353.jpg",
     ],
 )
 
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
 http_archive(
     name = "prebuilt_denverton_kmods",
     build_file_content = """
@@ -27,7 +34,7 @@ alias(name="kernelconfig", actual=".config", visibility = ["//visibility:public"
     """,
     sha256 = "d620c87afca2ee79ff13bc21e9b0b4e6ed2f942be362478ef7304c46fdbecb49",
     urls = [
-        "https://github.com/chickenandpork/synology-kmods-netfilter-iptables/releases/download/v1.1.0/denverton-7.2.txz"
+        "https://github.com/chickenandpork/synology-kmods-netfilter-iptables/releases/download/v1.1.0/denverton-7.2.txz",
     ],
 )
 

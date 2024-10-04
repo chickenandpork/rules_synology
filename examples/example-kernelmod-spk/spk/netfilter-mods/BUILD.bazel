@@ -55,7 +55,10 @@ pkg_tar(
     ],
     extension = "tgz",
     package_dir = "/",
-    deps = [":package-mods", ":package-kconfig"],
+    deps = [
+        ":package-kconfig",
+        ":package-mods",
+    ],
 )
 
 # models:1819+ activates arch:denverton

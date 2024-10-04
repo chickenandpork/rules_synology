@@ -22,7 +22,7 @@ _STATIC_TO_GENERATOR_MAP = {
 #
 # Whenever a new item is added to dsm, models, toolchains, or arch, gen-{} will get updated on a
 #
-#   bazel run //doc:update
+#   bazel run //docs/gen:update
 
 [genquery(
     name = "gen-{0}".format(key),
@@ -42,7 +42,7 @@ _STATIC_TO_GENERATOR_MAP = {
 # dsm, models, toolchains, or arch, gen-{} changes, causing munge-{} to filter it -- just need to
 # remember to run
 #
-#   bazel run //doc:update
+#   bazel run //docs/gen:update
 
 [genrule(
     name = "munge-{0}".format(k),
@@ -61,7 +61,7 @@ sh_binary(
 # Create a test target for each _STATIC_TO_GENERATOR_MAP so that Bazel will detect if the generated
 # content for the current tree differes from the stored copy, helping to flag that we need to run:
 #
-#   bazel run //doc:update
+#   bazel run //docs/gen:update
 [
     diff_test(
         name = "check_" + k,
@@ -70,7 +70,7 @@ sh_binary(
         # this test fails, they just need to run the updater
         # Note, you need bazel-skylib version 1.1.1 or greater
         # to get the failure_message attribute
-        failure_message = "Please run:  bazel run //doc:update",
+        failure_message = "Please run:  bazel run //docs/gen:update",
         file1 = k + ".txt",
         file2 = ":munge-{0}".format(k),
     )
@@ -92,7 +92,7 @@ write_file(
         # Paths are now relative to the workspace, ie rules_synology.  This function allows us to
         # generate a runnable script that copies the output files from bazel-bin to the source
         # directories
-        "cp -fv bazel-bin/doc/munge_{0} doc/{0}.txt".format(k)
+        "cp -fv bazel-bin/docs/gen/munge_{0} docs/gen/{0}.txt".format(k)
         for k in _STATIC_TO_GENERATOR_MAP.keys()
     ],
 )

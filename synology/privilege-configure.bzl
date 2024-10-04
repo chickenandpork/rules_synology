@@ -12,15 +12,15 @@ def _privilege_config_impl(ctx):
     privilege_list = {
         "defaults": {
             "run-as": "package",  # ( package | root )
-        }
+        },
     }
 
     if ctx.attr.run_as_package or ctx.attr.run_as_root:
         priv = []
         for s in ctx.attr.run_as_package:
-            priv.append({"run-as":"package", "action": s})
+            priv.append({"run-as": "package", "action": s})
         for s in ctx.attr.run_as_root:
-            priv.append({"run-as":"root", "action": s})
+            priv.append({"run-as": "root", "action": s})
         privilege_list.update({"ctrl-script": priv})
 
     if ctx.outputs.out:

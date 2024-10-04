@@ -33,6 +33,7 @@ jobs:
           # needs to be an absolute path, not a variable; I've made it match TEST_TMPDIR above
           path: /tmp/bazel
           key: _bazel_runner
+      - run: bazel run //docs:collate_docs
       - run: bazel build //...
       - run: bazel test //...
       - name: Build / Test examples to ensure functionality
