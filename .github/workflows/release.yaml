@@ -1,0 +1,54 @@
+---
+name: Release
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      -
+        name: Clone Repo
+        uses: actions/checkout@v4
+      -
+        name: re-confirm a build
+        run: bazel run //docs:collate_docs
+
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    needs: [build]
+    steps:
+      -
+        name: Cut Github Release
+        uses: googleapis/release-please-action@v4
+        # Settings -> Actions -> General -> Workflow Permissions
+        # - select "Read repo contents", and
+        # - enable "Allow Github Actions to create and approve pull requests"
+        id: release
+        with:
+          release-type: simple
+      -
+        name: Clone Repo
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v4
+      -
+        name: Collate Docs
+        if: ${{ steps.release.outputs.release_created }}
+        run: bazel run //docs:collate_docs
+      -
+        name: Deploy docs
+        if: ${{ steps.release.outputs.release_created }}
+        uses: mhausenblas/mkdocs-deploy-gh-pages@1.26
+        # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG_FILE: mkdocs.yml
+          EXTRA_PACKAGES: build-base
+          # see https://github.com/marketplace/actions/deploy-mkdocs#example-usage
+          # REQUIREMENTS: folder/requirements.txt
