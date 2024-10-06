@@ -1,8 +1,20 @@
-# gazelle:prefix github.com/chickenandpork/rules_synology
-
 load("@gazelle//:def.bzl", "gazelle")
+load("@stardoc//stardoc:stardoc.bzl", "stardoc")
+
+exports_files(["defs.bzl"])
+
+# gazelle:prefix github.com/chickenandpork/rules_synology
 
 gazelle(
     name = "gazelle",
     prefix = "github.com/chickenandpork/rules_synology",
+)
+
+stardoc(
+    name = "docs",
+    out = "docs.md",
+    input = "defs.bzl",
+    table_of_contents_template ="@stardoc//stardoc:templates/markdown_tables/table_of_contents.vm",
+    visibility = ["//visibility:public"],
+    deps = ["//synology:docs"],
 )

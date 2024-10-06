@@ -15,7 +15,6 @@ synology_deps = module_extension(
     implementation = _impl,
 )
 
-
 def _tc_impl(_):
     """
     The extension "synology_toolchain" intends to share a generated list of toolchains to which we
@@ -26,5 +25,3 @@ def _tc_impl(_):
 synology_toolchains = module_extension(
     implementation = _tc_impl,
 )
-
-

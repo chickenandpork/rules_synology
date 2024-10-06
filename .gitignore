@@ -1,5 +1,11 @@
 bazel-*
 
+# generated docs
+docs/docs.md
+
+# Needed for ibazel
+WORKSPACE
+
 # examples dirs
 examples/*/bazel-*
 examples/*/MODULE.bazel.*

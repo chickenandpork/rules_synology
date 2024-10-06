@@ -15,22 +15,39 @@ language: en
 words:
   # Synology Architecture name
   - Denverton
-  - allanc
+  # bazel words
+  - Stardoc
   - bazel
   - bazelisk
   - bazelrc
   - bazelspk
   - buildifier
   - bzlmod
+  - ibazel
+  # Vanity
+  - allanc
   - chickenandpork
+  - floppydog
+  - looooong
+  # Other entity proper names
+  - FireHydrant
+  - ThirdParty
+  - RobertRoss
+  # Actual useful words
+  - BUILDNUM
+  - buildable
+  - configfile
   - crossbuild
   - crosstool
   - dockcross
   - helloworld
-  - ibazel
   - kernelmod
+  - maint
+  - mkdocs
   - netfilter
+  - noarch
   - proto
   - softlink
+  - softlinks
   - subdir
   - subdirs

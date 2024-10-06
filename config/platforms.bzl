@@ -1,5 +1,5 @@
 _PLATFORMS = {
-# x24
+    # x24
     "ds124": {
         "synoarch": "rtd1619b",
         "version": "7.1",
@@ -11,7 +11,7 @@ _PLATFORMS = {
         "version": "7.1.1",  # trimmed to "7.1" below: ...format(".".join(v["version"].split(".")[:2])),
     },
 
-# x23
+    # x23
     "rs2423rp+": {
         "package_arch": "v1000",
         "version": "7.1",
@@ -46,19 +46,20 @@ _PLATFORMS = {
         "package_arch": "rtd1619b",
         "version": "7.1",
     },
-    "ds223j": {  # TODO: dupe?
+    "ds223j": {
+        # TODO: dupe?
         "package_arch": "rtd1619b",
         "version": "7.1",
     },
 
-# x22
+    # x22
     "dva1622": {
         "cpu": "x86_64",
         "os": "linux",
         "synoarch": "geminilake",
         "version": "7.1.1",
     },
-# x20
+    # x20
     "ds120j": {
         "cpu": "aarch64",
         "os": "linux",
@@ -95,7 +96,7 @@ _PLATFORMS = {
         "synoarch": "geminilake",
         "version": "7.1.1",
     },
-# x19
+    # x19
     "ds119j": {
         "cpu": "aarch64",  # or are we "arm64" this week?
         "os": "linux",
@@ -110,15 +111,14 @@ _PLATFORMS = {
     },
 }
 
-PLATFORMS = { k:v for k,v in _PLATFORMS.items() if "cpu" in v and "os" in v and "synoarch" in v }
+PLATFORMS = {k: v for k, v in _PLATFORMS.items() if "cpu" in v and "os" in v and "synoarch" in v}
 
-
-MINOR_VERSIONS_WITH_DUPES = [ ".".join(p["version"].split(".")[:2]) for k,p in PLATFORMS.items() ]
-PATCH_VERSIONS_WITH_DUPES = [ p["version"] for k,p in PLATFORMS.items() ]
+MINOR_VERSIONS_WITH_DUPES = [".".join(p["version"].split(".")[:2]) for k, p in PLATFORMS.items()]
+PATCH_VERSIONS_WITH_DUPES = [p["version"] for k, p in PLATFORMS.items()]
 
 # this doesn't work: VERSIONS = list(set(VERSIONS_WITH_DUPES))
 # dedupe using conditional list addition
 MINOR_VERSIONS = []
-[ MINOR_VERSIONS.append(x) for x in MINOR_VERSIONS_WITH_DUPES if x not in MINOR_VERSIONS]
+[MINOR_VERSIONS.append(x) for x in MINOR_VERSIONS_WITH_DUPES if x not in MINOR_VERSIONS]
 PATCH_VERSIONS = []
-[ PATCH_VERSIONS.append(x) for x in PATCH_VERSIONS_WITH_DUPES if x not in PATCH_VERSIONS]
+[PATCH_VERSIONS.append(x) for x in PATCH_VERSIONS_WITH_DUPES if x not in PATCH_VERSIONS]

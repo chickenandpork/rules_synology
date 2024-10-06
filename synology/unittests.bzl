@@ -11,6 +11,7 @@ load("@bazel_skylib//rules:write_file.bzl", "write_file")
 def confirm_binary_matches_platform(binary):
     token = binary.replace(":", "_")
     token = token.replace("/", "_")
+
     # Create a template: the resulting script fast-fails if the "file" command fails; otherwise, dumps
     # it to a file.  The file is checked for the desired text, failing if not present.
     write_file(

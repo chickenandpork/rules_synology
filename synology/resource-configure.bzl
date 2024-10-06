@@ -28,7 +28,7 @@ def _resource_config_impl(ctx):
                     "lib": resource_list["usr-local-linker"]["lib"] + r[UsrLocalLinker].lib,
                 })
         else:
-          print ("WARNING: no providers generated from port_config, usr_local_linker() were found.  May be an error in resource_config(name = {},...)".format(ctx.attr.name))
+            print("WARNING: no providers generated from port_config, usr_local_linker() were found.  May be an error in resource_config(name = {},...)".format(ctx.attr.name))
 
     # appending "" element and joining results in a finishing blank line which has no effect on JSON
     # parsers but gives a blank line at end which is easier to `cat` the results when manually

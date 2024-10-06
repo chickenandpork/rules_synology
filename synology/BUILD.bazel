@@ -1,3 +1,4 @@
+load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@com_github_aignas_rules_shellcheck//:def.bzl", "shellcheck_test")
 
@@ -48,3 +49,13 @@ write_file(
     "stub_script",
     "stub_sss_script",
 ]]
+
+bzl_library(
+    name = "docs",
+    srcs = glob(["*.bzl"]),
+    #visibility = ["//doc:__pkg__"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@aspect_bazel_lib//lib:expand_template",
+    ],
+)
