@@ -39,6 +39,19 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v4
       -
+        name: Cut Size-Optimized Archive
+        env:
+          TAG: ${{ steps.release.outputs.tag_name }}
+          PREFIX: rules_synology-${{ steps.release.outputs.tag_name }}
+        if: ${{ steps.release.outputs.release_created }}
+        run: git archive --format=tar --prefix=${PREFIX}/ ${TAG} | xz -c9 ${PREFIX}.tar.xz
+      -
+        name: Upload Size-Optimized Archive
+        env:
+          TAG: ${{ steps.release.outputs.tag_name }}
+          PREFIX: rules_synology-${{ steps.release.outputs.tag_name }}
+        run: gh release upload ${TAG} ${PREFIX}.tar.xz
+      -
         name: Collate Docs
         if: ${{ steps.release.outputs.release_created }}
         run: bazel run //docs:collate_docs
