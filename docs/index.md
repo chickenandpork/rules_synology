@@ -1,5 +1,20 @@
 # Reference Documentation
 
+rules_synology is still early-days; a lot of this can still change.  In many ways, I'm still
+putting together SPKs that I can check and verify.
+
+ - Toolchains are not all there
+ - Some of the targets are a bit fine-grained yet until I can see some usage-patterns that could be
+    optimized by lumping behind some macros.
+ - Am I using `platforms` completely incorrectly?
+ - Wondering how a Transition, Aspect, or similar can build for multiple target platforms at once
+
+I do appreciate more eyes here.
+
+Please submit ideas, gaps, things I have missed, could document, could clarify (broken example
+repos are helpful).  Do connect: my contact info is in the .bcr subdir.
+
+
 ## Specific Actions
 
 * [docker_project()](docs.md#docker_project): Create services using `docker-compose` files
