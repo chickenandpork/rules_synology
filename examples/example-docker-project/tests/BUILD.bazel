@@ -1,0 +1,80 @@
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_pkg//pkg:verify_archive.bzl", "verify_archive_test")
+load("@rules_synology//:defs.bzl", "spk_component")
+
+copy_file(
+    name = "spk",
+    src = "//spk/nginx",
+    out = "spk.tar",
+)
+
+verify_archive_test(
+    name = "spk_contains_required_scripts",
+    max_size = 25,
+    must_contain = [
+        "INFO",
+        "PACKAGE_ICON_120.PNG",
+        "PACKAGE_ICON_16.PNG",
+        "PACKAGE_ICON_24.PNG",
+        "PACKAGE_ICON_256.PNG",
+        "PACKAGE_ICON_32.PNG",
+        "PACKAGE_ICON_48.PNG",
+        "PACKAGE_ICON_64.PNG",
+        "PACKAGE_ICON_72.PNG",
+        "PACKAGE_ICON_90.PNG",
+        "conf/resource",
+        "package.tgz",
+        "scripts/postinst",
+        "scripts/postuninst",
+        "scripts/postupgrade",
+        "scripts/preinst",
+        "scripts/preuninst",
+        "scripts/preupgrade",
+        "scripts/start-stop-status",
+    ],
+    target = ":spk",
+)
+
+spk_component(
+    name = "spk_payload",
+    filename = "package.tgz",
+    spk = ":spk",
+)
+
+verify_archive_test(
+    name = "spk_payload_contains_compose",
+    max_size = 25,
+    must_contain = [
+        "nginx/compose.yaml",
+    ],
+    target = ":spk_payload",
+)
+
+spk_component(
+    name = "spk_rez",
+    filename = "conf/resource",
+    spk = ":spk",
+)
+
+write_file(
+    name = "expected_rez",
+    out = "rez-expected",
+    content = [
+        json.encode_indent(
+            {"docker-project": {"projects": [{
+                "name": "nginx",
+                "path": "nginx",
+            }]}},
+            indent = "  ",
+        ),
+        "",
+    ],
+)
+
+diff_test(
+    name = "rez_check",
+    file1 = ":spk_rez",
+    file2 = ":expected_rez",
+)

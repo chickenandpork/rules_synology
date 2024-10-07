@@ -14,7 +14,7 @@ stardoc(
     name = "docs",
     out = "docs.md",
     input = "defs.bzl",
-    table_of_contents_template ="@stardoc//stardoc:templates/markdown_tables/table_of_contents.vm",
+    table_of_contents_template = "@stardoc//stardoc:templates/markdown_tables/table_of_contents.vm",
     visibility = ["//visibility:public"],
     deps = ["//synology:docs"],
 )

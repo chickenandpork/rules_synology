@@ -41,7 +41,8 @@ There is currently no method of linking to a target with a different name: the u
 that Synology doesn't offer that capability.
 
 
-Ref:
+References:
+
 * [Synology: /usr/local linker](https://help.synology.com/developer-guide/resource_acquisition/usrlocal_linker.html)
 """
 

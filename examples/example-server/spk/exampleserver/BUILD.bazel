@@ -95,7 +95,7 @@ pkg_files(
 )
 
 pkg_tar(
-    name = "spk",
+    name = "exampleserver",
     srcs = [
         ":conf",
         ":icons.group",

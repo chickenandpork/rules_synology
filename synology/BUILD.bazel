@@ -57,5 +57,7 @@ bzl_library(
     visibility = ["//visibility:public"],
     deps = [
         "@aspect_bazel_lib//lib:expand_template",
+        "@bazel_skylib//rules:copy_file",
+        "@rules_pkg//pkg:bzl_srcs",
     ],
 )

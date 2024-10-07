@@ -1,0 +1,140 @@
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_files")
+load("@rules_pkg//pkg/private/tar:tar.bzl", "SUPPORTED_TAR_COMPRESSIONS", "pkg_tar")
+load(
+    "@rules_synology//:defs.bzl",
+    "SPK_REQUIRED_SCRIPTS",
+    "docker_compose",
+    "docker_project",
+    "images",
+    "info_file",
+    "maintainer",
+    "privilege_config",
+    "protocol_file",
+    "resource_config",
+    "service_config",
+)
+
+# This is the "project" in a docker-project sense: the name of the docker-compose subdir is the
+# name of the multi-container project described in the "compose" file
+PROJECT = "nginx"
+
+# compose_component is not leaked from the BUILD.bazel, but it used to relationships here
+COMPOSE_COMPONENT = "ng_nginx"
+
+# spk_name is the name of the result -- {SPK_NAME}.spk -- which can container multiple
+# docker-projects
+SPK_NAME = "nginx"
+
+# docker_compose represents a name of a docker-compose.yaml file, of which one or more is inside a "docker-project" entry
+docker_compose(
+    name = COMPOSE_COMPONENT,
+    compose = ":dc.yaml",
+    path = PROJECT,
+    project_name = SPK_NAME,
+)
+
+docker_project(
+    name = "nginx_dockerproject",
+    projects = [":{}".format(COMPOSE_COMPONENT)],
+)
+
+info_file(
+    name = "info",
+    package_name = SPK_NAME,
+    arch_strings = ["denverton"],
+    description = "Nginx Proxy",
+    maintainer = "//maintainers:chickenandpork",
+    os_min_ver = "7.0-1",  # correct-format=[^\d+(\.\d+){1,2}(-\d+){1,2}$]
+    package_version = "1.0.0-1",
+)
+
+privilege_config(
+    name = "priv",
+    # run_as_root isn't working: Synology seems to throw a 313 or 319 error whenever I have any valid binaries in the run-as-root.  Need to optimize it over time.
+    #run_as_root= [ "postinst", "preuninst"],
+)
+
+resource_config(
+    name = "rez",
+    resources = [":nginx_dockerproject"],
+)
+
+# Create icon images; yep, the free Tux icon
+images(
+    name = "icons",
+    src = "@tux_icon//file",
+)
+
+pkg_files(
+    name = "conf",
+    srcs = [
+        ":priv",
+        ":rez",
+    ],
+    attributes = pkg_attributes(
+        mode = "0444",
+    ),
+    prefix = "conf",
+    visibility = ["//visibility:public"],
+)
+
+pkg_tar(
+    name = "package",
+    srcs = [],
+    extension = "tgz",
+    package_dir = "/",
+    deps = [":nginx_dockerproject"],
+)
+
+[copy_file(
+    name = "stub_{}".format(f),
+    src = "@rules_synology//synology:stub_script",
+    out = f,
+) for f in SPK_REQUIRED_SCRIPTS if f not in []]
+
+write_file(
+    name = "insmod_sss_script",
+    out = "start-stop-status",
+    content = [
+        "#!/bin/sh",
+        "",
+        """case "$1" in""",
+        """    start)""",
+        """        ;;""",
+        """    stop)""",
+        """        ;;""",
+        """    status)""",
+        """        ;;""",
+        """esac""",
+        "",
+        "exit 0",
+        "",  # force a newline after the script to simplify diff checks
+    ],
+    is_executable = True,
+    #visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "scripts",
+    srcs = [":insmod_sss_script"] + [":stub_{}".format(f) for f in SPK_REQUIRED_SCRIPTS if f not in []],
+    attributes = pkg_attributes(
+        mode = "0755",
+    ),
+    prefix = "scripts",
+)
+
+pkg_tar(
+    name = SPK_NAME,
+    srcs = [
+        ":conf",
+        ":icons.group",
+        ":info",
+        ":package",
+        ":scripts",
+    ],
+    extension = "tar",
+    package_file_name = "{}.spk".format(SPK_NAME),
+    visibility = ["//visibility:public"],
+)
