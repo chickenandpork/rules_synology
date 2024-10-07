@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.2](https://github.com/chickenandpork/rules_synology/compare/v0.0.1...v0.0.2) (2024-10-07)
+
+
+### Features
+
+* example docker-project pkg ([#127](https://github.com/chickenandpork/rules_synology/issues/127)) ([8852059](https://github.com/chickenandpork/rules_synology/commit/88520592b96fb6ec1fd1c6b4bd86a7a2a02d87ff))
+* release to BCR ([#125](https://github.com/chickenandpork/rules_synology/issues/125)) ([93fc6b8](https://github.com/chickenandpork/rules_synology/commit/93fc6b806d2af7e50e067ee106327e8110dd2e89))
+
 ## 0.0.1 (2024-10-06)
 
 
