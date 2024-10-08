@@ -1,4 +1,4 @@
-load("@rules_synology//toolchains:deps.bzl", TOOLCHAINS = "TOOLCHAINS_SHORT_LC")
+load("@rules_synology//toolchains:deps.bzl", "PACKAGE_ARCHES", TOOLCHAINS = "TOOLCHAINS_SHORT_LC")
 
 # This BUILD file is simply a namespace separation so that we can show "//arch:denverton" as
 # something that makes sense to more Synology people than bog-standard Bazel people.
@@ -24,32 +24,6 @@ config_setting(
     name = "arm",
     values = {"cpu": "arm"},
 )
-
-# TODO: Move to DRY on config/
-# https://kb.synology.com/en-global/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have
-PACKAGE_ARCHES = {
-    "denverton": {
-        "cpu": "x86",
-        "desc": "Intel Atom C3538 (x86 64bit)",
-    },
-    "geminilake": {
-        "alias": "GLK",
-        "cpu": "x86",
-        "desc": "Intel Celeron J4125 (x86 64bit)",
-    },
-    "r1000": {
-        "cpu": "x86",
-        "desc": "AMD Ryzen R1xxx (x86-64)",
-    },
-    "rtd1619b": {
-        "cpu": "arm64",
-        "desc": "Realtek RTD1619B (armv8-A)",
-    },
-    "v1000": {
-        "cpu": "x86",
-        "desc": "AMD Ryzen V1xxxB (x86-64)",
-    },
-}
 
 constraint_setting(
     # effectively an ENUM TYPE
