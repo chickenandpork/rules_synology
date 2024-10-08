@@ -15,16 +15,6 @@ bazel_dep(name = "stardoc", version = "0.7.1")
 
 bazel_dep(name = "buildifier_prebuilt", version = "7.3.1", dev_dependency = True)
 
-http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
-
-http_file(
-    name = "screaming_goat",
-    sha256 = "030c1aadeaf9b7b01b27d4966a64173fbfe2e0eea2ec3577543fb8838c3013f0",
-    urls = [
-        "https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/816/2019/01/22193028/Screaming-Goat-832-832x476.jpg",
-    ],
-)
-
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
 
 #Download toolchain for this version for both host and some platform targets (maybe the right ones)

@@ -43,11 +43,13 @@ words:
   - crossbuild
   - crosstool
   - dockcross
+  - hardlinks
   - helloworld
   - golines
   - kernelmod
   - maint
   - mkdocs
+  - mktemp
   - netfilter
   - noarch
   - proto
@@ -55,4 +57,5 @@ words:
   - softlinks
   - subdir
   - subdirs
+  - tmpfs
   - varargs
