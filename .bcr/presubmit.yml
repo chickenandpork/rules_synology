@@ -3,7 +3,8 @@
 bcr_test_module:
   module_path: "examples/cross-helloworld-no-go"
   matrix:
-    platform: ["ubuntu2004", "ubuntu2204"]
+    # ubuntu2004: the cross-env doesn't seem to work there
+    platform: ["ubuntu2204"]
     bazel: [7.x]
   tasks:
     test_linux:
