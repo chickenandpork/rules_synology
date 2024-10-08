@@ -1,0 +1,12 @@
+# This adds additional information to `bazel query`, for example:
+# "foo_library rule //foo:bar" instead of "//foo:bar"
+query --output=label_kind
+
+# Will write to STDOUT the results of a test failure when they occur
+# https://docs.bazel.build/versions/master/command-line-reference.html#flag--test_output
+test --test_output=errors
+test --test_summary=detailed
+
+common --platforms=@rules_synology//models:ds1819+  --incompatible_enable_cc_toolchain_resolution
+
+
