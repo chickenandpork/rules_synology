@@ -16,6 +16,7 @@ file-generation, image-manipulation, etc.  Rather than try to stuff one-off case
 rules_pkg, let's define them here and help keep things interoperable.
 
 The short-term goal includes a basic build command such as:
+
 ```
 bazel build //... --platforms=@rules_synology/models:ds918
 ```
@@ -34,6 +35,7 @@ Simplest usage is a goal; currently, the recommended usage, as confirmed by the
 `examples/cross-helloworld`, looks like:
 
 (`MODULE.bazel`)
+
 ```
 bazel_dep(name = "rules_synology", version = "0.0.1")
 
@@ -50,7 +52,6 @@ bazel build --incompatible_enable_cc_toolchain_resolution --platforms=@rules_syn
 ...this it's down to creating a SPK.  At this stage, the easiest method forward is to look at the
 examples in the `examples` directory.
 
-
 ## Testing
 
 In order to ensure that the crosstool selection still works despite whatever changes, I've cut a
@@ -61,14 +62,13 @@ considered and ultimately chosen.
 bash -x  examples/cross-helloworld/confirm-cross-selection.bash
 ```
 
-
-
 ## References:
- - https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_NAS_Server_3rd_Party_Apps_Integration_Guide.pdf
- - https://global.download.synology.com/download/Document/Software/DeveloperGuide/Package/SSOServer/All/enu/Synology_SSO_API_Guide.pdf
- - https://global.download.synology.com/download/Document/Software/DeveloperGuide/Os/DSM/All/enu/DSM_Developer_Guide_7_enu.pdf
+
+- https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/All/enu/Synology_NAS_Server_3rd_Party_Apps_Integration_Guide.pdf
+- https://global.download.synology.com/download/Document/Software/DeveloperGuide/Package/SSOServer/All/enu/Synology_SSO_API_Guide.pdf
+- https://global.download.synology.com/download/Document/Software/DeveloperGuide/Os/DSM/All/enu/DSM_Developer_Guide_7_enu.pdf
 
 ### Older
 
- - https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/6.0/enu/DSM_Developer_Guide_6_0.pdf
- - https://help.synology.com/developer-guide/examples/compile_tmux.html
+- https://global.download.synology.com/download/Document/Software/DeveloperGuide/Firmware/DSM/6.0/enu/DSM_Developer_Guide_6_0.pdf
+- https://help.synology.com/developer-guide/examples/compile_tmux.html

@@ -14,6 +14,7 @@ The current build command is (where cross toolchain is marked up/available, ie l
 ## Updated
 
 A slight update reduces the toil in testing on a linux/x86 container from this:
+
 ```
 build --platforms=@rules_synology//models:ds1819+  --incompatible_enable_cc_toolchain_resolution --toolchain_resolution_debug=.*
 ```

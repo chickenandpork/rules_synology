@@ -4,5 +4,5 @@ I find that this image closely approximates the build images on GitHub (at least
 
 ## Usage
 
-1. docker build -t ubuntu-x86 - < ~/src/rules_synology/tools/ubuntu-22.04/Dockerfile
-2. docker run --rm -it -v ~/src/rules_synology:/rules_synology -w /rules_synology/examples/cross-helloworld ubuntu-x86:latest bazel test //...
+1. docker build -t ubuntu-x86 - \< ~/src/rules_synology/tools/ubuntu-22.04/Dockerfile
+1. docker run --rm -it -v ~/src/rules_synology:/rules_synology -w /rules_synology/examples/cross-helloworld ubuntu-x86:latest bazel test //...
