@@ -5,7 +5,6 @@ Checking the WORKSPACE for each, there should be simply a change from using the 
 local_repository to a reference by version, URL, checksum to pull the rules from the canonical
 releases.
 
-
 ## Currently
 
 The current build command is (where cross toolchain is marked up/available, ie linux):
@@ -47,4 +46,3 @@ Notice that although `--platforms=@rules_synology//models:ds1819+ --incompatible
 is in the `.bazelrc`, I had to specify it on the command line as well. THere might be something
 eclipsing the config or the RC file (--announce_rc still reports it, but moving "common" to "test"
 looked promising)
-

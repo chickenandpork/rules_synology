@@ -16,4 +16,3 @@ minimum-ship.
 The current build command is:
 
 (cd examples/example-docker-project && bazel build //... )
-
