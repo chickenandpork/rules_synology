@@ -14,13 +14,23 @@ constraint_setting(
 # to check available models: bazel query 'kind("alias", @rules_synology//models/...)'
 [alias(
     # like "ds1819+-7.1"
-    name = "{}-{}".format(k, ".".join(".".join(v["version"].split("-")[:1]).split(".")[:2])),
-    actual = "//platform:{}-{}".format(v["synoarch"], ".".join(".".join(v["version"].split("-")[:1]).split(".")[:2])),
+    name = "{}-{}".format(
+        k,
+        ".".join(".".join(v["version"].split("-")[:1]).split(".")[:2]),
+    ),
+    actual = "//platform:{}-{}".format(
+        v["synoarch"],
+        ".".join(".".join(v["version"].split("-")[:1]).split(".")[:2]),
+    ),
 ) for k, v in PLATFORMS.items()]
 
 filegroup(
     name = "all_models",
     srcs = [
-        "{}-{}".format(k, ".".join(".".join(v["version"].split("-")[:1]).split(".")[:2])) for k, v in PLATFORMS.items()
+        "{}-{}".format(
+            k,
+            ".".join(".".join(v["version"].split("-")[:1]).split(".")[:2]),
+        )
+        for k, v in PLATFORMS.items()
     ],
 )

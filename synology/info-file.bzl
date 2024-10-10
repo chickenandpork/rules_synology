@@ -81,7 +81,7 @@ Ref:
 * [Synology: INFO](https://help.synology.com/developer-guide/synology_package/INFO.html)
 """
 
-def valid_version(version):
+def valid_version(version, _print):
     """Pre-check that the given version is valid for Synology
 
     Despite how standards are better if we all adhere to them -- pick one, don't make a new one --
@@ -101,22 +101,21 @@ def valid_version(version):
     dash = version.split("-")
 
     if len(dash) < 1 or len(dash) > 2:
-        print("format of version {} should match {}, one or two parts separated by hyphens, you have {} blocks".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dash)))
+        _print("format of version {} should match {}, one or two parts separated by hyphens, you have {} blocks".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dash)))
         return False
     if len(dash) == 2 and not dash[1].isdigit():
-        print("format of version {} should match {}, and {} should be numbers".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", dash[1]))
+        _print("format of version {} should match {}, and {} should be numbers".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", dash[1]))
         return False
 
     dots = dash[0].split(".", 7)
     if len(dots) < 1 or len(dots) > 5:
-        print("format of version {} should match {}, 1-6 [0-9]+ between dots.  you have {} sets of numbers".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dots)))
+        _print("format of version {} should match {} (ie 1-5 dot-separated number sequences).  you have {} sets of numbers".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dots)))
         return False
 
     for d in dots:
         if not d.isdigit():
-            print("format of version {} should match {} (ie numbers sep by dots), your maj/min/patch block is non-digit {}".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", d))
+            _print("format of version {} should match {} (ie numbers sep by dots), your maj/min/patch block is non-digit {}".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", d))
             return False
-
     return True
 
 InfoFile = provider(fields = {
@@ -130,6 +129,9 @@ InfoFile = provider(fields = {
     "ctl_stop": "Boolean: is there a start-stop-status script to allow the SPK to start or stop? (writes both startable and ctl_stop)",
     "thirdparty": "Boolean: is this SPK built outside of Synology corporation? (typically yes)",
 })
+
+def noprint(message):
+    pass
 
 def info_file_impl(ctx):
     # Build a manifest per some fairly predictable ordering: key:value pairs, but by wrapping as
@@ -155,6 +157,11 @@ def info_file_impl(ctx):
     #
     # I strongly envision most use of this function will be indirectly through other rules that
     # simplify the build of cmake, autotools, go-specific, react front-ends, etc.
+
+    _failure_print = {"fail": fail, "message": print, "ignored": noprint}[ctx.attr.validation_softfail]
+
+    if not valid_version(ctx.attr.package_version, _print = _failure_print):  # correct-format=[^\\d+(\\.\\d+){0,5}(-\\d+)?$]
+        _failure_print("INFO version {} needs to be of format {} (ie 1.2.3-17 or 2.3.4.5.6-1234)".format(ctx.attr.package_version, "^\\d+(\\.\\d+){0,5}(-\\d+)?$"))
 
     if ctx.outputs.out:
         outfile = ctx.outputs.out
@@ -205,15 +212,23 @@ info_file = rule(
             mandatory = True,
         ),
         "package_version": attr.string(
-            doc = "Version of the package; although I recommend semver-ish X.Y.Z-BUILDNUM, Synology describes as being any string of numbers separated by periods, dash, or underscore",
+            doc = "Version of the package; although I recommend semver-ish X.Y.Z-BUILDNUM, Synology " +
+                  "describes as being any string of numbers separated by periods, dash, or " +
+                  "underscore, but will later fail anything outside the pattern of " +
+                  "(0-9]+\\.){1-5}[-[0-9]+] (essentially 1-5 dot-separated digits with an optional " +
+                  "hyphen and number of up to 5 digits: 1.2.3.4.5-56789)",
             mandatory = True,
         ),
         "os_min_ver": attr.string(
-            doc = """Earliest version of DSM that can install the package; ie "DSM 7.1.1-42962".  There seems to be no handling of the extended hard-to-parse suffixes used by Synology such as "DSM 7.1.1-42962 Update 6".""",
+            doc = """Earliest version of DSM that can install the package; ie "DSM 7.1.1-42962".  " +
+                  "There seems to be no handling of the extended hard-to-parse suffixes used by " +
+                  "Synology such as "DSM 7.1.1-42962 Update 6".""",
             mandatory = True,
         ),
         "description": attr.string(
-            doc = "Brief description of the package: copy-paste from the upstream if permissible.  Although this is permitted be a looooong single-line string, it does display on the UIs to install a package, so brevity is still encouraged.",
+            doc = "Brief description of the package: copy-paste from the upstream if permissible.  " +
+                  "Although this is permitted be a looooong single-line string, it does display on " +
+                  "the UIs to install a package, so brevity is still encouraged.",
             mandatory = True,
         ),
         "maintainer": attr.label(
@@ -232,8 +247,17 @@ info_file = rule(
         ),
         "ctl_stop": attr.bool(
             default = True,
-            doc = "Indicates (boolean) whether there is a start-stop-script and the SPK can be started or stopped (previously: startable).",
+            doc = "Indicates (boolean) whether there is a start-stop-script and the SPK can be " +
+                  "started or stopped (previously: startable).",
             mandatory = False,
+        ),
+        "validation_softfail": attr.string(
+            default = "fail",
+            doc = "Redirects fatal validation failures into either debug messages or " +
+                  "ignored/unprinted in case of inaccuracy in any validation step, or " +
+                  "workarounds, or unittesting.  Choice of ['fail', 'message', 'ignored'].  " +
+                  "This should likely remain the default value.",
+            values = ["fail", "ignored", "message"],
         ),
     },
 )

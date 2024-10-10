@@ -1,6 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
-load("//toolchains:toolchains.bzl", _TOOLCHAINS= "TOOLCHAINS")
+load("//toolchains:toolchains.bzl", _TOOLCHAINS = "TOOLCHAINS")
 
 # https://kb.synology.com/en-global/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have
 PACKAGE_ARCHES = {v["package_arch"]: {"cpu": v["cpu"], "desc": v["arch_desc"]} for k, v in _TOOLCHAINS.items()}
