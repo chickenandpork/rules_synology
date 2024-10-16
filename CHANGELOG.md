@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.3](https://github.com/chickenandpork/rules_synology/compare/v0.0.2...v0.0.3) (2024-10-16)
+
+
+### Bug Fixes
+
+* BCR presubmit: no cross yet ([#135](https://github.com/chickenandpork/rules_synology/issues/135)) ([7e40b04](https://github.com/chickenandpork/rules_synology/commit/7e40b04ed9e2e7d28f9299007d5b435d59e9f32e))
+* correct image names for presubmit phase in BCR ([#130](https://github.com/chickenandpork/rules_synology/issues/130)) ([2467802](https://github.com/chickenandpork/rules_synology/commit/2467802a1b812918b5a48eb637b13f2ad911834b))
+* upload additional archive for BCR; optimize for size ([#134](https://github.com/chickenandpork/rules_synology/issues/134)) ([0967ca6](https://github.com/chickenandpork/rules_synology/commit/0967ca62deed0cb25d45fd19545ae735e356ec44))
+
 ## [0.0.2](https://github.com/chickenandpork/rules_synology/compare/v0.0.1...v0.0.2) (2024-10-07)
 
 
