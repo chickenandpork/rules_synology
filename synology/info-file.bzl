@@ -52,6 +52,8 @@ os_min_ver="7.0-1"
 description="Provides the FloppyDog set of CLI tools for Great Justice"
 maintainer="Allan Clark"
 arch="noarch"
+ctl_stop="yes"
+startable="yes"
 thirdparty="yes"
 ```
 
@@ -95,25 +97,24 @@ def valid_version(version):
     4. confirm that the decimal-split has 6 or fewer items; fail otherwise
     5. confirmthat each of the results of the decimal-split are all just numbers
     """
-    print("Pondering a version {}".format(version))
 
     dash = version.split("-")
 
     if len(dash) < 1 or len(dash) > 2:
-        print("format of {} should match {}, one or two parts separated by hyphens, you have {} blocks".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dash)))
+        print("format of version {} should match {}, one or two parts separated by hyphens, you have {} blocks".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dash)))
         return False
     if len(dash) == 2 and not dash[1].isdigit():
-        print("format of {} in {} should match {}, and {} should be numbers".format(dash[1], version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", dash[1]))
+        print("format of version {} should match {}, and {} should be numbers".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", dash[1]))
         return False
 
     dots = dash[0].split(".", 7)
     if len(dots) < 1 or len(dots) > 5:
-        print("format of {} should match {}, 1-6 [0-9]+ between dots.  you have {} sets of numbers".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dots)))
+        print("format of version {} should match {}, 1-6 [0-9]+ between dots.  you have {} sets of numbers".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dots)))
         return False
 
     for d in dots:
         if not d.isdigit():
-            print("format of {} should match {} (ie numbers sep by dots), your maj/min/patch block is non-digit {}".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", d))
+            print("format of version {} should match {} (ie numbers sep by dots), your maj/min/patch block is non-digit {}".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", d))
             return False
 
     return True
@@ -126,6 +127,7 @@ InfoFile = provider(fields = {
     "maintainer": "The name of the maintainer: we draw this from a Maintainer provider from the 'maintainer()' target",
     "maintainer_url": "The email address of the maintainer: we draw this from a Maintainer provider from the 'maintainer()' target",
     "arch": "Spec-separated text indicating comaptible architectures for this SPK: 'noarch x86_64'",
+    "ctl_stop": "Boolean: is there a start-stop-status script to allow the SPK to start or stop? (writes both startable and ctl_stop)",
     "thirdparty": "Boolean: is this SPK built outside of Synology corporation? (typically yes)",
 })
 
@@ -166,6 +168,8 @@ def info_file_impl(ctx):
         'description="{}"'.format(ctx.attr.description),
         'maintainer="{}"'.format(ctx.attr.maintainer[Maintainer].name),
         'arch="{}"'.format(" ".join(ctx.attr.arch_strings)),
+        'ctl_stop="{}"'.format("yes" if ctx.attr.ctl_stop else "no"),
+        'startable="{}"'.format("yes" if ctx.attr.ctl_stop else "no"),  # see also ctl_stop
         'thirdparty="yes"',
     ]
 
@@ -187,6 +191,7 @@ def info_file_impl(ctx):
             maintainer = ctx.attr.maintainer[Maintainer].name,
             maintainer_url = ctx.attr.maintainer[Maintainer].url,
             arch = " ".join(ctx.attr.arch_strings),
+            ctl_stop = "yes" if ctx.attr.ctl_stop else "no",
             thirdparty = "yes",
         ),
     ]
@@ -223,6 +228,11 @@ info_file = rule(
         ),
         "out": attr.output(
             doc = "Name of the Info file, if INFO is not preferred (changing this is not recommended).",
+            mandatory = False,
+        ),
+        "ctl_stop": attr.bool(
+            default = True,
+            doc = "Indicates (boolean) whether there is a start-stop-script and the SPK can be started or stopped (previously: startable).",
             mandatory = False,
         ),
     },
