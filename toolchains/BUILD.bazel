@@ -48,6 +48,7 @@ toolchain(
     ],
     toolchain = "@denverton-gcc850_glibc226_x86_64-GPL//:cc_toolchain",
     toolchain_type = "@rules_cc//cc:toolchain_type",
+    visibility = ["//visibility:public"],
 )
 
 toolchain(
