@@ -1,0 +1,30 @@
+load("@rules_synology//toolchains:toolchains.bzl", "TOOLCHAINS")
+
+# This BUILD file is simply a namespace separation so that we can show "//platform:denverton-7.1"
+# as something that makes sense to more Synology people than bog-standard Bazel people.  Keep in
+# mind: there's also a //arch:denverton that may confuse things.
+#
+# All changes are made in the toolchains in the toolchains/toolchains.bzl and accessed via
+# load statement above
+#
+# DO NOT create new targets in the directory; it's a namespace only
+#
+# to check current values:
+# bazel query --output=build //platform/...
+#    @rules_synology//platform:armada37xx-7.1
+#    @rules_synology//platform:denverton-7.1
+#    @rules_synology//platform:geminilake-7.1
+
+# to check available platforms: bazel query 'kind("platform", @rules_synology//platform/...)'
+# to check generated objects: bazel query --output=build //platform/...
+[platform(
+    # like "denverton-7.1"
+    name = "{}-{}".format(v["package_arch"], ".".join(".".join(v["dsm_version"].split("-")[:1]).split(".")[:2])),
+    constraint_values = [
+        "@rules_synology//arch:{}".format(v["package_arch"]),
+        "@rules_synology//dsm:{}".format( ".".join(".".join(v["dsm_version"].split("-")[:1]).split(".")[:2])),
+        "@platforms//cpu:{}".format(v["cpu"]),  # target CPU, not build CPU
+        "@platforms//os:linux",  # target OS, not build OS
+    ],
+    visibility = ["//visibility:public"],
+) for k, v in TOOLCHAINS.items()]

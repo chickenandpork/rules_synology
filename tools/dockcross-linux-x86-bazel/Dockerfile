@@ -4,6 +4,6 @@ RUN mkdir -p /usr/bin && curl -Lo /usr/bin/bazel https://github.com/bazelbuild/b
 RUN mkdir -p /usr/bin && curl -Lo /usr/bin/ibazel https://github.com/bazelbuild/bazel-watcher/releases/download/v0.23.7/ibazel_linux_amd64 && chmod +x /usr/bin/ibazel
 RUN echo 'build --incompatible_enable_cc_toolchain_resolution --toolchain_resolution_debug=.*' > ~root/.bazelrc
 #common --repo_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
-#RUN echo 'build --platforms=@rules_synology//models:ds1819+'  >> ~root/.bazelrc
-RUN echo 'build --platforms=@rules_synology//models:ds224+'  >> ~root/.bazelrc
+RUN echo 'build --platforms=@rules_synology//models:ds1819+-7.1'  >> ~root/.bazelrc
+#RUN echo 'build --platforms=@rules_synology//models:ds224+-7.1'  >> ~root/.bazelrc
 # --experimental_enable_docker_sandbox --spawn_strategy=docker,sandboxed

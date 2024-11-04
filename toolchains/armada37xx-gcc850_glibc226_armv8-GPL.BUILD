@@ -32,7 +32,7 @@ cc_toolchain(
 
 cc_toolchain_config(
     name = "_cc_toolchain_config",
-    cpu = "armv8",
+    cpu = "arm64",  # "armv8",
     compiler = "gcc",
     toolchain_identifier = "armada37xx-gcc850_glibc226_armv8-GPL",
     host_system_name = "local",

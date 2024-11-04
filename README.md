@@ -18,7 +18,7 @@ rules_pkg, let's define them here and help keep things interoperable.
 The short-term goal includes a basic build command such as:
 
 ```
-bazel build //... --platforms=@rules_synology/models:ds918
+bazel build //... --platforms=@rules_synology/models:ds918-7.1
 ```
 
 The longer-term objective would be to allow as minimal initial config to define a package,
@@ -46,7 +46,7 @@ register_toolchains("@rules_synology//toolchains:all")
 In order to use this, you'll need to activate a specific platform at build (or in a `.bazelrc`):
 
 ```
-bazel build --incompatible_enable_cc_toolchain_resolution --platforms=@rules_synology//models:ds1819+
+bazel build --incompatible_enable_cc_toolchain_resolution --platforms=@rules_synology//models:ds1819+-7.1
 ```
 
 ...this it's down to creating a SPK.  At this stage, the easiest method forward is to look at the

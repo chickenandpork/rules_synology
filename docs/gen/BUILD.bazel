@@ -1,5 +1,7 @@
 load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_synology//config:platforms.bzl", "PLATFORMS")
+
 
 #
 # bazel query 'kind("constraint_value", deps(//arch/...))'
@@ -12,7 +14,7 @@ load("@bazel_skylib//rules:write_file.bzl", "write_file")
 _STATIC_TO_GENERATOR_MAP = {
     "arch": "constraint_value",
     "dsm": "constraint_value",
-    "models": "platform",
+    "models": "alias",
     "toolchains": "toolchain",  # still has additional result: the toolchain_type is added
     # ...
 }
@@ -28,7 +30,24 @@ _STATIC_TO_GENERATOR_MAP = {
     name = "gen-{0}".format(key),
     expression = """kind("{1}", deps(//{0}:all_{0}))""".format(key, kind),
     scope = ["//{0}:all_{0}".format(key)],
-) for key, kind in _STATIC_TO_GENERATOR_MAP.items()]
+) for key, kind in _STATIC_TO_GENERATOR_MAP.items() if key != 'models']
+
+
+# a gen-{} for the models from the PLATFORMS list (PLATFORMS from config/platforms.bzl).  Note that
+# TOOLCHAINS is drawn from the //toolchains:toolchains.bzl and is similar but refers to the
+# syno_arch (ie denverton) and DSM release: denverton-7.1
+write_file(
+    name = "gen-models-with-versions",
+    out = "gen-models-with-versions.txt",
+    content = [ "{}-{}".format(k, ".".join(".".join(v["version"].split("-")[:1]).split(".")[:2])) for k, v in PLATFORMS.items()]
+)
+
+genrule(
+    name="gen-models",
+    srcs = [ ":gen-models-with-versions" ],
+    outs = [ "gen-models.txt" ],
+    cmd = "sed -e 's/-.*$$//g' $< | sort -u >$@",
+)
 
 # One munge-{} rule for each of the STATIC_TO_GENERATOR_MAP to convert the file from:
 #   //arch:armada37xx
