@@ -79,6 +79,56 @@ Ref:
 * [Synology: INFO](https://help.synology.com/developer-guide/synology_package/INFO.html)
 """
 
+def valid_version(version):
+    """Pre-check that the given version is valid for Synology
+
+    Despite how standards are better if we all adhere to them -- pick one, don't make a new one --
+    I'm not checking due to any bias about formats: *SYNOLOGY* accepts only a specific format here.
+
+    synopkg will report an error if the version in an INFO file does not match the correct
+    format=[^\\d+(\\.\\d+){0,5}(-\\d+)?$] -- problem is, Bazel not supporting regex, the steps to check
+    this are more complex:
+
+    1. split across the "-": confirm either 1 or two results; fail otherwise
+    2. confirm that the second item of the "-" split is all numbers; fail otherwise
+    3. split the first  item of the "-" split by decimal
+    4. confirm that the decimal-split has 6 or fewer items; fail otherwise
+    5. confirmthat each of the results of the decimal-split are all just numbers
+    """
+    print("Pondering a version {}".format(version))
+
+    dash = version.split("-")
+
+    if len(dash) < 1 or len(dash) > 2:
+        print("format of {} should match {}, one or two parts separated by hyphens, you have {} blocks".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dash)))
+        return False
+    if len(dash) == 2 and not dash[1].isdigit():
+        print("format of {} in {} should match {}, and {} should be numbers".format(dash[1], version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", dash[1]))
+        return False
+
+    dots = dash[0].split(".", 7)
+    if len(dots) < 1 or len(dots) > 5:
+        print("format of {} should match {}, 1-6 [0-9]+ between dots.  you have {} sets of numbers".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", len(dots)))
+        return False
+
+    for d in dots:
+        if not d.isdigit():
+            print("format of {} should match {} (ie numbers sep by dots), your maj/min/patch block is non-digit {}".format(version, "[^\\d+(\\.\\d+){0,5}(-\\d+)?$]", d))
+            return False
+
+    return True
+
+InfoFile = provider(fields = {
+    "package": "A unique name for the package: no namespacing,might clash with other definitions",
+    "version": "Package Version: a dotted-integer version with an optional hyphenated suffice number: 4.2.4-2668",
+    "os_min_ver": "Minimum DSM version that can install this package: a string without clear constraints: 'DSM 7.1.1-42962'",
+    "description": "A brief description of the Package: it may be multiline, but should be brief and concise",
+    "maintainer": "The name of the maintainer: we draw this from a Maintainer provider from the 'maintainer()' target",
+    "maintainer_url": "The email address of the maintainer: we draw this from a Maintainer provider from the 'maintainer()' target",
+    "arch": "Spec-separated text indicating comaptible architectures for this SPK: 'noarch x86_64'",
+    "thirdparty": "Boolean: is this SPK built outside of Synology corporation? (typically yes)",
+})
+
 def info_file_impl(ctx):
     # Build a manifest per some fairly predictable ordering: key:value pairs, but by wrapping as
     # parameters, we have the option of generating or deriving values.
@@ -127,7 +177,19 @@ def info_file_impl(ctx):
 
     ctx.actions.write(outfile, "\n".join(content), is_executable = False)
 
-    return [DefaultInfo(files = depset([outfile]))]
+    return [
+        DefaultInfo(files = depset([outfile])),
+        InfoFile(
+            package = ctx.attr.package_name,
+            version = ctx.attr.package_version,
+            os_min_ver = ctx.attr.os_min_ver,
+            description = ctx.attr.description,
+            maintainer = ctx.attr.maintainer[Maintainer].name,
+            maintainer_url = ctx.attr.maintainer[Maintainer].url,
+            arch = " ".join(ctx.attr.arch_strings),
+            thirdparty = "yes",
+        ),
+    ]
 
 info_file = rule(
     doc = doc,
