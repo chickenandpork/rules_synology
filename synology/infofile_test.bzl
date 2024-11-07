@@ -1,5 +1,5 @@
-load("@bazel_skylib//lib:unittest.bzl", "asserts", "analysistest")
-load("//synology:info-file.bzl", "info_file", "InfoFile","valid_version")
+load("@bazel_skylib//lib:unittest.bzl", "analysistest", "asserts")
+load("//synology:info-file.bzl", "InfoFile", "info_file", "valid_version")
 load("//synology:maintainer.bzl", "maintainer")
 
 # ==== Check the InfoFile provider contents ====
@@ -58,7 +58,7 @@ def _test_info_file_contents():
         package_name = "mock_package",
         package_version = v,
         tags = ["manual"],
-    ) for k,v in pass_versions.items()]
+    ) for k, v in pass_versions.items()]
 
     [info_file(
         name = "info_file_contents_{}".format(k),
@@ -69,12 +69,11 @@ def _test_info_file_contents():
         package_name = "mock_package",
         package_version = v,
         tags = ["manual"],
-    ) for k,v in fail_versions.items()]
+    ) for k, v in fail_versions.items()]
 
     # Testing rule.
     [info_file_version_pass_test(name = "info_file_version_{}_test".format(k), target_under_test = ":info_file_contents_{}".format(k)) for k in pass_versions.keys()]
     [info_file_version_fail_test(name = "info_file_version_{}_test".format(k), target_under_test = ":info_file_contents_{}".format(k)) for k in fail_versions.keys()]
-
 
 def syno_test_suite(name):
     # call all tests which depend on an instance of the rule under test
@@ -84,10 +83,10 @@ def syno_test_suite(name):
         name = name,
         tests = [
             # Testing rules inside _test_info_file_contents()
-            ":info_file_version_{}_test".format(k) for k in pass_versions.keys()
+            ":info_file_version_{}_test".format(k)
+            for k in pass_versions.keys()
         ] + [
-            ":info_file_version_{}_test".format(k) for k in fail_versions.keys()
+            ":info_file_version_{}_test".format(k)
+            for k in fail_versions.keys()
         ],
     )
-
-
