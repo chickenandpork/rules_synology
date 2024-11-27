@@ -4,8 +4,8 @@
 
 """
 
-load("@rules_synology//toolchains:deps.bzl", _synology_deps = "deps", _toolchains = "TOOLCHAINS")
-load("@rules_synology//toolchains/bazelisk:deps.bzl", _bazelisk_deps = "deps")
+load("//toolchains:deps.bzl", _synology_deps = "deps", _toolchains = "TOOLCHAINS")
+load("//toolchains/bazelisk:deps.bzl", _bazelisk_deps = "deps")
 
 def _impl(_):
     _synology_deps()

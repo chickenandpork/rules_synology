@@ -1,6 +1,6 @@
 load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("@rules_synology//:defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
+load("//:defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
 
 info_file(
     name = "info",

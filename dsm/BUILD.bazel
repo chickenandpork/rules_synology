@@ -1,4 +1,4 @@
-load("@rules_synology//config:platforms.bzl", VERSIONS = "MINOR_VERSIONS")
+load("//config:platforms.bzl", VERSIONS = "MINOR_VERSIONS")
 
 constraint_setting(
     name = "dsm_rel_majmin",

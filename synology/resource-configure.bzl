@@ -4,9 +4,9 @@
 # short-term.  If you don't have time or feel uncomfortable submitting a PR, please submit a
 # sanitized test-case so that a unittest can be built to represent what you need to be unblocked.
 
-load("@rules_synology//synology:docker-project.bzl", "DockerProject")
-load("@rules_synology//synology:port-service-configure.bzl", "PortConfigInfo")
-load("@rules_synology//synology:usr-local-linker.bzl", "UsrLocalLinker")
+load("//synology:docker-project.bzl", "DockerProject")
+load("//synology:port-service-configure.bzl", "PortConfigInfo")
+load("//synology:usr-local-linker.bzl", "UsrLocalLinker")
 
 def _resource_config_impl(ctx):
     resource_list = {}

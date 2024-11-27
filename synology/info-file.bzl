@@ -1,6 +1,6 @@
 # Formats guided by https://global.download.synology.com/download/Document/Software/DeveloperGuide/Os/DSM/All/enu/DSM_Developer_Guide_7_enu.pdf
 
-load("@rules_synology//synology:maintainer.bzl", "Maintainer")
+load("//synology:maintainer.bzl", "Maintainer")
 
 doc = """## Create an INFO file
 
