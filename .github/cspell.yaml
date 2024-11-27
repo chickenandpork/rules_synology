@@ -13,7 +13,8 @@ language: en
 
 # words - list of words to be always considered correct: an Allowlist per-se
 words:
-  # Synology Architecture name
+  # Synology terms and Architecture name
+  - startable
   - Denverton
   # bazel words
   - Stardoc
@@ -32,6 +33,7 @@ words:
   - floppydog
   - looooong
   # Other entity proper names
+  - cryptobot
   - FireHydrant
   - ThirdParty
   - RobertRoss
