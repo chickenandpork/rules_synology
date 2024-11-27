@@ -22,21 +22,23 @@ jobs:
        group: ${{ github.ref }}-${{ github.workflow }}-doc
     runs-on: ubuntu-latest
     steps:
-      #-
-      #  name: Date-Based Cache key
-      #  # get a key showing the current week (ISO: yyyyWww) allowing older caches to age-out/autoprune
-      #  id: week
-      #  run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
-      #-
-      #  uses: bazel-contrib/setup-bazel@0.8.5
-      #  with:
-      #    # Cache bazel downloads via bazelisk
-      #    bazelisk-cache: true
-      #    # Store build cache per week
-      #    disk-cache: ${{ steps.week.outputs.iso }}
-      #    # Share repository cache between workflows.
-      #    repository-cache: true
-      - uses: actions/checkout@v4.2.2
+      -
+        name: Date-Based Cache key
+        # get a key showing the current week (ISO: yyyyWww) allowing older caches to age-out/autoprune
+        id: week
+        run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
+      -
+        uses: bazel-contrib/setup-bazel@0.9.1
+        with:
+          # Cache bazel downloads via bazelisk
+          bazelisk-cache: true
+          # Store build cache per week
+          #disk-cache: ${{ steps.week.outputs.iso }}-XXX
+          disk-cache: true
+          # Share repository cache between workflows.
+          repository-cache: false
+      -
+        uses: actions/checkout@v4.2.2
         # https://github.com/bazelbuild/bazel/issues/11062
       -
         name: Documentation
@@ -56,8 +58,28 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v4.2.2
+      -
+        name: Date-Based Cache key
+        # get a key showing the current week (ISO: yyyyWww) allowing older caches to age-out/autoprune
+        id: week
+        run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
+      -
+        uses: bazel-contrib/setup-bazel@0.9.1
+        with:
+          # Cache bazel downloads via bazelisk
+          bazelisk-cache: true
+          # Store build cache per week
+          #disk-cache: ${{ steps.week.outputs.iso }}-XXX
+          disk-cache: true
+          # Share repository cache between workflows.
+          repository-cache: false
+      -
+        uses: actions/checkout@v4.2.2
         # https://github.com/bazelbuild/bazel/issues/11062
+      -
+        run: bazel build //docs/gen:gen-models
+      -
+        run: ls -al */external/bazel_tools/tools/genrule/genrule-setup.sh
       -
         name: Basic Build
         run: |
