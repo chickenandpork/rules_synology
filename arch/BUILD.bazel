@@ -1,4 +1,4 @@
-load("@rules_synology//toolchains:deps.bzl", TOOLCHAINS = "TOOLCHAINS_SHORT_LC")
+load("//toolchains:deps.bzl", TOOLCHAINS = "TOOLCHAINS_SHORT_LC")
 
 # This BUILD file is simply a namespace separation so that we can show "//arch:denverton" as
 # something that makes sense to more Synology people than bog-standard Bazel people.

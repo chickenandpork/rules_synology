@@ -1,6 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
-load("@rules_synology//toolchains:deps.bzl", toolchain_deps = "deps")
+load("//toolchains:deps.bzl", toolchain_deps = "deps")
 
 def deps():
     maybe(

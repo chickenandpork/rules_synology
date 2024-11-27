@@ -1,4 +1,4 @@
-load("@rules_synology//config:platforms.bzl", "PLATFORMS")
+load("//config:platforms.bzl", "PLATFORMS")
 
 # This BUILD file is simply a namespace separation so that we can show "//models:ds224+" as
 # something that makes sense to more Synology people than bog-standard Bazel people.
