@@ -14,8 +14,9 @@ language: en
 # words - list of words to be always considered correct: an Allowlist per-se
 words:
   # Synology terms and Architecture name
-  - startable
   - Denverton
+  - startable
+  - syno
   # bazel words
   - Stardoc
   - bazel
@@ -26,17 +27,19 @@ words:
   - bzlmod
   - bzlmodify
   - ibazel
+  - presubmit
   - rulesets
   # Vanity
   - allanc
+  - buildfail
   - chickenandpork
   - floppydog
   - looooong
   # Other entity proper names
-  - cryptobot
   - FireHydrant
   - ThirdParty
   - RobertRoss
+  - cryptobot
   # Actual useful words
   - Automerge
   - BUILDNUM
