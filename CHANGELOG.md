@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.0.3](https://github.com/chickenandpork/rules_synology/compare/v0.0.2...v0.0.3) (2024-11-27)
+
+
+### Features
+
+* include rich provider/dict for INFO file ([#145](https://github.com/chickenandpork/rules_synology/issues/145)) ([425fa5f](https://github.com/chickenandpork/rules_synology/commit/425fa5fcacd7b1bef1cfaafe1c8dc33a8cd386cf))
+* platform is syno arch, not DSM model ([#143](https://github.com/chickenandpork/rules_synology/issues/143)) ([201e361](https://github.com/chickenandpork/rules_synology/commit/201e361aa391558d09076f437bfc0e3266a3379d))
+
+
+### Bug Fixes
+
+* BCR presubmit: no cross yet ([#135](https://github.com/chickenandpork/rules_synology/issues/135)) ([7e40b04](https://github.com/chickenandpork/rules_synology/commit/7e40b04ed9e2e7d28f9299007d5b435d59e9f32e))
+* correct image names for presubmit phase in BCR ([#130](https://github.com/chickenandpork/rules_synology/issues/130)) ([2467802](https://github.com/chickenandpork/rules_synology/commit/2467802a1b812918b5a48eb637b13f2ad911834b))
+* ensure "Upload Size-Optimized" gated on release creation ([#156](https://github.com/chickenandpork/rules_synology/issues/156)) ([daa7b26](https://github.com/chickenandpork/rules_synology/commit/daa7b268c3fd0cc1eb74dbce13f4beef96543aa6))
+* mitigate BCR buildfail with 0.0.2 on bazel 8.0.0.rc4 ([#154](https://github.com/chickenandpork/rules_synology/issues/154)) ([87bbeda](https://github.com/chickenandpork/rules_synology/commit/87bbeda2cd07275e49200dec527034b03da32acf))
+* remove illegal include-v-in-tag ([#144](https://github.com/chickenandpork/rules_synology/issues/144)) ([1e54b5c](https://github.com/chickenandpork/rules_synology/commit/1e54b5ca8093224deed157cb1e8091bebc08c952))
+* upload additional archive for BCR; optimize for size ([#134](https://github.com/chickenandpork/rules_synology/issues/134)) ([0967ca6](https://github.com/chickenandpork/rules_synology/commit/0967ca62deed0cb25d45fd19545ae735e356ec44))
+
 ## [0.0.2](https://github.com/chickenandpork/rules_synology/compare/v0.0.1...v0.0.2) (2024-10-07)
 
 
