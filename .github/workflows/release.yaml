@@ -49,6 +49,7 @@ jobs:
         env:
           TAG: ${{ steps.release.outputs.tag_name }}
           PREFIX: rules_synology-${{ steps.release.outputs.tag_name }}
+        if: ${{ steps.release.outputs.release_created }}
         run: gh release upload ${TAG} ${PREFIX}.tar.xz
       -
         name: Collate Docs
