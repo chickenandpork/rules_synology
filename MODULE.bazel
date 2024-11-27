@@ -15,6 +15,8 @@ bazel_dep(name = "rules_shellcheck", version = "0.3.3", repo_name = "com_github_
 bazel_dep(name = "stardoc", version = "0.7.2")  # remove redundant rules_jvm_external when 0.7.2 or greater
 
 bazel_dep(name = "buildifier_prebuilt", version = "7.3.1", dev_dependency = True)
+bazel_dep(name = "rules_bazel_integration_test", version = "0.26.1", dev_dependency = True)
+#local_path_override( module_name = "rules_bazel_integration_test", path = "../rules_bazel_integration_test")
 
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
 
@@ -40,4 +42,27 @@ use_repo(
     "armada37xx-gcc850_glibc226_armv8-GPL",
     "denverton-gcc850_glibc226_x86_64-GPL",
     "geminilake-gcc850_glibc226_x86_64-GPL",
+)
+
+#
+# Integration tests
+#
+
+bazel_binaries = use_extension("@rules_bazel_integration_test//:extensions.bzl", "bazel_binaries", dev_dependency = True)
+bazel_binaries.download(version_file = "//:.bazelversion")
+bazel_binaries.download(version = "6.0.0")
+use_repo(bazel_binaries, "bazel_binaries", "bazel_binaries_bazelisk", "build_bazel_bazel_.bazelversion", "build_bazel_bazel_6_0_0")
+
+#
+# Used for testing (but should move out of //examples:BUILD.bazel)
+#
+
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
+http_file(
+    name = "screaming_goat",
+    sha256 = "030c1aadeaf9b7b01b27d4966a64173fbfe2e0eea2ec3577543fb8838c3013f0",
+    urls = [
+        "https://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/816/2019/01/22193028/Screaming-Goat-832-832x476.jpg",
+    ],
 )

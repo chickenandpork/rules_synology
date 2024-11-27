@@ -1,31 +1,4 @@
-load("@gazelle//:def.bzl", "gazelle")
-load("@rules_go//go:def.bzl", "go_binary", "go_library")
-
-alias(
-    name = "buildifier",
-    actual = ":gazelle",
-)
-
-# In some ways, having build buildifier and gazelle is redundant
-
-gazelle(name = "gazelle")
-
-go_binary(
-    name = "resize",
-    embed = [":tools_lib"],
-    visibility = ["//visibility:public"],
-)
-
-go_library(
-    name = "tools_lib",
-    srcs = [
-        "main.go",
-        "resize.go",
-    ],
-    importpath = "github.com/chickenandpork/rules_synology/tools",
-    visibility = ["//visibility:private"],
-    deps = ["@com_github_disintegration_imaging//:imaging"],
-)
+# The only build target here is used only in integration-testing
 
 # TL;DR: needed for `bazel test //examples:all_integration_tests`
 #
