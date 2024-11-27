@@ -9,3 +9,4 @@ WORKSPACE
 # examples dirs
 examples/*/bazel-*
 examples/*/MODULE.bazel.*
+MODULE.bazel.lock
