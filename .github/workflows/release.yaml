@@ -12,7 +12,7 @@ jobs:
     steps:
       -
         name: Clone Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
       -
         name: re-confirm a build
         run: bazel run //docs:collate_docs
@@ -33,6 +33,21 @@ jobs:
         id: release
         with:
           release-type: bazel
+      -
+        name: Date-Based Cache key
+        # get a key showing the current week (ISO: yyyyWww) allowing older caches to age-out/autoprune
+        id: week
+        run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
+      -
+        uses: bazel-contrib/setup-bazel@0.8.5
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          # Cache bazel downloads via bazelisk
+          bazelisk-cache: true
+          # Store build cache per week
+          disk-cache: ${{ steps.week.outputs.iso }}
+          # Share repository cache between workflows.
+          repository-cache: true
       -
         name: Clone Repo
         if: ${{ steps.release.outputs.release_created }}
@@ -77,3 +92,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # see https://github.com/marketplace/actions/deploy-mkdocs#example-usage
           # REQUIREMENTS: folder/requirements.txt
+      -
+        run: bazel shutdown
