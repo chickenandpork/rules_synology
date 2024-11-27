@@ -22,11 +22,11 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      #-
-      #  name: Date-Based Cache key
-      #  # get a key showing the current week (ISO: yyyyWww) allowing older caches to age-out/autoprune
-      #  id: week
-      #  run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
+      -
+        name: Date-Based Cache key
+        # get a key showing the current week (ISO: yyyyWww) allowing older caches to age-out/autoprune
+        id: week
+        run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
       #-
       #  uses: bazel-contrib/setup-bazel@0.8.5
       #  with:
