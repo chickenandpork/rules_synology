@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.4](https://github.com/chickenandpork/rules_synology/compare/v0.0.3...v0.0.4) (2024-11-28)
+
+
+### Bug Fixes
+
+* back-step https://github.com/executablebooks/mdformat-0.7.19 to 0.7.18 to preserve formatting ([32af212](https://github.com/chickenandpork/rules_synology/commit/32af212d4d4431e999c6b0d7351732c94833c1ba))
+* repair broken JSON in v0.0.3 release to BCR ([#159](https://github.com/chickenandpork/rules_synology/issues/159)) ([b9d058c](https://github.com/chickenandpork/rules_synology/commit/b9d058c7738efe44c59e6e21c29abb5921fe504d))
+
 ## [0.0.3](https://github.com/chickenandpork/rules_synology/compare/v0.0.2...v0.0.3) (2024-11-27)
 
 
