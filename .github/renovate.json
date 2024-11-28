@@ -13,7 +13,7 @@
     }
   ],
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "labels": [
     "dependencies"
