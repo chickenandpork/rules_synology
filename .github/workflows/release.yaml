@@ -38,17 +38,22 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v4
       -
+        name: Really truly no V in version
+        id: version
+        if: ${{ steps.release.outputs.release_created }}
+        run: echo "::set-output name=semver::$(echo ${{ steps.release.outputs.tag_name }} | sed -e 's/^v//g')"
+      -
         name: Cut Size-Optimized Archive
         env:
-          TAG: ${{ steps.release.outputs.tag_name }}
-          PREFIX: rules_synology-${{ steps.release.outputs.tag_name }}
+          PREFIX: rules_synology-${{ steps.version.outputs.semver }}
         if: ${{ steps.release.outputs.release_created }}
-        run: git archive --format=tar --prefix=${PREFIX}/ ${TAG} | xz -c9 ${PREFIX}.tar.xz
+        run: git archive --format=tar --prefix=${PREFIX}/ $(git log -1 --format=%H) | xz -c9 > ${PREFIX}.tar.xz
       -
         name: Upload Size-Optimized Archive
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PREFIX: rules_synology-${{ steps.version.outputs.semver }}
           TAG: ${{ steps.release.outputs.tag_name }}
-          PREFIX: rules_synology-${{ steps.release.outputs.tag_name }}
         if: ${{ steps.release.outputs.release_created }}
         run: gh release upload ${TAG} ${PREFIX}.tar.xz
       -
@@ -61,8 +66,8 @@ jobs:
         uses: mhausenblas/mkdocs-deploy-gh-pages@1.26
         # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CONFIG_FILE: mkdocs.yml
           EXTRA_PACKAGES: build-base
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # see https://github.com/marketplace/actions/deploy-mkdocs#example-usage
           # REQUIREMENTS: folder/requirements.txt
