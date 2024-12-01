@@ -32,23 +32,34 @@ jobs:
         # - enable "Allow Github Actions to create and approve pull requests"
         id: release
         with:
-          release-type: simple
+          release-type: bazel
       -
         name: Clone Repo
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v4
       -
+        name: Canonicalize Parameters
+        # I was using this to canonicalize version/tag but now it helps reuse workflows
+        id: params
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          echo "::set-output name=semver::$(echo ${{ steps.release.outputs.tag_name }} | sed -e 's/^v//g')"
+          echo "::set-output name=name::$(echo ${GITHUB_REPOSITORY} | cut -d / -f 2)"
+          echo "::set-output name=prefix::$(echo ${GITHUB_REPOSITORY} | cut -d / -f 2)-${{ steps.release.outputs.tag_name }}"
+          echo "::set-output name=tag_name::${{ steps.release.outputs.tag_name }}"
+      -
         name: Cut Size-Optimized Archive
         env:
-          TAG: ${{ steps.release.outputs.tag_name }}
-          PREFIX: rules_synology-${{ steps.release.outputs.tag_name }}
+          PREFIX: ${{ steps.params.outputs.prefix }}
+          TAG: ${{ steps.params.outputs.tag_name }}
         if: ${{ steps.release.outputs.release_created }}
-        run: git archive --format=tar --prefix=${PREFIX}/ ${TAG} | xz -c9 ${PREFIX}.tar.xz
+        run: git archive --format=tar --prefix=${PREFIX}/ $(git log -1 --format=%H) | xz -c9 > ${PREFIX}.tar.xz
       -
         name: Upload Size-Optimized Archive
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PREFIX: ${{ steps.params.outputs.prefix }}
           TAG: ${{ steps.release.outputs.tag_name }}
-          PREFIX: rules_synology-${{ steps.release.outputs.tag_name }}
         if: ${{ steps.release.outputs.release_created }}
         run: gh release upload ${TAG} ${PREFIX}.tar.xz
       -
@@ -61,8 +72,8 @@ jobs:
         uses: mhausenblas/mkdocs-deploy-gh-pages@1.26
         # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CONFIG_FILE: mkdocs.yml
           EXTRA_PACKAGES: build-base
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # see https://github.com/marketplace/actions/deploy-mkdocs#example-usage
           # REQUIREMENTS: folder/requirements.txt
