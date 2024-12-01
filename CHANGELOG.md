@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5](https://github.com/chickenandpork/rules_synology/compare/v0.0.4...v0.0.5) (2024-12-01)
+
+
+### Bug Fixes
+
+* correct version pattern in release-please ([776221a](https://github.com/chickenandpork/rules_synology/commit/776221ac0eed996bfc62f0b21f4450e6bb702f18))
+
 ## [0.0.4](https://github.com/chickenandpork/rules_synology/compare/v0.0.3...v0.0.4) (2024-11-28)
 
 
