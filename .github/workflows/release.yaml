@@ -43,7 +43,7 @@ jobs:
           TAG: ${{ steps.release.outputs.tag_name }}
           PREFIX: rules_synology-${{ steps.release.outputs.tag_name }}
         if: ${{ steps.release.outputs.release_created }}
-        run: git archive --format=tar --prefix=${PREFIX}/ ${TAG} | xz -c9 ${PREFIX}.tar.xz
+        run: git archive --format=tar --prefix=${PREFIX}/ $(git log -1 --format=%H) | xz -c9 > ${PREFIX}.tar.xz
       -
         name: Upload Size-Optimized Archive
         env:
