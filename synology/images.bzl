@@ -5,7 +5,6 @@ def images(name = "images", src = ":PACKAGE_ICON.PNG"):
         name = "{}_{}".format(name, sz),
         srcs = [src],
         outs = ["PACKAGE_ICON_{}.PNG".format(sz)],
-        #cmd = "echo $(location //tools:resize) -src=$< -size={} -dest=$@ XXXXX".format(sz),
         cmd = "$(location @rules_synology//tools:resize) -src=$< -size={} -dest=$@".format(sz),
         tools = ["@rules_synology//tools:resize"],
     ) for sz in sizes]

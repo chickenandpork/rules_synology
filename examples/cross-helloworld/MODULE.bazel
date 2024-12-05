@@ -16,7 +16,7 @@ archive_override(
     ],
 )
 
-bazel_dep(name = "aspect_bazel_lib", version = "2.9.3")
+bazel_dep(name = "aspect_bazel_lib", version = "2.9.4")
 bazel_dep(name = "rules_synology")
 
 # When reusing for your own project, don't use this local-override
