@@ -1,6 +1,6 @@
 load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("@rules_synology//config:platforms.bzl", "PLATFORMS")
+load("//config:platforms.bzl", "PLATFORMS")
 
 #
 # bazel query 'kind("constraint_value", deps(//arch/...))'

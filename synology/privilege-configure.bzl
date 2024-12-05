@@ -6,7 +6,7 @@
 #
 # See https://help.synology.com/developer-guide/privilege/privilege_config.html
 
-#load("@rules_synology//synology:port-service-configure.bzl", "PortConfigInfo")
+#load("//synology:port-service-configure.bzl", "PortConfigInfo")
 
 def _privilege_config_impl(ctx):
     privilege_list = {

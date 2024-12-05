@@ -27,8 +27,8 @@ toolchain(
         "@platforms//cpu:x86_64",
     ],
     target_compatible_with = [
-        "@rules_synology//arch:armada37xx",
-        "@rules_synology//dsm:7.1",
+        "//arch:armada37xx",
+        "//dsm:7.1",
     ],
     toolchain = "@armada37xx-gcc850_glibc226_armv8-GPL//:cc_toolchain",
     toolchain_type = "@rules_cc//cc:toolchain_type",
@@ -43,8 +43,8 @@ toolchain(
         "@platforms//cpu:x86_64",
     ],
     target_compatible_with = [
-        "@rules_synology//arch:denverton",
-        "@rules_synology//dsm:7.1",
+        "//arch:denverton",
+        "//dsm:7.1",
     ],
     toolchain = "@denverton-gcc850_glibc226_x86_64-GPL//:cc_toolchain",
     toolchain_type = "@rules_cc//cc:toolchain_type",
@@ -59,8 +59,8 @@ toolchain(
         "@platforms//cpu:x86_64",
     ],
     target_compatible_with = [
-        "@rules_synology//arch:geminilake",
-        "@rules_synology//dsm:7.1",
+        "//arch:geminilake",
+        "//dsm:7.1",
     ],
     toolchain = "@geminilake-gcc850_glibc226_x86_64-GPL//:cc_toolchain",
     toolchain_type = "@rules_cc//cc:toolchain_type",
