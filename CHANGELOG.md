@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.0](https://github.com/chickenandpork/rules_synology/compare/v0.0.5...v0.1.0) (2024-12-05)
+
+
+### Features
+
+* validate version ([#172](https://github.com/chickenandpork/rules_synology/issues/172)) ([867e085](https://github.com/chickenandpork/rules_synology/commit/867e0854eb5dc0905111d759bff7a10967a75bd2))
+
+
+### Bug Fixes
+
+* Remove more [@rules](https://github.com/rules)_synology in case it causes the 8.0.0rc4 failure ([#174](https://github.com/chickenandpork/rules_synology/issues/174)) ([dbd71aa](https://github.com/chickenandpork/rules_synology/commit/dbd71aab4e740a475f09feae47ebc2191ee1abd5))
+
 ## [0.0.5](https://github.com/chickenandpork/rules_synology/compare/v0.0.4...v0.0.5) (2024-12-03)
 
 
