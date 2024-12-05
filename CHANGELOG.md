@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/chickenandpork/rules_synology/compare/v0.1.0...v0.1.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* correct prefix per change to google-release-please ([#175](https://github.com/chickenandpork/rules_synology/issues/175)) ([8e67ca6](https://github.com/chickenandpork/rules_synology/commit/8e67ca692804c3a3f2306e264a981d352cf56fb6))
+
 ## [0.1.0](https://github.com/chickenandpork/rules_synology/compare/v0.0.5...v0.1.0) (2024-12-05)
 
 
