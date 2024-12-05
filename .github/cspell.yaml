@@ -58,9 +58,11 @@ words:
   - netfilter
   - noarch
   - proto
+  - softfail
   - softlink
   - softlinks
   - subdir
   - subdirs
   - tmpfs
+  - unittesting
   - varargs

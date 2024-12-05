@@ -1,5 +1,5 @@
 load("@bazel_skylib//lib:unittest.bzl", "analysistest", "asserts")
-load("//synology:info-file.bzl", "InfoFile", "info_file", "valid_version")
+load("//synology:info-file.bzl", "InfoFile", "info_file", "noprint", "valid_version")
 load("//synology:maintainer.bzl", "maintainer")
 
 # ==== Check the InfoFile provider contents ====
@@ -8,7 +8,7 @@ def _info_file_version_test_fail_impl(ctx):
     env = analysistest.begin(ctx)
     target_under_test = analysistest.target_under_test(env)
 
-    asserts.false(env, valid_version(target_under_test[InfoFile].version))
+    asserts.false(env, valid_version(target_under_test[InfoFile].version, _print = noprint))
 
     # Done: remember to return end()
     return analysistest.end(env)
@@ -17,7 +17,7 @@ def _info_file_version_test_pass_impl(ctx):
     env = analysistest.begin(ctx)
     target_under_test = analysistest.target_under_test(env)
 
-    asserts.true(env, valid_version(target_under_test[InfoFile].version))
+    asserts.true(env, valid_version(target_under_test[InfoFile].version, _print = print))
 
     # Done: remember to return end()
     return analysistest.end(env)
@@ -69,6 +69,7 @@ def _test_info_file_contents():
         package_name = "mock_package",
         package_version = v,
         tags = ["manual"],
+        validation_softfail = "ignored",
     ) for k, v in fail_versions.items()]
 
     # Testing rule.
