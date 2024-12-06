@@ -22,21 +22,30 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
+      #-
+      #  name: Date-Based Cache key
+      #  # get a key showing the current week (ISO: yyyyWww) allowing older caches to age-out/autoprune
+      #  id: week
+      #  run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
+      #-
+      #  uses: bazel-contrib/setup-bazel@0.8.5
+      #  with:
+      #    # Cache bazel downloads via bazelisk
+      #    bazelisk-cache: true
+      #    # Store build cache per week
+      #    disk-cache: ${{ steps.week.outputs.iso }}
+      #    # Share repository cache between workflows.
+      #    repository-cache: true
       - uses: actions/checkout@v4.2.2
-        # action runners have bazelisk: - uses: bazelbuild/setup-bazelisk@v2
         # https://github.com/bazelbuild/bazel/issues/11062
-      - run: mkdir -p "${TEST_TMPDIR}"
-      - run: env | sort
-      - name: Mount bazel cache  # Optional
-        uses: actions/cache@v4
-        with:
-          # needs to be an absolute path, not a variable; I've made it match TEST_TMPDIR above
-          path: /tmp/bazel
-          key: _bazel_runner
-      - run: bazel run //docs:collate_docs
-      - run: bazel build //...
-      - run: bazel test //...
-      - name: Build / Test examples to ensure functionality
+      -
+        run: bazel run //docs:collate_docs
+      -
+        run: bazel build //...
+      -
+        run: bazel test //... --test_output=errors --test_summary=detailed --sandbox_debug
+      -
+        name: Build / Test examples to ensure functionality
         run: |
             for d in $(find examples -name WORKSPACE -o -name MODULE.bazel -exec dirname {} \; ); do
             echo "::group::example: ${d}"
@@ -44,3 +53,5 @@ jobs:
             #(cd ${d} && test 1 -le $(bazel query 'kind("test", "//...")' 2> /dev/null | wc -l ) && echo "::group::test: ${d}" && bazel test //...);
             echo "::endgroup::"
             done
+      -
+        run: bazel shutdown
