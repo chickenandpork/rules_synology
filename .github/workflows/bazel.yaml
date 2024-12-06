@@ -43,7 +43,7 @@ jobs:
       -
         run: bazel build //...
       -
-        run: bazel test //... --test_output=errors --test_summary=detailed
+        run: bazel test //... --test_output=errors --test_summary=detailed --sandbox_debug
       -
         name: Build / Test examples to ensure functionality
         run: |
