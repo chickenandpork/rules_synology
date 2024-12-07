@@ -12,12 +12,14 @@ jobs:
     steps:
       -
         name: Clone Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
+      -
+        run: bazel build //docs/gen:gen-models
+      -
+        run: ls -al */external/bazel_tools/tools/genrule/genrule-setup.sh
       -
         name: re-confirm a build
         run: bazel run //docs:collate_docs
-      -
-        run: ls -al */external/bazel_tools/tools/genrule/genrule-setup.sh
 
   release:
     runs-on: ubuntu-latest
@@ -55,6 +57,10 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v4
       -
+        run: bazel build //docs/gen:gen-models
+      -
+        run: ls -al */external/bazel_tools/tools/genrule/genrule-setup.sh
+      -
         name: Canonicalize Parameters
         # I was using this to canonicalize version/tag but now it helps reuse workflows
         id: params
@@ -83,8 +89,6 @@ jobs:
         name: Collate Docs
         if: ${{ steps.release.outputs.release_created }}
         run: bazel run //docs:collate_docs
-      -
-        run: ls -al */external/bazel_tools/tools/genrule/genrule-setup.sh
       -
         name: Deploy docs
         if: ${{ steps.release.outputs.release_created }}
