@@ -41,6 +41,8 @@ jobs:
       -
         run: bazel run //docs:collate_docs
       -
+        run: ls -al */external/bazel_tools/tools/genrule/genrule-setup.sh
+      -
         run: bazel build //...
       -
         run: bazel test //... --test_output=errors --test_summary=detailed --sandbox_debug

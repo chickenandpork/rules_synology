@@ -16,6 +16,8 @@ jobs:
       -
         name: re-confirm a build
         run: bazel run //docs:collate_docs
+      -
+        run: ls -al */external/bazel_tools/tools/genrule/genrule-setup.sh
 
   release:
     runs-on: ubuntu-latest
@@ -81,6 +83,8 @@ jobs:
         name: Collate Docs
         if: ${{ steps.release.outputs.release_created }}
         run: bazel run //docs:collate_docs
+      -
+        run: ls -al */external/bazel_tools/tools/genrule/genrule-setup.sh
       -
         name: Deploy docs
         if: ${{ steps.release.outputs.release_created }}
