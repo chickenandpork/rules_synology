@@ -28,7 +28,7 @@ jobs:
         id: week
         run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
       -
-        uses: bazel-contrib/setup-bazel@0.8.5
+        uses: bazel-contrib/setup-bazel@0.9.1
         with:
           # Cache bazel downloads via bazelisk
           bazelisk-cache: true
@@ -36,7 +36,7 @@ jobs:
           disk-cache: ${{ steps.week.outputs.iso }}
           # Share repository cache between workflows.
           repository-cache: true
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         # https://github.com/bazelbuild/bazel/issues/11062
       -
         run: bazel run //docs:collate_docs
