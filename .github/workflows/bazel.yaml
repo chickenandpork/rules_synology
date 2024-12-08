@@ -33,7 +33,8 @@ jobs:
           # Cache bazel downloads via bazelisk
           bazelisk-cache: true
           # Store build cache per week
-          disk-cache: ${{ steps.week.outputs.iso }}-XXX
+          #disk-cache: ${{ steps.week.outputs.iso }}-XXX
+          disk-cache: true
           # Share repository cache between workflows.
           repository-cache: false
       - uses: actions/checkout@v4
@@ -47,7 +48,7 @@ jobs:
       -
         run: bazel build //...
       -
-        run: bazel test //... --test_output=errors --test_summary=detailed --sandbox_debug
+        run: bazel test //... --test_output=errors --test_summary=detailed
       -
         name: Build / Test examples to ensure functionality
         run: |
