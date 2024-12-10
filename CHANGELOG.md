@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2](https://github.com/chickenandpork/rules_synology/compare/v0.1.1...v0.1.2) (2024-12-10)
+
+
+### Bug Fixes
+
+* re-import missing bazel_skylib ([#181](https://github.com/chickenandpork/rules_synology/issues/181)) ([ed52438](https://github.com/chickenandpork/rules_synology/commit/ed5243849860e26e080b412401de1e5660cb1d23))
+* update python to 1.0.0 to avoid bazelbuild/intellij[#7089](https://github.com/chickenandpork/rules_synology/issues/7089) ([#182](https://github.com/chickenandpork/rules_synology/issues/182)) ([214548e](https://github.com/chickenandpork/rules_synology/commit/214548e8d8a1134c40f749fcf6e5f29f60a9f0b9))
+
 ## [0.1.1](https://github.com/chickenandpork/rules_synology/compare/v0.1.0...v0.1.1) (2024-12-05)
 
 
