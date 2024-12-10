@@ -5,11 +5,10 @@
 """
 
 load("//toolchains:deps.bzl", _synology_deps = "deps", _toolchains = "TOOLCHAINS")
-load("//toolchains/bazelisk:deps.bzl", _bazelisk_deps = "deps")
+# load("//toolchains/bazelisk:deps.bzl", _bazelisk_deps = "deps") # todo: replace with rules_multitool
 
 def _impl(_):
     _synology_deps()
-    _bazelisk_deps()
 
 synology_deps = module_extension(
     implementation = _impl,

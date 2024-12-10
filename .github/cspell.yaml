@@ -20,7 +20,6 @@ words:
   # bazel words
   - Stardoc
   - bazel
-  - bazelisk
   - bazelrc
   - bazelspk
   - buildifier

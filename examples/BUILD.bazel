@@ -71,30 +71,3 @@ pkg_files(
     prefix = "conf",
     visibility = ["//visibility:public"],
 )
-
-#pkg_filegroup(
-#    name = "config",
-#    srcs = [
-#        ":rez",
-#    ],
-#    prefix = "conf",
-#)
-
-pkg_tar(
-    name = "package",
-    srcs = [
-        "@bazelisk_darwin_amd64//file",
-    ],
-    extension = "tgz",
-)
-
-pkg_tar(
-    name = "spk",
-    srcs = [
-        ":conf",
-        ":icons.group",
-        ":info",
-        ":package",
-    ],
-    extension = "tar",
-)

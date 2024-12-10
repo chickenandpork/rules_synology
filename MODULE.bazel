@@ -40,7 +40,4 @@ use_repo(
     "armada37xx-gcc850_glibc226_armv8-GPL",
     "denverton-gcc850_glibc226_x86_64-GPL",
     "geminilake-gcc850_glibc226_x86_64-GPL",
-    #
-    "bazelisk_darwin_amd64",
-    "bazelisk_darwin_arm64",
 )
