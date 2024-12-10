@@ -3,20 +3,8 @@ module(
     version = "1.0",
 )
 
-# patch so that i686 is treated like x86_64
-archive_override(
-    module_name = "rules_python",
-    integrity = "sha256-vgS2Nce+RgS+HvIFQumHCvPEl3jOhB7i2S/LQvnZUWo=",
-    patches = [
-        "//bzl/patches:chickenandpork-i686-mostly-acts-like-x86_64.patch",
-    ],  # patch_strip=1
-    strip_prefix = "rules_python-0.35.0",
-    urls = [
-        "https://github.com/bazelbuild/rules_python/releases/download/0.35.0/rules_python-0.35.0.tar.gz",
-    ],
-)
-
 bazel_dep(name = "aspect_bazel_lib", version = "2.9.4")
+bazel_dep(name = "rules_python", version = "1.0.0")
 bazel_dep(name = "rules_synology")
 
 # When reusing for your own project, don't use this local-override
