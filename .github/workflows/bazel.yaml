@@ -45,16 +45,7 @@ jobs:
       -
         run: bazel test //... --test_output=errors --test_summary=detailed
       -
-        name: Integration Tests (ie Examples)
+        name: Integration Tests (ie Proof Examples)
         run: bazel test //examples:all_integration_tests --test_output=errors --test_summary=detailed
-      -
-        name: Build / Test examples to ensure functionality
-        run: |
-            for d in $(find examples -name WORKSPACE -o -name MODULE.bazel -exec dirname {} \; ); do
-            echo "::group::example: ${d}"
-            (cd ${d} && echo "::group::build: ${d}" && bazel build //... );
-            #(cd ${d} && test 1 -le $(bazel query 'kind("test", "//...")' 2> /dev/null | wc -l ) && echo "::group::test: ${d}" && bazel test //...);
-            echo "::endgroup::"
-            done
       -
         run: bazel shutdown

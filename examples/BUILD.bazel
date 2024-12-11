@@ -10,7 +10,14 @@ load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_fil
 load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
 load("@rules_synology//:defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
 
-examples = ["cross-helloworld"]
+examples = [
+    "cross-helloworld",
+    "cross-helloworld-no-go",
+    "example-docker-project",
+    "example-kernelmod-spk",
+    # "example-prebuilt-binary-spk",
+    "example-server",
+]
 
 # Declare a test runner to drive the integration tests.
 default_test_runner(
@@ -39,6 +46,16 @@ test_suite(
     # be found when `bazel test //...` is executed.
     tags = integration_test_utils.DEFAULT_INTEGRATION_TEST_TAGS,
     tests = [":{}".format(n) for n in examples],  #+ integration_test_utils.bazel_integration_test_names( "cross-helloworld", bazel_binaries.versions.other),
+    visibility = ["//:__subpackages__"],
+)
+
+test_suite(
+    name = "macos_integration_tests",
+    tags = integration_test_utils.DEFAULT_INTEGRATION_TEST_TAGS,
+    tests = [":{}".format(n) for n in [
+        "example-docker-project",
+        "example-kernelmod-spk",
+    ]],
     visibility = ["//:__subpackages__"],
 )
 
