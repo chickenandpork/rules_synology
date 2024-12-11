@@ -64,6 +64,19 @@ bzl_library(
     ],
 )
 
-# Call a macro that defines targets that perform the tests at analysis time,
-# and that can be executed with "bazel test" to return the result.
-syno_test_suite(name = "myrules_test")
+# TL;DR: needed for `bazel test //examples:all_integration_tests`
+#
+# For Integration Tests -- rules_bazel_integration_test -- every child workspace (ie every example
+# that exercises the rules) needs to refer to all the files of the ruleset.  For this reason, we
+# have this rule collecting all the files in this "package" for collection at Workspace in
+# //:local_repository_files to be passed to the workspace of the child workspace (test example) in
+# //examples:BUILD.bazel,
+#
+# ```
+# bazel_integration_test( workspace_files = ...  "//:local_repository_files", ], ... )
+# ````
+filegroup(
+    name = "all_files",
+    srcs = glob(["*"]),  # TODO: *.bzl BUILD.bazel
+    visibility = ["//:__subpackages__"],
+)

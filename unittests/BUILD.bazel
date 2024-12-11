@@ -7,3 +7,20 @@ maintainer(
     maintainer_url = "http://i-fix-things.com/manny",
     visibility = ["//visibility:public"],
 )
+
+# TL;DR: needed for `bazel test //examples:all_integration_tests`
+#
+# For Integration Tests -- rules_bazel_integration_test -- every child workspace (ie every example
+# that exercises the rules) needs to refer to all the files of the ruleset.  For this reason, we
+# have this rule collecting all the files in this "package" for collection at Workspace in
+# //:local_repository_files to be passed to the workspace of the child workspace (test example) in
+# //examples:BUILD.bazel,
+#
+# ```
+# bazel_integration_test( workspace_files = ...  "//:local_repository_files", ], ... )
+# ````
+filegroup(
+    name = "all_files",
+    srcs = glob(["*"]),  # TODO: *.bzl BUILD.bazel
+    visibility = ["//:__subpackages__"],
+)

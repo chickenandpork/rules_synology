@@ -18,3 +18,26 @@ stardoc(
     visibility = ["//visibility:public"],
     deps = ["//synology:docs"],
 )
+
+# This target collects all of the parent workspace files needed by the child workspaces.
+filegroup(
+    name = "local_repository_files",
+    # Include every package that is required by the child workspaces.
+    srcs = [
+        "BUILD.bazel",
+        "MODULE.bazel",
+        "defs.bzl",
+        "go.mod",
+        "go.sum",
+        "//arch:all_files",
+        "//config:all_files",
+        "//dsm:all_files",
+        "//models:all_files",
+        "//platform:all_files",
+        "//synology:all_files",
+        "//toolchains:all_files",
+        "//tools:all_files",
+        "//unittests:all_files",
+    ],
+    visibility = ["//:__subpackages__"],
+)

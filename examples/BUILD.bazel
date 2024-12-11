@@ -1,6 +1,63 @@
+load("@bazel_binaries//:defs.bzl", "bazel_binaries")
+load(
+    "@rules_bazel_integration_test//bazel_integration_test:defs.bzl",
+    "bazel_integration_test",
+    "bazel_integration_tests",
+    "default_test_runner",
+    "integration_test_utils",
+)
 load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_files", "pkg_mkdirs", "strip_prefix")
 load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
 load("@rules_synology//:defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
+
+examples = [
+    "cross-helloworld",
+    "cross-helloworld-no-go",
+    "example-docker-project",
+    "example-kernelmod-spk",
+    # "example-prebuilt-binary-spk",
+    "example-server",
+]
+
+# Declare a test runner to drive the integration tests.
+default_test_runner(
+    name = "default_runner",  # unsure where this constant means anything
+)
+
+# If you only want to execute against a single version of Bazel, use
+# bazel_integration_test.
+[bazel_integration_test(
+    name = n,
+    bazel_version = bazel_binaries.versions.current,
+    test_runner = ":default_runner",
+    workspace_files = integration_test_utils.glob_workspace_files(n) + [
+        "//:local_repository_files",
+    ],
+    workspace_path = n,
+) for n in examples]
+
+# By default, the integration test targets are tagged as `manual`. This
+# prevents the targets from being found from most target expansion (e.g.
+# `//...`, `:all`). To easily execute a group of integration tests, you may
+# want to define a test suite which includes the desired test targets.
+test_suite(
+    name = "all_integration_tests",
+    # If you don't apply the test tags to the test suite, the test suite will
+    # be found when `bazel test //...` is executed.
+    tags = integration_test_utils.DEFAULT_INTEGRATION_TEST_TAGS,
+    tests = [":{}".format(n) for n in examples],  #+ integration_test_utils.bazel_integration_test_names( "cross-helloworld", bazel_binaries.versions.other),
+    visibility = ["//:__subpackages__"],
+)
+
+test_suite(
+    name = "macos_integration_tests",
+    tags = integration_test_utils.DEFAULT_INTEGRATION_TEST_TAGS,
+    tests = [":{}".format(n) for n in [
+        "example-docker-project",
+        "example-kernelmod-spk",
+    ]],
+    visibility = ["//:__subpackages__"],
+)
 
 info_file(
     name = "info",

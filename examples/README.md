@@ -1,4 +1,4 @@
-# Build examples
+# Build examplesZ
 
 These examples should be near-copy-paste functional as builds from which to base your own builds.
 Checking the WORKSPACE for each, there should be simply a change from using the rules_synology as a
@@ -18,6 +18,26 @@ A pre-built disk image simplifies the build, but only for Denverton currently: t
 `--platforms=@rules_synology//models:ds1819+` into the image, setting the default image.
 Eventually, in CI, I'll need to demonstrate a matrix build covering each architecture mapped as a
 `--platforms={single platform}`
+
+## Integration Tests
+
+The Examples also act as Integration Tests:
+
+Linux host:
+
+```
+bazel test //examples:all_integration_tests
+```
+
+Non-Linux host:
+
+```
+docker run --rm -it -v ~/src/rules_synology:/rules_synology -w /rules_synology ubuntu-x86:latest bazel test //examples:all_integration_tests
+```
+
+Until I create a container environment for build, this is the easiest way to run through these
+tests.  The GitHub Action -- being an Ubuntu-22.04 -- cn run through this test target natively for
+each build.
 
 ## Submit-to-BCR Validation
 
