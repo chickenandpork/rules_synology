@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.0](https://github.com/chickenandpork/rules_synology/compare/v0.1.1...v0.2.0) (2024-12-16)
+
+
+### Features
+
+* drop stubbed WORKSPACEs: leverage bazel-contrib/rules_bazel_integration_test[#416](https://github.com/chickenandpork/rules_synology/issues/416) ([#188](https://github.com/chickenandpork/rules_synology/issues/188)) ([486e759](https://github.com/chickenandpork/rules_synology/commit/486e75969749223eaeb0b72141823158825336ee))
+* Use rules_bazel_integration_test to confirm examples ([#179](https://github.com/chickenandpork/rules_synology/issues/179)) ([d447f1a](https://github.com/chickenandpork/rules_synology/commit/d447f1a74cb239e82f1642bda8adcb3c958a974a))
+
+
+### Bug Fixes
+
+* BCR: explicitly use rules_synology to mitigate anonymous rules and defaults ([#190](https://github.com/chickenandpork/rules_synology/issues/190)) ([1b968e6](https://github.com/chickenandpork/rules_synology/commit/1b968e67461142cdf320914f2457127a8dca8717))
+* re-import missing bazel_skylib ([#181](https://github.com/chickenandpork/rules_synology/issues/181)) ([ed52438](https://github.com/chickenandpork/rules_synology/commit/ed5243849860e26e080b412401de1e5660cb1d23))
+* update python to 1.0.0 to avoid bazelbuild/intellij[#7089](https://github.com/chickenandpork/rules_synology/issues/7089) ([#182](https://github.com/chickenandpork/rules_synology/issues/182)) ([214548e](https://github.com/chickenandpork/rules_synology/commit/214548e8d8a1134c40f749fcf6e5f29f60a9f0b9))
+
 ## [0.1.1](https://github.com/chickenandpork/rules_synology/compare/v0.1.0...v0.1.1) (2024-12-05)
 
 
