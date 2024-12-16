@@ -8,7 +8,7 @@ bazel_dep(name = "bazel_skylib", version = "1.7.1")
 bazel_dep(name = "gazelle", version = "0.40.0")
 bazel_dep(name = "platforms", version = "0.0.10")
 bazel_dep(name = "rules_cc", version = "0.1.0")
-bazel_dep(name = "rules_go", version = "0.50.1")
+bazel_dep(name = "rules_go", version = "0.51.0")
 bazel_dep(name = "rules_jvm_external", version = "6.6")  # https://github.com/bazelbuild/stardoc/issues/257#issuecomment-2461324992
 bazel_dep(name = "rules_pkg", version = "1.0.1")
 bazel_dep(name = "rules_shellcheck", version = "0.3.3", repo_name = "com_github_aignas_rules_shellcheck")
