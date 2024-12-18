@@ -22,6 +22,10 @@ def _privilege_config_impl(ctx):
         for s in ctx.attr.run_as_root:
             priv.append({"run-as": "root", "action": s})
         privilege_list.update({"ctrl-script": priv})
+    privilege_list.update({
+        "groupname": ctx.attr.groupname,
+        "username": ctx.attr.username,
+    })
 
     if ctx.outputs.out:
         outfile = ctx.outputs.out
@@ -52,7 +56,9 @@ privilege_config = rule(
     implementation = _privilege_config_impl,
     attrs = {
         "out": attr.output(mandatory = False),
-        "run_as_package": attr.string_list(mandatory = False),
-        "run_as_root": attr.string_list(mandatory = False),
+        "run_as_package": attr.string_list(doc = "list of apps/services that sound run-as the given username", mandatory = False),
+        "run_as_root": attr.string_list(doc = "list of apps/services that sound run-as root", mandatory = False),
+        "username": attr.string(doc = "app-specific posix/unix username under which the app/service runs", mandatory = True),
+        "groupname": attr.string(default = "rules_synology", doc = "posix/unix groupname in which the app-specific user is added", mandatory = False),
     },
 )
