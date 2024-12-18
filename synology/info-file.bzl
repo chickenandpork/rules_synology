@@ -125,7 +125,7 @@ InfoFile = provider(fields = {
     "description": "A brief description of the Package: it may be multiline, but should be brief and concise",
     "maintainer": "The name of the maintainer: we draw this from a Maintainer provider from the 'maintainer()' target",
     "maintainer_url": "The email address of the maintainer: we draw this from a Maintainer provider from the 'maintainer()' target",
-    "arch": "Spec-separated text indicating comaptible architectures for this SPK: 'noarch x86_64'",
+    "arch": "Space-separated text indicating compatible architectures for this SPK: 'noarch x86_64'",
     "ctl_stop": "Boolean: is there a start-stop-status script to allow the SPK to start or stop? (writes both startable and ctl_stop)",
     "thirdparty": "Boolean: is this SPK built outside of Synology corporation? (typically yes)",
 })

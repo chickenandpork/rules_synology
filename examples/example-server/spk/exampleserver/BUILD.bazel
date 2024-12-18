@@ -28,6 +28,7 @@ protocol_file(
 
 privilege_config(
     name = "priv",
+    username = "sc-exampleserver",
 )
 
 resource_config(
