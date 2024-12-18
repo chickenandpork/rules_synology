@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/chickenandpork/rules_synology/compare/v0.2.0...v0.2.1) (2024-12-18)
+
+
+### Bug Fixes
+
+* SPK needs username to be startable ([#192](https://github.com/chickenandpork/rules_synology/issues/192)) ([545a1da](https://github.com/chickenandpork/rules_synology/commit/545a1da572d9a6a8846691429c2210e31c4513a9))
+
 ## [0.2.0](https://github.com/chickenandpork/rules_synology/compare/v0.1.1...v0.2.0) (2024-12-16)
 
 
