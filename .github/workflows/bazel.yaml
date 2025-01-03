@@ -39,13 +39,23 @@ jobs:
       - uses: actions/checkout@v4.2.2
         # https://github.com/bazelbuild/bazel/issues/11062
       -
-        run: bazel run //docs:collate_docs
+        name: Documentation
+        run: |
+          echo 'examples' > .bazelignore  # remove '//docs'
+          bazel run //docs:collate_docs
       -
-        run: bazel build //...
+        name: Basic Build
+        run: |
+          echo 'docs' > .bazelignore
+          echo 'examples' >> .bazelignore
+          bazel build //...
       -
+        name: Basic Test
         run: bazel test //... --test_output=errors --test_summary=detailed
       -
         name: Integration Tests (ie Proof Examples)
-        run: bazel test //examples:all_integration_tests --test_output=errors --test_summary=detailed
+        run: |
+          echo 'docs' > .bazelignore
+          bazel test //examples:all_integration_tests --test_output=errors --test_summary=detailed
       -
         run: bazel shutdown
