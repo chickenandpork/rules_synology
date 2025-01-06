@@ -25,7 +25,7 @@ attributes can be provided to unblock immediate progress.
 
 (`BUILD` file)
 ```
-load("@rules_synology//:defs.bzl", "info_file", "maintainer")
+load("@//:defs.bzl", "info_file", "maintainer")
 
 maintainer(
     name = "chickenandpork",

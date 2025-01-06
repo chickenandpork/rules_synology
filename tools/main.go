@@ -33,11 +33,14 @@ func main() {
 		dest = *destFilenamePattern
 	}
 
+	if *verbose {
+		log.Println("resizing", *srcFilename, "size", *maxSize, "to", dest)
+	}
 	err := ResizeImageFromFile(*srcFilename, dest, *maxSize)
 
 	if err == nil {
 		log.Println("OK:", dest)
 	} else {
-		log.Println("result:", dest, err)
+		log.Println("result:", dest, "err:", err)
 	}
 }
