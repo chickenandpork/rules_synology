@@ -39,7 +39,7 @@ jobs:
         id: week
         run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
       -
-        uses: bazel-contrib/setup-bazel@0.10.0
+        uses: bazel-contrib/setup-bazel@0.12.0
         if: ${{ steps.release.outputs.release_created }}
         with:
           # Cache bazel downloads via bazelisk
