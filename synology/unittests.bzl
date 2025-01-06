@@ -40,9 +40,9 @@ def confirm_binary_matches_platform(binary, size = "small"):
         out = "{}_test_arch.sh".format(token),
         is_executable = True,
         substitutions = select({
-            "@rules_synology//arch:armada37xx": {"DETECT_STRING": " ELF 64-bit LSB pie executable, ARM aarch64"},
-            "@rules_synology//arch:denverton": {"DETECT_STRING": " ELF 64-bit LSB pie executable, x86-64"},
-            "@rules_synology//arch:geminilake": {"DETECT_STRING": " ELF 64-bit LSB pie executable, x86-64"},
+            "@//arch:armada37xx": {"DETECT_STRING": " ELF 64-bit LSB pie executable, ARM aarch64"},
+            "@//arch:denverton": {"DETECT_STRING": " ELF 64-bit LSB pie executable, x86-64"},
+            "@//arch:geminilake": {"DETECT_STRING": " ELF 64-bit LSB pie executable, x86-64"},
             "//conditions:default": {"DETECT_STRING": "no-possible-match"},
         }),
         template = ":{}_test_arch_tmpl".format(token),

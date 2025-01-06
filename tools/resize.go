@@ -1,13 +1,14 @@
 package main
 
 import (
+	"errors"
 	"github.com/disintegration/imaging"
 )
 
 func ResizeImageFromFile(imageFile string, outFile string, newHeight int) error {
 	img, err := imaging.Open(imageFile)
 	if err != nil {
-		return err
+		return errors.New("Failure opening " + imageFile + ": " + err.Error())
 	}
 
 	// calculator new width of image
