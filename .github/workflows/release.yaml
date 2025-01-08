@@ -19,7 +19,9 @@ jobs:
         run: ls -al */external/bazel_tools/tools/genrule/genrule-setup.sh
       -
         name: re-confirm a build
-        run: bazel run //docs:collate_docs
+        run: |
+          echo 'examples' > .bazelignore  # remove '//docs'
+          bazel run //docs:collate_docs
 
   release:
     runs-on: ubuntu-latest
@@ -43,7 +45,7 @@ jobs:
         id: week
         run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
       -
-        uses: bazel-contrib/setup-bazel@0.9.1
+        uses: bazel-contrib/setup-bazel@0.12.1
         if: ${{ steps.release.outputs.release_created }}
         with:
           # Cache bazel downloads via bazelisk
@@ -88,7 +90,9 @@ jobs:
       -
         name: Collate Docs
         if: ${{ steps.release.outputs.release_created }}
-        run: bazel run //docs:collate_docs
+        run: |
+          echo 'examples' > .bazelignore  # remove '//docs'
+          bazel run //docs:collate_docs
       -
         name: Deploy docs
         if: ${{ steps.release.outputs.release_created }}

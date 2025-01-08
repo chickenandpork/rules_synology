@@ -28,7 +28,7 @@ failing, triggering any rollback.
 This will cause a softlink to be created in `/usr/local/bin` that points to
 `/var/packages/<package>/target/bin/netfilter-mods`:
 ```
-load("@rules_synology//:defs.bzl", "usr_local_linker")
+load("@//:defs.bzl", "usr_local_linker")
 
 usr_local_linker(
     name = "softlinks",
