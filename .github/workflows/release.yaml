@@ -34,7 +34,8 @@ jobs:
         # - enable "Allow Github Actions to create and approve pull requests"
         id: release
         with:
-          release-type: bazel
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
       -
         name: Date-Based Cache key
         # get a key showing the current week (ISO: yyyyWww) allowing older caches to age-out/autoprune
