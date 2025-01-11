@@ -1,6 +1,6 @@
 module github.com/chickenandpork/rules_synology/examples/example-server
 
-go 1.22.4
+go 1.23.4
 
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect

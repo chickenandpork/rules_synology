@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.2.1](https://github.com/chickenandpork/rules_synology/compare/v0.2.0...v0.2.1) (2025-01-10)
+
+
+### Features
+
+* allow anonymous dependency ([#200](https://github.com/chickenandpork/rules_synology/issues/200)) ([757db4f](https://github.com/chickenandpork/rules_synology/commit/757db4f8acf8e4235ecc6f450de7197fd15b7eed))
+
+
+### Bug Fixes
+
+* correct .bazelignore per meteorcloudy ([#198](https://github.com/chickenandpork/rules_synology/issues/198)) ([e676c54](https://github.com/chickenandpork/rules_synology/commit/e676c5432a6759b2873f4edd9382f6e83bda0fca))
+* SPK needs username to be startable ([#192](https://github.com/chickenandpork/rules_synology/issues/192)) ([545a1da](https://github.com/chickenandpork/rules_synology/commit/545a1da572d9a6a8846691429c2210e31c4513a9))
+* unblock release: meddle with bazelignore ([#201](https://github.com/chickenandpork/rules_synology/issues/201)) ([874367a](https://github.com/chickenandpork/rules_synology/commit/874367a72283c0e4a44b4cc1ef11af8885b94234))
+
+
+### Miscellaneous Chores
+
+* **deps:** update bazel-contrib/setup-bazel action to v0.10.0 ([#195](https://github.com/chickenandpork/rules_synology/issues/195)) ([f7c120d](https://github.com/chickenandpork/rules_synology/commit/f7c120d1bd730a75a438b5409d85d6d708102e6a))
+* **deps:** update bazel-contrib/setup-bazel action to v0.12.0 ([#199](https://github.com/chickenandpork/rules_synology/issues/199)) ([84c1297](https://github.com/chickenandpork/rules_synology/commit/84c12975bd76c861132c8d117cd204d9fe310dc7))
+* **deps:** update bazel-contrib/setup-bazel action to v0.12.1 ([#202](https://github.com/chickenandpork/rules_synology/issues/202)) ([8256f6c](https://github.com/chickenandpork/rules_synology/commit/8256f6cbabd2fd86586fb1bae6d348103986788b))
+* **deps:** update dependency bazel to v8 ([#184](https://github.com/chickenandpork/rules_synology/issues/184)) ([cd7ffe3](https://github.com/chickenandpork/rules_synology/commit/cd7ffe3d404bcc99fe63d1df45d4625de93a89ef))
+* **deps:** update dependency buildifier_prebuilt to v8 ([#204](https://github.com/chickenandpork/rules_synology/issues/204)) ([850e02c](https://github.com/chickenandpork/rules_synology/commit/850e02cbbbc6d561dd7aff9d658d90c355a757f3))
+* **deps:** update dependency gazelle to v0.41.0 ([#203](https://github.com/chickenandpork/rules_synology/issues/203)) ([6fc34d3](https://github.com/chickenandpork/rules_synology/commit/6fc34d30721f89408932b393b479ae81d769ef09))
+* **deps:** update dependency platforms to v0.0.11 ([#208](https://github.com/chickenandpork/rules_synology/issues/208)) ([da7d96e](https://github.com/chickenandpork/rules_synology/commit/da7d96e7aa8c5ca0cca18e66573ebe777b4baeea))
+* **deps:** update dependency rules_bazel_integration_test to v0.30.0 ([#196](https://github.com/chickenandpork/rules_synology/issues/196)) ([efbdf80](https://github.com/chickenandpork/rules_synology/commit/efbdf80e1c33de1eab1c6036d84f8db481f435fa))
+* **deps:** update dependency rules_bazel_integration_test to v0.31.0 ([#197](https://github.com/chickenandpork/rules_synology/issues/197)) ([48a051a](https://github.com/chickenandpork/rules_synology/commit/48a051ab7f7a936f2bb07e2391a3735903ed1266))
+* **deps:** update go release to 1.23.4 ([#207](https://github.com/chickenandpork/rules_synology/issues/207)) ([c7442db](https://github.com/chickenandpork/rules_synology/commit/c7442db284ad959b0c441624623ab3fe8a44bc29))
+* drop pinned rules_jvm_external now that stardoc-0.7.2 has landed ([#194](https://github.com/chickenandpork/rules_synology/issues/194)) ([fce4dfd](https://github.com/chickenandpork/rules_synology/commit/fce4dfddd0d9a477a9138f644664bb952b6f6867))
+* reconfigure googleapis/release-please ([#205](https://github.com/chickenandpork/rules_synology/issues/205)) ([6aaa128](https://github.com/chickenandpork/rules_synology/commit/6aaa1283598014ca2c9bad7606f639764c656aab))
+* reconfigure googleapis/release-please file locations ([#206](https://github.com/chickenandpork/rules_synology/issues/206)) ([5ea62a4](https://github.com/chickenandpork/rules_synology/commit/5ea62a46f5cd678dbc227ea58279e8252bd38bf8))
+
 ## [0.2.0](https://github.com/chickenandpork/rules_synology/compare/v0.1.1...v0.2.0) (2024-12-16)
 
 
