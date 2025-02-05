@@ -14,13 +14,13 @@ on:
   push:
 
 jobs:
-  build:
-    name: Build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-
+  doc:
+    name: Docs on ubuntu-latest
+    concurrency:
+       # trivial group in this shallow matrix but autocatches expansion
+       cancel-in-progress: true
+       group: ${{ github.ref }}-${{ github.workflow }}-doc
+    runs-on: ubuntu-latest
     steps:
       #-
       #  name: Date-Based Cache key
@@ -43,6 +43,21 @@ jobs:
         run: |
           echo 'examples' > .bazelignore  # remove '//docs'
           bazel run //docs:collate_docs
+
+  build:
+    name: Build on ${{ matrix.os }}
+    concurrency:
+       # trivial group in this shallow matrix but autocatches expansion
+       cancel-in-progress: true
+       group: ${{ github.ref }}-${{ github.workflow }}-${{ matrix.os }}-build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+        # https://github.com/bazelbuild/bazel/issues/11062
       -
         name: Basic Build
         run: |
