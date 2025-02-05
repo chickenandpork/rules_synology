@@ -1,0 +1,8 @@
+load("@other_random_name//:defs.bzl", "images")
+
+# Create icon images; yep, the free Tux icon
+images(
+    name = "icons",
+    src = "@tux_icon//file",
+    visibility = ["//:__subpackages__"],
+)
