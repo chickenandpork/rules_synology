@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.2.2](https://github.com/chickenandpork/rules_synology/compare/v0.2.1...v0.2.2) (2025-02-21)
+
+
+### Miscellaneous Chores
+
+* **deps:** update bazel-contrib/setup-bazel action to v0.13.0 ([#215](https://github.com/chickenandpork/rules_synology/issues/215)) ([68ed76b](https://github.com/chickenandpork/rules_synology/commit/68ed76bd8efc3970490c682984995d5e4d8ea68a))
+* **deps:** update bazel-contrib/setup-bazel action to v0.14.0 ([#226](https://github.com/chickenandpork/rules_synology/issues/226)) ([21d975b](https://github.com/chickenandpork/rules_synology/commit/21d975b14baf9a2d0f0fe8ed864ff19598a554fe))
+* **deps:** update dependency aspect_bazel_lib to v2.11.0 ([#211](https://github.com/chickenandpork/rules_synology/issues/211)) ([426f345](https://github.com/chickenandpork/rules_synology/commit/426f345889bc00c153ab23aee171df1222d7b998))
+* **deps:** update dependency aspect_bazel_lib to v2.12.0 ([#217](https://github.com/chickenandpork/rules_synology/issues/217)) ([80f0085](https://github.com/chickenandpork/rules_synology/commit/80f0085c7cf3140d57b59756f360685a01c55a71))
+* **deps:** update dependency aspect_bazel_lib to v2.13.0 ([#218](https://github.com/chickenandpork/rules_synology/issues/218)) ([72bb365](https://github.com/chickenandpork/rules_synology/commit/72bb3650a899c2477742137b6712bd5975a08377))
+* **deps:** update dependency bazel to v8.0.1 ([#212](https://github.com/chickenandpork/rules_synology/issues/212)) ([69d1bc0](https://github.com/chickenandpork/rules_synology/commit/69d1bc0cbf83f51d8e972e269d9fbc39bed2ee35))
+* **deps:** update dependency bazel to v8.1.0 ([#225](https://github.com/chickenandpork/rules_synology/issues/225)) ([17ff777](https://github.com/chickenandpork/rules_synology/commit/17ff777ee02daec22b1961ee29ab4663271a1461))
+* **deps:** update dependency buildifier_prebuilt to v8.0.1 ([#213](https://github.com/chickenandpork/rules_synology/issues/213)) ([ed8f298](https://github.com/chickenandpork/rules_synology/commit/ed8f298e1f03fbb7e98c5a7eead04aa703c461f7))
+* **deps:** update dependency gazelle to v0.42.0 ([#216](https://github.com/chickenandpork/rules_synology/issues/216)) ([5b650c5](https://github.com/chickenandpork/rules_synology/commit/5b650c568753b8e397c523c1fb09eb094d986162))
+* **deps:** update dependency rules_bazel_integration_test to v0.32.0 ([#223](https://github.com/chickenandpork/rules_synology/issues/223)) ([661c40e](https://github.com/chickenandpork/rules_synology/commit/661c40edcaac5baeb2dd751e338223573af0a60c))
+* **deps:** update dependency rules_cc to v0.1.1 ([#222](https://github.com/chickenandpork/rules_synology/issues/222)) ([67ba37d](https://github.com/chickenandpork/rules_synology/commit/67ba37ddfa8a94bef40a8f04c9725000de8d5655))
+* **deps:** update dependency rules_go to v0.52.0 ([#209](https://github.com/chickenandpork/rules_synology/issues/209)) ([af0259e](https://github.com/chickenandpork/rules_synology/commit/af0259e1962863c3d9811729d1b158dc975f3d08))
+* **deps:** update dependency rules_go to v0.53.0 ([#224](https://github.com/chickenandpork/rules_synology/issues/224)) ([30e2e33](https://github.com/chickenandpork/rules_synology/commit/30e2e33b1ddd0d7175400375de51b0d520a4b61e))
+* **deps:** update dependency stardoc to v0.8.0 ([#214](https://github.com/chickenandpork/rules_synology/issues/214)) ([543a2fd](https://github.com/chickenandpork/rules_synology/commit/543a2fd38897da37c4ac855c4c63ac56dfe1755d))
+* **deps:** update module golang.org/x/image to v0.24.0 ([#219](https://github.com/chickenandpork/rules_synology/issues/219)) ([e7fb0d2](https://github.com/chickenandpork/rules_synology/commit/e7fb0d2ea40274cc84b34776cc16829990f5a667))
+
+
+### Continuous Integration
+
+* split doc collation from build actions ([#221](https://github.com/chickenandpork/rules_synology/issues/221)) ([235399c](https://github.com/chickenandpork/rules_synology/commit/235399c2732748037a020d62deb0dd7fb9df0657))
+
 ## [0.2.1](https://github.com/chickenandpork/rules_synology/compare/v0.2.0...v0.2.1) (2025-01-10)
 
 
