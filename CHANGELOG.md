@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/chickenandpork/rules_synology/compare/v0.2.2...v0.2.3) (2025-02-25)
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency bazel to v8.1.1 ([#227](https://github.com/chickenandpork/rules_synology/issues/227)) ([2f9934c](https://github.com/chickenandpork/rules_synology/commit/2f9934c61175c2e306035d0a8d076da7550cb6d9))
+
 ## [0.2.2](https://github.com/chickenandpork/rules_synology/compare/v0.2.1...v0.2.2) (2025-02-21)
 
 
