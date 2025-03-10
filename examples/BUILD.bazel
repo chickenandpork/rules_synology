@@ -13,6 +13,7 @@ load("@rules_synology//:defs.bzl", "images", "info_file", "maintainer", "protoco
 examples = [
     "cross-helloworld",
     "cross-helloworld-no-go",
+    "example-aliased-dependency",
     "example-docker-project",
     "example-kernelmod-spk",
     # "example-prebuilt-binary-spk",
