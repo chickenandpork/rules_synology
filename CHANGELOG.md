@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.3](https://github.com/chickenandpork/rules_synology/compare/v0.2.2...v0.2.3) (2025-03-14)
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency aspect_bazel_lib to v2.14.0 ([#229](https://github.com/chickenandpork/rules_synology/issues/229)) ([a38038e](https://github.com/chickenandpork/rules_synology/commit/a38038eb4fdab8596cbc2111b350bed5626e1878))
+* **deps:** update dependency bazel to v8.1.1 ([#227](https://github.com/chickenandpork/rules_synology/issues/227)) ([2f9934c](https://github.com/chickenandpork/rules_synology/commit/2f9934c61175c2e306035d0a8d076da7550cb6d9))
+* **deps:** update dependency rules_pkg to v1.1.0 ([#232](https://github.com/chickenandpork/rules_synology/issues/232)) ([75d8de0](https://github.com/chickenandpork/rules_synology/commit/75d8de059a03add49abcdaed9ccb6ef7d4f14a85))
+* **deps:** update module golang.org/x/image to v0.25.0 ([#230](https://github.com/chickenandpork/rules_synology/issues/230)) ([75c5bfa](https://github.com/chickenandpork/rules_synology/commit/75c5bfaf6b9799df645602fae5f207a3ce523638))
+
 ## [0.2.2](https://github.com/chickenandpork/rules_synology/compare/v0.2.1...v0.2.2) (2025-02-21)
 
 
