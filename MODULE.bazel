@@ -13,7 +13,7 @@ bazel_dep(name = "rules_pkg", version = "1.1.0")
 bazel_dep(name = "rules_shellcheck", version = "0.3.3", repo_name = "com_github_aignas_rules_shellcheck")
 bazel_dep(name = "stardoc", version = "0.8.0")
 
-bazel_dep(name = "buildifier_prebuilt", version = "8.0.1", dev_dependency = True)
+bazel_dep(name = "buildifier_prebuilt", version = "8.0.3", dev_dependency = True)
 bazel_dep(name = "rules_bazel_integration_test", version = "0.32.0", dev_dependency = True)
 #local_path_override( module_name = "rules_bazel_integration_test", path = "../rules_bazel_integration_test")
 
