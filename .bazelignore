@@ -1,7 +1,15 @@
 # ignore the examples which are used to document suggested usage, validate this project,
 # and -- in future -- repro issues that may arise.  Per meteorcloudy, .bazelignore is transitory,
 # but its own format, not gitignore format
+bazel-bin
+bazel-cross-helloworld
+bazel-cross-helloworld-no-go
+bazel-example-aliased-dependency
+bazel-example-docker-project
+bazel-example-server
+bazel-out
+bazel-rules_synology
+bazel-testlogs
 docs
-bazel-*
 examples
 
