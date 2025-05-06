@@ -31,7 +31,7 @@ images = rule(
     attrs = {
         "sizes": attr.int_list(mandatory = False, default = [ 16, 24, 32, 48, 64, 72, 90, 120, 256 ], doc = "sizes to convert: use a list of ints, each of which is a desired size of a square bounding box."),
         "src": attr.label(allow_single_file = True,mandatory = True, doc = "Initial source image to convert to various sizes."),
-        "images_template": attr.string(doc = "template for output files: use a string with a single {} that will be replaced with the size.  The template should end with a suffix that determines the resulting format: .png, .jpg, .PNG, etc.  Note that Synology SPK packaging requires files of the form PACKAGE_ICON_<size>.PNG so changing this should ential converting the result back however desired for the payload of the SPK.", mandatory=False),
+        "images_template": attr.string(doc = "template for output files: use a string with a single {} that will be replaced with the size.  The template should end with a suffix that determines the resulting format: .png, .jpg, .PNG, etc.  Note that Synology SPK packaging requires files of the form PACKAGE_ICON_<size>.PNG so changing this should entail converting the result back however desired for the payload of the SPK.", mandatory=False),
         "_resize": attr.label(
             default=Label("//tools:resize"),
             allow_single_file = True,
