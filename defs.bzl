@@ -1,7 +1,7 @@
 # Formats guided by https://global.download.synology.com/download/Document/Software/DeveloperGuide/Os/DSM/All/enu/DSM_Developer_Guide_7_enu.pdf
 
 load("//synology:docker-project.bzl", _docker_compose = "docker_compose", _docker_project = "docker_project")
-load("//synology:images.bzl", _images = "images")
+load("//synology:images.bzl", _image = "image", _images = "images")
 load("//synology:info-file.bzl", _info_file = "info_file")
 load("//synology:maintainer.bzl", "Maintainer", _maintainer = "maintainer")
 load("//synology:port-service-configure.bzl", _protocol_file = "protocol_file", _service_config = "service_config")
@@ -20,6 +20,7 @@ confirm_binary_matches_platform = _confirm_binary_matches_platform
 #docker_compose = _docker_compose
 docker_compose = _docker_compose
 docker_project = _docker_project
+image = _image
 images = _images
 info_file = _info_file
 maintainer = _maintainer
