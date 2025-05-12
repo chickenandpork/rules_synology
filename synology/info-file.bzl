@@ -128,6 +128,18 @@ InfoFile = provider(fields = {
     "arch": "Space-separated text indicating compatible architectures for this SPK: 'noarch x86_64'",
     "ctl_stop": "Boolean: is there a start-stop-status script to allow the SPK to start or stop? (writes both startable and ctl_stop)",
     "thirdparty": "Boolean: is this SPK built outside of Synology corporation? (typically yes)",
+
+    "os_max_ver": "Maximum DSM version that can install this package: a string without clear constraints: 'DSM 7.1.1-42962'",
+    "displayname": "Package name shown in Package Center, overrides {package_name}.  Should be more human-readable.",
+    "dsmuidir": "DSM UI folder name in package.tgz; typically 'ui'.",
+    "dsmappname": "List of names for the application, of the form 'SYNO.SDS.AwesomeApp'.",
+    "dsmapppage": "Name of a UI page to open when the 'open' button is clicked for the app.  Should prefix with a dsmappname: 'SYNO.SDS.AwesomeApp.Cheer'.",
+    "support_conf_folder": "Boolean, deprecated: old setting to signal that additional config info in /conf dir in package.tgz'.",
+    "startstop_restart_services": "deprecated value no longer described in DSM manual.",
+    "silent_install": "Boolean: If set to 'True', your package is allowed to be installed without the package wizard in the background.",
+    "silent_uninstall": "Boolean: If set to 'True', your package is allowed to be uninstalled without the package wizard in the background.",
+    "silent_upgrade": "Boolean: If set to 'True', your package is allowed to be upgraded without the package wizard in the background.",
+    "beta": "Boolean: Mark your version as Beta: Package Center will show the Beta marker (may allow filtering?)",
 })
 
 def noprint(message):
@@ -172,12 +184,23 @@ def info_file_impl(ctx):
         'package="{}"'.format(ctx.attr.package_name),
         'version="{}"'.format(ctx.attr.package_version),
         'os_min_ver="{}"'.format(ctx.attr.os_min_ver),
+        'os_max_ver="{}"'.format(ctx.attr.os_max_ver),
         'description="{}"'.format(ctx.attr.description),
+        'displayname="{}"'.format(ctx.attr.displayname),
+        'dsmuidir="{}"'.format(ctx.attr.dsmuidir),
+        'dsmappname="{}"'.format(" ".join(ctx.attr.dsmappname)),
+        'dsmapppage="{}"'.format(ctx.attr.dsmapppage),
         'maintainer="{}"'.format(ctx.attr.maintainer[Maintainer].name),
         'arch="{}"'.format(" ".join(ctx.attr.arch_strings)),
         'ctl_stop="{}"'.format("yes" if ctx.attr.ctl_stop else "no"),
         'startable="{}"'.format("yes" if ctx.attr.ctl_stop else "no"),  # see also ctl_stop
         'thirdparty="yes"',
+        'support_conf_folder="{}"'.format("yes" if ctx.attr.support_conf_folder else "no"),  # deprecated DSM-6.0
+        'startstop_restart_services="nginx"',  # deprecated DSM-6.0
+        'silent_install="{}"'.format("yes" if ctx.attr.silent_install else "no"),
+        'silent_uninstall="{}"'.format("yes" if ctx.attr.silent_uninstall else "no"),
+        'silent_upgrade="{}"'.format("yes" if ctx.attr.silent_upgrade else "no"),
+        'beta="{}"'.format("yes" if ctx.attr.beta else "no"),
     ]
 
     # optional bits
@@ -194,12 +217,23 @@ def info_file_impl(ctx):
             package = ctx.attr.package_name,
             version = ctx.attr.package_version,
             os_min_ver = ctx.attr.os_min_ver,
+            os_max_ver = ctx.attr.os_max_ver,
             description = ctx.attr.description,
+            displayname = ctx.attr.displayname,  # if empty, DSM will use package_name
             maintainer = ctx.attr.maintainer[Maintainer].name,
             maintainer_url = ctx.attr.maintainer[Maintainer].url,
             arch = " ".join(ctx.attr.arch_strings),
+            dsmuidir = ctx.attr.dsmuidir,
+            dsmappname = " ".join(ctx.attr.dsmappname),
+            dsmapppage = ctx.attr.dsmapppage,  # validate: confirm that all but last dot-separated values is member of dsmappname
+            support_conf_folder = ctx.attr.support_conf_folder,  # deprecated DSM-6.0
+            startstop_restart_services = "nginx", # deprecated DSM-6.0
             ctl_stop = "yes" if ctx.attr.ctl_stop else "no",
             thirdparty = "yes",
+            silent_install = "yes" if ctx.attr.silent_install else "no",
+            silent_uninstall = "yes" if ctx.attr.silent_uninstall else "no",
+            silent_upgrade = "yes" if ctx.attr.silent_upgrade else "no",
+            beta = "yes" if ctx.attr.beta else "no",
         ),
     ]
 
@@ -225,11 +259,21 @@ info_file = rule(
                   "Synology such as "DSM 7.1.1-42962 Update 6".""",
             mandatory = True,
         ),
+        "os_max_ver": attr.string(
+            doc = """Latest version of DSM that can install the package; ie "DSM 7.1.1-42962".  " +
+                  "There seems to be no handling of the extended hard-to-parse suffixes used by " +
+                  "Synology such as "DSM 7.1.1-42962 Update 6".""",
+            mandatory = False,
+        ),
         "description": attr.string(
             doc = "Brief description of the package: copy-paste from the upstream if permissible.  " +
                   "Although this is permitted be a looooong single-line string, it does display on " +
                   "the UIs to install a package, so brevity is still encouraged.",
             mandatory = True,
+        ),
+        "displayname": attr.string(
+            doc = "Human-readable name of the package, should resemble external package name.  If blank, package_name is used in Synology UI.",
+            mandatory = False,
         ),
         "maintainer": attr.label(
             doc = "Maintainer of the build logic for the component (primary if multiple, a person)",
@@ -241,14 +285,52 @@ info_file = rule(
             default = ["noarch"],
             mandatory = False,
         ),
+        "dsmuidir": attr.string(
+            doc = "{[linkname:]subdir}: Subdir in the Package.tgz that contains the DSM UI config and content; this will get softlinked as /usr/syno/synoman/webman/3rdparty/{linkname} -> /var/packages/{package name}/target/{subdir}.  {linkname} defaults to {package_name}.  Multiple values may be given, space-separated: 'MyLinkName1:ui/app1 MyLinkName2:ui/app2'.",
+            #default = "ui",
+            mandatory = False,
+        ),
+        "dsmappname": attr.string_list(
+            doc = "Unique identifiers for App in DSM: SYNO.SDS.{name}: ['SYNO.SDS.Music', 'SYNO.SDS.Albums'].",
+            mandatory = False,
+        ),
+        "dsmapppage": attr.string(
+            doc = "Application page to open when package 'open' button clicked.  Seems that it should be prefixed with one of the dsmappname values: SYNO.SDS.Music.Playlists.",
+            mandatory = False,
+        ),
         "out": attr.output(
             doc = "Name of the Info file, if INFO is not preferred (changing this is not recommended).",
+            mandatory = False,
+        ),
+        "support_conf_folder": attr.bool(
+            default = True,
+            doc = "Was required to indicate that special configs in conf folder would be used.  Unnecessary since DSM-6.0 and deprecated.",
             mandatory = False,
         ),
         "ctl_stop": attr.bool(
             default = True,
             doc = "Indicates (boolean) whether there is a start-stop-script and the SPK can be " +
                   "started or stopped (previously: startable).",
+            mandatory = False,
+        ),
+        "silent_install": attr.bool(
+            doc = "If set to 'True', your package is allowed to be installed without the package wizard in the background.",
+            default = False,
+            mandatory = False,
+        ),
+        "silent_uninstall": attr.bool(
+            doc = "If set to 'True', your package is allowed to be uninstalled without the package wizard in the background.",
+            default = False,
+            mandatory = False,
+        ),
+        "silent_upgrade": attr.bool(
+            doc = "If set to 'True', your package is allowed to be upgraded without the package wizard in the background.",
+            default = False,
+            mandatory = False,
+        ),
+        "beta": attr.bool(
+            doc = "Mark version as Beta: Package Center will show the Beta marker (may allow filtering?)",
+            default = False,
             mandatory = False,
         ),
         "validation_softfail": attr.string(
