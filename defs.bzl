@@ -1,5 +1,6 @@
 # Formats guided by https://global.download.synology.com/download/Document/Software/DeveloperGuide/Os/DSM/All/enu/DSM_Developer_Guide_7_enu.pdf
 
+load("//synology:data-share.bzl", _data_share = "data_share")
 load("//synology:docker-project.bzl", _docker_compose = "docker_compose", _docker_project = "docker_project")
 load("//synology:images.bzl", _image = "image", _images = "images")
 load("//synology:info-file.bzl", _info_file = "info_file")
@@ -17,6 +18,7 @@ SPK_REQUIRED_SCRIPTS = ["preinst", "postinst", "preuninst", "postuninst", "preup
 
 confirm_binary_matches_platform = _confirm_binary_matches_platform
 
+data_share = _data_share
 #docker_compose = _docker_compose
 docker_compose = _docker_compose
 docker_project = _docker_project
