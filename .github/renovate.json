@@ -3,8 +3,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        ".github/workflows/.*.yml"
+      "managerFilePatterns": [
+        "/.github/workflows/.*.yml/"
       ],
       "matchStrings": [
         "renovatebot datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION: (?<currentValue>.*)\\s"
