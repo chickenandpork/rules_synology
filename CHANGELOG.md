@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/chickenandpork/rules_synology/compare/v0.2.3...v0.2.4) (2025-05-21)
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency rules_go to v0.54.1 ([#253](https://github.com/chickenandpork/rules_synology/issues/253)) ([98b8c0b](https://github.com/chickenandpork/rules_synology/commit/98b8c0b9b90ec2c9e5153a65b9b26f6c435af577))
+
 ## [0.2.3](https://github.com/chickenandpork/rules_synology/compare/v0.2.2...v0.2.3) (2025-05-14)
 
 
