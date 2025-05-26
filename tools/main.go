@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"io"
 	"log"
 )
@@ -30,17 +31,33 @@ func main() {
 
 	dest := *destFilename
 	if len(dest) < 1 {
-		dest = *destFilenamePattern
+		dest = fmt.Sprintf(*destFilenamePattern, *maxSize)
 	}
 
 	if *verbose {
 		log.Println("resizing", *srcFilename, "size", *maxSize, "to", dest)
 	}
-	err := ResizeImageFromFile(*srcFilename, dest, *maxSize)
 
+	// This is a bit brute-force:
+	// 1. try to resize the source file as a PNG without even checking
+	// 2. if it fails, the only possible reason is because the source is a SVG
+	// 3. oh no!  it still failed!  log exceptions, throw up hands, wait for refactor
+	//
+	// yep, this is clearly in the "min-ship" or "make it work ugly" before "make it work well"
+
+	err := ResizeImageFromFile(*srcFilename, dest, *maxSize)
 	if err == nil {
 		log.Println("OK:", dest)
 	} else {
-		log.Println("result:", dest, "err:", err)
+		if *verbose {
+			log.Println("resizing as PNG failed; falling-back to SVG")
+		}
+
+		svgerr := ResizeSVGImageFromFile(*srcFilename, dest, *maxSize)
+		if svgerr == nil {
+			log.Println("OK:", dest)
+		} else {
+			log.Println("result:", dest, "pngerr:", err, "svgerr:", svgerr)
+		}
 	}
 }

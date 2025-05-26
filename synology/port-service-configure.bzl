@@ -84,7 +84,7 @@ def _protocol_file_impl(ctx):
         ),
         PortConfigInfo(
             protocol_file = protocol_filename,
-            struct = {"protocol-file": protocol_filename},
+            struct = {"protocol-file": "conf/{}".format(protocol_filename)},
         ),
     ]
 

@@ -4,8 +4,10 @@
 # short-term.  If you don't have time or feel uncomfortable submitting a PR, please submit a
 # sanitized test-case so that a unittest can be built to represent what you need to be unblocked.
 
+load("//synology:data-share.bzl", "DataShareInfo")
 load("//synology:docker-project.bzl", "DockerProject")
 load("//synology:port-service-configure.bzl", "PortConfigInfo")
+load("//synology:systemd-user-unit.bzl", "SystemdUserUnit")
 load("//synology:usr-local-linker.bzl", "UsrLocalLinker")
 
 def _resource_config_impl(ctx):
@@ -16,11 +18,24 @@ def _resource_config_impl(ctx):
     else:
         outfile = ctx.actions.declare_file("resource")
 
+    datashares = []
+
     for r in ctx.attr.resources:
-        if DockerProject in r and r[DockerProject]:
+        if DataShareInfo in r and r[DataShareInfo]:
+            ds = {"name": r[DataShareInfo].name, "permission": {}}
+            if r[DataShareInfo].permission_ro:
+                ds["permission"].update({ "ro": r[DataShareInfo].permission_ro })
+            if r[DataShareInfo].permission_rw:
+                ds["permission"].update({ "rw": r[DataShareInfo].permission_rw })
+            if "data-share" not in resource_list:
+                resource_list["data-share"] = { "shares": [] }
+            resource_list["data-share"]["shares"].append(ds)
+        elif DockerProject in r and r[DockerProject]:
             resource_list["docker-project"] = r[DockerProject].struct
         elif PortConfigInfo in r and r[PortConfigInfo]:
             resource_list["port-config"] = r[PortConfigInfo].struct
+        elif SystemdUserUnit in r and r[SystemdUserUnit]:
+            resource_list["systemd-user-unit"] = r[SystemdUserUnit]
         elif UsrLocalLinker in r and r[UsrLocalLinker]:
             if "usr-local-linker" not in resource_list:
                 resource_list["usr-local-linker"] = r[UsrLocalLinker]
@@ -32,9 +47,9 @@ def _resource_config_impl(ctx):
                 })
         else:
             print(
-                "WARNING: no providers generated from docker_project(), port_config()," +
-                " usr_local_linker() were found.  May be an error in resource_config(name = {},...)"
-                    .format(ctx.attr.name),
+                "WARNING: no providers generated from docker_project(), port_config(), " +
+                "systemd_user_unit(), nor usr_local_linker() were found.  May be an error in " +
+                "resource_config(name = {},...)".format(ctx.attr.name),
             )
 
     # appending "" element and joining results in a finishing blank line which has no effect on JSON

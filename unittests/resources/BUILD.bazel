@@ -11,7 +11,7 @@ info_file(
     package_version = "1.2.3-435",
 )
 
-# Consider that the "resoutce_tester" service has two ports:
+# Consider that the "resource_tester" service has two ports:
 #    rt-main : the port for typical service
 #    rt-admin : the port for admin users to administer the administrations
 #

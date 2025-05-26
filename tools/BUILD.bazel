@@ -24,7 +24,12 @@ go_library(
     ],
     importpath = "github.com/chickenandpork/rules_synology/tools",
     visibility = ["//visibility:private"],
-    deps = ["@com_github_disintegration_imaging//:imaging"],
+    deps = [
+        "@com_github_disintegration_imaging//:imaging",
+        "@com_github_srwiley_oksvg//:oksvg",
+        "@com_github_srwiley_rasterx//:rasterx",
+        "@org_golang_x_image//draw",
+    ],
 )
 
 # TL;DR: needed for `bazel test //examples:all_integration_tests`

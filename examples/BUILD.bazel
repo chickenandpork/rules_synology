@@ -10,9 +10,19 @@ load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_fil
 load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
 load("@rules_synology//:defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
 
+# If you edit this, you'll get this error:
+#
+# Error in glob: glob pattern 'example-aliased-dependency/**/*' didn't match anything, but
+# allow_empty is set to False (the default value of allow_empty can be set with
+# --incompatible_disallow_empty_glob).
+#
+# To remedy:
+#     `bazel run @rules_bazel_integration_test//tools:update_deleted_packages`
+
 examples = [
     "cross-helloworld",
     "cross-helloworld-no-go",
+    "example-aliased-dependency",
     "example-docker-project",
     "example-kernelmod-spk",
     # "example-prebuilt-binary-spk",
