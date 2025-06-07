@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.2.4](https://github.com/chickenandpork/rules_synology/compare/v0.2.3...v0.2.4) (2025-06-07)
+
+
+### Miscellaneous Chores
+
+* **deps:** update bazel-contrib/setup-bazel action to v0.15.0 ([#255](https://github.com/chickenandpork/rules_synology/issues/255)) ([e158117](https://github.com/chickenandpork/rules_synology/commit/e1581175e8ae207cf89f0f812f13956257eb6e60))
+* **deps:** update dependency aspect_bazel_lib to v2.17.0 ([#257](https://github.com/chickenandpork/rules_synology/issues/257)) ([39ba259](https://github.com/chickenandpork/rules_synology/commit/39ba259119961fa4218f8669645c4eeedf549ddd))
+* **deps:** update dependency aspect_bazel_lib to v2.17.1 ([#258](https://github.com/chickenandpork/rules_synology/issues/258)) ([8e01cfb](https://github.com/chickenandpork/rules_synology/commit/8e01cfb2b6de150e7e1d728a91178f12fb601888))
+* **deps:** update dependency buildifier_prebuilt to v8.2.0 ([#260](https://github.com/chickenandpork/rules_synology/issues/260)) ([a89f173](https://github.com/chickenandpork/rules_synology/commit/a89f173f3c1d59072a9998ae23c5a455ff0e8eb4))
+* **deps:** update dependency buildifier_prebuilt to v8.2.0.2 ([#263](https://github.com/chickenandpork/rules_synology/issues/263)) ([d0de304](https://github.com/chickenandpork/rules_synology/commit/d0de3045039e660f6ca90bfd28f79e97039e8ed4))
+* **deps:** update dependency platforms to v1 ([#256](https://github.com/chickenandpork/rules_synology/issues/256)) ([99358ba](https://github.com/chickenandpork/rules_synology/commit/99358ba551491788d9ef522d6d8ba68120a7ee49))
+* **deps:** update dependency rules_go to v0.54.1 ([#253](https://github.com/chickenandpork/rules_synology/issues/253)) ([98b8c0b](https://github.com/chickenandpork/rules_synology/commit/98b8c0b9b90ec2c9e5153a65b9b26f6c435af577))
+* **deps:** update dependency rules_go to v0.55.0 ([#259](https://github.com/chickenandpork/rules_synology/issues/259)) ([4a6c727](https://github.com/chickenandpork/rules_synology/commit/4a6c727e2459717f997ddc613f304c326ab5fd63))
+* **deps:** update module golang.org/x/image to v0.28.0 ([#261](https://github.com/chickenandpork/rules_synology/issues/261)) ([511c6b9](https://github.com/chickenandpork/rules_synology/commit/511c6b905680046b4d1c57adb21f9783ae24d5af))
+* **deps:** update module golang.org/x/net to v0.41.0 ([#262](https://github.com/chickenandpork/rules_synology/issues/262)) ([268255e](https://github.com/chickenandpork/rules_synology/commit/268255e23f4ee624fafc55b1c02e9516d5326642))
+
 ## [0.2.3](https://github.com/chickenandpork/rules_synology/compare/v0.2.2...v0.2.3) (2025-05-14)
 
 
