@@ -32,6 +32,9 @@
     {
       "enabled": true,
       "groupName": "Bazel module updates",
+      "matchFileNames": [
+        "**/MODULE.bazel"
+      ],
       "matchManagers": [
         "bazel",
         "bazel-module"
