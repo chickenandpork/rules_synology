@@ -22,7 +22,7 @@
     {
       "enabled": true,
       "groupName": "Go module updates",
-      "matchFiles": [
+      "matchFileNames": [
         "**/go.mod"
       ],
       "matchManagers": [
