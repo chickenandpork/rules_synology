@@ -21,10 +21,20 @@
   "packageRules": [
     {
       "enabled": true,
+      "groupName": "Go module updates",
+      "matchFiles": [
+        "**/go.mod"
+      ],
+      "matchManagers": [
+        "gomod"
+      ]
+    },
+    {
+      "enabled": true,
+      "groupName": "Bazel module updates",
       "matchManagers": [
         "bazel",
-        "bazel-module",
-        "gomod"
+        "bazel-module"
       ]
     },
     {
