@@ -12,7 +12,7 @@ jobs:
     steps:
       -
         name: Clone Repo
-        uses: actions/checkout@v4.3.0
+        uses: actions/checkout@v5.0.0
       -
         name: re-confirm a build
         run: |
@@ -54,7 +54,7 @@ jobs:
       -
         name: Clone Repo
         if: ${{ steps.release.outputs.release_created }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       -
         name: Canonicalize Parameters
         # I was using this to canonicalize version/tag but now it helps reuse workflows
