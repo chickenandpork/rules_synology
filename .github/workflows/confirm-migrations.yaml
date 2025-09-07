@@ -26,5 +26,5 @@ jobs:
         uses: actions/checkout@v5.0.0
         # https://github.com/bazelbuild/bazel/issues/11062
       -
-        run: bazelisk --migration build //...
+        run: bazelisk --migrate build //...
       # If migrations ultimately pass due to dependencies updating, I'll be able to merge this
