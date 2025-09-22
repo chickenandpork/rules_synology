@@ -29,6 +29,7 @@ def _simple_start_stop_script_impl(ctx):
 
     compose_up_command = ""
     compose_down_command = ""
+    compose_status_command = ""
 
     # this needs to have both package name and docker_projects defined
     if len(docker_projects) and not package_name:

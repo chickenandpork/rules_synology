@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+exec 2>>/tmp/postinst.allanc
+set -x
+
+export TALOSPXE_DHCPD="/var/packages/$SYNOPKG_PKGNAME/share/dnsmasq.d"
+
+mkdir -p "${TALOSPXE_DHCPD}"
+
+#/var/packages/$SYNOPKG_PKGNAME/scripts/start-stop-status start
+
+exit 0

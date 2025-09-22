@@ -1,4 +1,4 @@
-# Build examplesZ
+# Build examples
 
 These examples should be near-copy-paste functional as builds from which to base your own builds.
 Checking the WORKSPACE for each, there should be simply a change from using the rules_synology as a
