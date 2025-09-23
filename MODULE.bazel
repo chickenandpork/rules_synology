@@ -17,11 +17,6 @@ bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2", dev_dependency = Tr
 bazel_dep(name = "rules_bazel_integration_test", version = "0.33.2", dev_dependency = True)
 #local_path_override( module_name = "rules_bazel_integration_test", path = "../rules_bazel_integration_test")
 
-go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
-
-#Download toolchain for this version for both host and some platform targets (maybe the right ones)
-go_sdk.download(version = "1.23.4")
-
 go_deps = use_extension("@gazelle//:extensions.bzl", "go_deps")
 go_deps.from_file(go_mod = "//:go.mod")
 
