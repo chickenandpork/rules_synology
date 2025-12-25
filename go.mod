@@ -2,7 +2,7 @@ module github.com/chickenandpork/rules_synology
 
 go 1.24.0
 
-toolchain go1.24.11
+toolchain go1.25.5
 
 require github.com/disintegration/imaging v1.6.2
 
