@@ -11,5 +11,5 @@ require (
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef
 	golang.org/x/image v0.34.0 // indirect
 	golang.org/x/net v0.48.0 // indirect
-	golang.org/x/text v0.32.0 // indirect
+	golang.org/x/text v0.33.0 // indirect
 )
