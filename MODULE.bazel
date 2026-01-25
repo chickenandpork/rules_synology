@@ -14,7 +14,7 @@ bazel_dep(name = "rules_shellcheck", version = "0.4.0", repo_name = "com_github_
 bazel_dep(name = "stardoc", version = "0.8.0")
 
 bazel_dep(name = "buildifier_prebuilt", version = "8.2.1.1", dev_dependency = True)
-bazel_dep(name = "rules_bazel_integration_test", version = "0.35.0", dev_dependency = True)
+bazel_dep(name = "rules_bazel_integration_test", version = "0.36.0", dev_dependency = True)
 #local_path_override( module_name = "rules_bazel_integration_test", path = "../rules_bazel_integration_test")
 
 go_deps = use_extension("@gazelle//:extensions.bzl", "go_deps")
