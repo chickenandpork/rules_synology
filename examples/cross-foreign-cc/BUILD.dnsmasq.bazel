@@ -1,0 +1,31 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "make")
+
+filegroup(
+    name = "all_files",
+    srcs = glob(["**"]),
+)
+
+make(
+    name = "_dnsmasq",
+    lib_source = ":all_files",
+    out_binaries = ["dnsmasq"],
+    tags = ["no-cache"],
+    targets = [
+        # PREFIX is getting a value either way, so the proper DESTDIR is double-prefixing.
+        # Just (*sigh*) use prefix incorrectly as everyone does...
+        "PREFIX=$$INSTALLDIR$$ " +
+
+        # dnsmasq wants to build into ${PREFIX)/sbin, but make() only looks for ./bin
+        "BINDIR=$$INSTALLDIR$$/bin " +
+
+        "install",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "dnsmasq",
+    srcs = [":_dnsmasq"],
+    output_group = "dnsmasq",
+    visibility = ["//visibility:public"],
+)
