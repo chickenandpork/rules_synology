@@ -28,7 +28,7 @@ jobs:
     steps:
       -
         name: Cut Github Release
-        uses: googleapis/release-please-action@v4
+        uses: googleapis/release-please-action@v5
         # Settings -> Actions -> General -> Workflow Permissions
         # - select "Read repo contents", and
         # - enable "Allow Github Actions to create and approve pull requests"
