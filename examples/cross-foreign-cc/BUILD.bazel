@@ -1,0 +1,181 @@
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_files")
+load("@rules_pkg//pkg/private/tar:tar.bzl", "SUPPORTED_TAR_COMPRESSIONS", "pkg_tar")
+load(
+    "@rules_synology//:defs.bzl",
+    "SPK_REQUIRED_SCRIPTS",
+    "docker_compose",
+    "docker_project",
+    "images",
+    "info_file",
+    "maintainer",
+    "privilege_config",
+    "protocol_file",
+    "resource_config",
+    "service_config",
+    "simple_start_stop_script",
+    "systemd_user_unit",
+)
+
+RELEASE="1"
+VERSION="2.91"
+
+maintainer(
+    name = "chickenandpork",
+    maintainer_name = "Allan Clark",
+    maintainer_url = "http://github.com/chickenandpork",
+    visibility = ["//visibility:public"],
+)
+
+info_file(
+    name = "info",
+    package_name = "dnsmasq",
+    #arch_strings = ["noarch"],
+    description = "dnsmasq",
+    maintainer = ":chickenandpork",
+    os_min_ver = "7.0-1",  # correct-format=[^\d+(\.\d+){1,2}(-\d+){1,2}$]
+    package_version = "{}-{}".format(VERSION, RELEASE),
+)
+
+privilege_config(
+    name = "priv",
+    username = "sc-dnsmasq",
+    # run_as_root isn't working: Synology seems to throw a 313 or 319 error whenever I have any valid binaries in the run-as-root.  Need to optimize it over time.
+    #run_as_root= [ "postinst", "preuninst"],
+)
+
+service_config(
+    name = "dnsmasq_dhcpd",
+    description = "DHCPD for Dnsmasq",
+    dst_ports = "67/udp",
+    title = "Dnsmasq DHCPD",
+)
+
+service_config(
+    name = "dnsmasq_bootp",
+    description = "BootP",
+    dst_ports = "69/udp",
+    title = "Dnsmasq BootP",
+)
+
+protocol_file(
+    name = "protocol",
+    package_name = "dnsmasq",
+    service_config = [
+        ":dnsmasq_dhcpd",
+        ":dnsmasq_bootp",
+    ],
+)
+
+systemd_user_unit(
+    name = "systemd",
+    # TODO: make this create a DefaultInfo() return on the rule that is picked up in
+    # resource_config() to package the unit file
+    #unit = ":dnsmasq.service",
+)
+
+resource_config(
+    name = "rez",
+    resources = [
+        ":protocol",
+        ":systemd",
+    ],
+)
+
+
+images(
+    name = "icons",
+    src = "@dnsmasq_icon//file",
+)
+
+pkg_files(
+    name = "conf",
+    srcs = [
+        ":priv",
+        ":rez",
+    ],
+    attributes = pkg_attributes(
+        mode = "0444",
+    ),
+    prefix = "conf",
+    visibility = ["//visibility:public"],
+)
+
+DNSMASQ_PREFIX="dnsmasq.d"
+pkg_files(
+    name = "dnsmasq-conf",
+    srcs = [
+        ":dnsmasq.d.conf",
+    ],
+    attributes = pkg_attributes(
+        mode = "0666",
+    ),
+    prefix = DNSMASQ_PREFIX,
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "dnsmasq-bin",
+    srcs = [
+        "@dnsmasq//:dnsmasq",
+    ],
+    attributes = pkg_attributes(
+        mode = "0555",
+    ),
+    prefix = "/bin",
+    visibility = ["//visibility:public"],
+)
+
+pkg_tar(
+    name = "package",
+    srcs = [":dnsmasq-bin", ":dnsmasq-conf"],
+    extension = "tgz",
+    package_dir = "/",
+)
+
+[copy_file(
+    name = "stub_{}".format(f),
+    src = "@rules_synology//synology:stub_script",
+    out = f,
+) for f in SPK_REQUIRED_SCRIPTS if f not in [ "postinst"]]
+
+
+simple_start_stop_script(
+    name = "sss",
+    deps = [ ":info" ],
+)
+
+pkg_files(
+    name = "scripts",
+    srcs = [":postinst", ":sss"] + [":stub_{}".format(f) for f in ["preinst", "preuninst", "postuninst", "preupgrade", "postupgrade"]],
+    attributes = pkg_attributes(
+        mode = "0755",
+    ),
+    prefix = "scripts",
+)
+
+pkg_tar(
+    name = "dnsmasq",
+    srcs = [
+        ":conf",
+        ":icons",
+        ":info",
+        ":package",
+        ":scripts",
+    ],
+    extension = "tar",
+    package_file_name = "{}.spk".format("dnsmasq"),
+    visibility = ["//visibility:public"],
+)
+
+build_test(
+    name = "dnsmasq_build_test",
+    tags = ["manual"],
+    targets = ["@dnsmasq//:dnsmasq"],
+    visibility = ["//:__pkg__"],
+)
+
+#confirm_binary_matches_platform("@dnsmasq//:dnsmasq")
