@@ -1,0 +1,44 @@
+module(
+    name = "examples_cross-foreign-cc",
+    version = "1.0",
+)
+
+bazel_dep(name = "aspect_bazel_lib", version = "2.21.1")
+bazel_dep(name = "bazel_skylib", version = "1.8.1")
+bazel_dep(name = "rules_foreign_cc", version = "0.15.0")
+bazel_dep(name = "rules_pkg", version = "1.1.0")
+bazel_dep(name = "rules_synology")
+bazel_dep(name = "platforms", version = "1.0.0")
+
+# When reusing for your own project, don't use this local-override
+local_path_override(
+    module_name = "rules_synology",
+    path = "../..",
+)
+
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
+http_file(
+    name = "dnsmasq_icon",
+    #integrity = "sha256-ZyDtZ1MnQ654uRCJ6vIWJXNc2cMEahJbx73wg7y6ndU=",
+    sha256 = "6720ed67532743ae78b91089eaf21625735cd9c3046a125bc7bdf083bcba9dd5",
+    urls = [
+        "https://thekelleys.org.uk/dnsmasq/images/icon.png",
+    ],
+)
+
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "dnsmasq",
+    build_file = "BUILD.dnsmasq.bazel",
+    #integrity = "sha256-9iJoKEizNnetsratCCZGGKKuCgHaSGqT/YzZEYaz0VM=",
+    sha256 = "f622682848b33677adb2b6ad08264618a2ae0a01da486a93fd8cd91186b3d153",
+    strip_prefix = "dnsmasq-2.91",
+    urls = [
+        "https://thekelleys.org.uk/dnsmasq/dnsmasq-2.91.tar.xz",
+    ],
+)
+
+# register toolchains by wildcard :) (thanks, github/cameron-martin)
+register_toolchains("@rules_synology//toolchains:all")
