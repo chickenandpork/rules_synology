@@ -28,6 +28,8 @@ service_config(
     name = "rt-main",
     description = "Resource Tester service",
     dst_ports = "1337/tcp",
+    mdns_alias_port = 80,
+    web_config_mdns_alias = "resource_tester",
     title = "Resource Tester service port",
 )
 
@@ -49,7 +51,10 @@ protocol_file(
 
 resource_config(
     name = "rez",
-    resources = [":file"],
+    resources = [
+        ":file",
+        ":rt-main",
+    ],
 )
 
 # We expect the resulting protocol file (to which a port-config points) to look like this .INI content:
@@ -77,4 +82,114 @@ diff_test(
     size = "small",
     file1 = ":file",
     file2 = ":file-expected",
+)
+
+write_file(
+    name = "resource-expected",
+    out = "resource_expected",
+    content = [
+        "{",
+        '  "port-config": {',
+        '    "protocol-file": "conf/rt.sc"',
+        "  },",
+        '  "web-config": {',
+        '    "nginx-static-config": {',
+        '      "enable": [',
+        "        {",
+        '          "alias": [',
+        '            "resource_tester.local"',
+        "          ],",
+        '          "ports": [',
+        "            {",
+        '              "port": 80,',
+        '              "protocol": "tcp",',
+        '              "schema": "http"',
+        "            }",
+        "          ],",
+        '          "type": "www"',
+        "        }",
+        "      ]",
+        "    }",
+        "  }",
+        "}",
+        "",
+    ],
+)
+
+write_file(
+    name = "avahi-expected",
+    out = "avahi_expected.service",
+    content = [
+        '<?xml version="1.0" standalone="no"?><!--*-nxml-*-->',
+        '<!DOCTYPE service-group SYSTEM "avahi-service.dtd">',
+        "",
+        "<service-group>",
+        '  <name replace-wildcards="yes">resource_tester.local</name>',
+        '  <service>',
+        "    <type>_http._tcp</type>",
+        '    <host-name>resource_tester.local</host-name>',
+        "    <port>80</port>",
+        "  </service>",
+        "</service-group>",
+        "",
+    ],
+)
+
+sh_test(
+    name = "resource_test",
+    size = "small",
+    srcs = [":validate_resource_outputs"],
+    args = [
+        "$(location :resource-expected)",
+        "$(location :avahi-expected)",
+        "$(locations :rez)",
+    ],
+    data = [
+        ":rez",
+        ":resource-expected",
+        ":avahi-expected",
+    ],
+)
+
+write_file(
+    name = "validate_resource_outputs",
+    out = "validate_resource_outputs.sh",
+    content = [
+        "#!/bin/sh",
+        "set -eu",
+        "",
+        "canonicalize_json() {",
+        "  python3 -c 'import json, sys; from pathlib import Path; data = json.loads(Path(sys.argv[1]).read_text()); Path(sys.argv[2]).write_text(json.dumps(data, sort_keys=True, indent=2) + \"\\n\")' \"$1\" \"$2\"",
+        "}",
+        "",
+        "resource_expected=$1",
+        "avahi_expected=$2",
+        "shift 2",
+        "",
+        "resource_actual=",
+        "avahi_actual=",
+        "",
+        "normalized_expected=$(mktemp)",
+        "normalized_actual=$(mktemp)",
+        "trap 'rm -f \"$normalized_expected\" \"$normalized_actual\"' EXIT",
+        "",
+        'for f in "$@"; do',
+        '  case "$(basename "$f")" in',
+        "    resource) resource_actual=$f ;;",
+        "    *-mdns-alias.service) avahi_actual=$f ;;",
+        "  esac",
+        "done",
+        "",
+        'if [ -z "$resource_actual" ] || [ -z "$avahi_actual" ]; then',
+        '  echo "missing generated outputs"',
+        "  exit 1",
+        "fi",
+        "",
+        'canonicalize_json "$resource_expected" "$normalized_expected"',
+        'canonicalize_json "$resource_actual" "$normalized_actual"',
+        'diff -u "$normalized_expected" "$normalized_actual"',
+        'diff -u "$avahi_expected" "$avahi_actual"',
+        "",
+    ],
+    is_executable = True,
 )

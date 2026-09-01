@@ -14,20 +14,60 @@ ServiceConfigInfo = provider(
         "title": """Title of the service or service component being configured; this is shown as the field "Protocol" on the firewall config UI, selection of built-in service.""",
         "desc": """Description of the service or service-specific component; this is shown as the field "Applications" on the firewall config UI, selection of built-in service.""",
         "port_forward": "(Optional, but you want to set) set to activate port-forwarding from the external interfaces to the service.",
+        "mdns_alias_port": "(Optional) when non-zero, create a web-config entry that listens on this port and forwards to the service.",
+        "web_config_mdns_alias": "(Optional) the multicast DNS relative name (ie 'photoshare' for 'photoshare.local') to alias to the Synology host for LAN discoverability: defaults to service config info key.",
         "src_ports": """(Optional) if your service protocol has specific source ports (ie the client/requestor of your service connects FROM a specific port) you can configure that here.  This is less common, used in DNS, SUNRPC portmapper, DHCP, CORBA nameservice, etc.  "1:1024/tcp" can be used, for example, to configure that sources should use the port range typically reserved for non-guest root users on a server.  See DSM_Developer_Guide_7_enu.pdf, section "Port" in Workers, which was p 128 when I checked.""",
         "dst_ports": """This configures where the port on the Synology will listen to forward traffic to your service.  For example, a webserver might put "80,443/tcp" here (but more likely configure the revproxy); a web-based admin UI for a container or service would put that service's listening port here.""",
     },
 )
 
+WebConfigInfo = provider(
+    fields = {
+        "key": "service-unique key for the section of the service configuration .ini file",
+        "web_config_port": "port number published through web-config for the service alias",
+        "hostname": "mDNS hostname for the web-config alias, including the .local suffix",
+    },
+)
+
+MDNSAliasInfo = provider(
+    fields = {
+        "key": "service-unique key for the section of the service configuration .ini file",
+        "hostname": "mDNS hostname for the alias, including the .local suffix",
+    },
+)
+
+def _mdns_hostname(name):
+    if name.endswith(".local"):
+        return name
+    return "{}.local".format(name)
+
 def _service_config_impl(ctx):
-    return [ServiceConfigInfo(
+    providers = [ServiceConfigInfo(
         key = ctx.attr.name,
         title = ctx.attr.title,
         desc = ctx.attr.description,
         port_forward = "yes" if ctx.attr.port_forward else "no",
+        mdns_alias_port = ctx.attr.mdns_alias_port,
+        web_config_mdns_alias = ctx.attr.web_config_mdns_alias,
         src_ports = ctx.attr.src_ports,
         dst_ports = ctx.attr.dst_ports,
     )]
+
+    if ctx.attr.mdns_alias_port:
+        hostname = _mdns_hostname(ctx.attr.web_config_mdns_alias or ctx.attr.name)
+        providers.extend([
+            WebConfigInfo(
+                key = ctx.attr.name,
+                web_config_port = ctx.attr.mdns_alias_port,
+                hostname = hostname,
+            ),
+            MDNSAliasInfo(
+                key = ctx.attr.name,
+                hostname = hostname,
+            ),
+        ])
+
+    return providers
 
 service_config = rule(
     doc = "A function to define a service configuration (port-forward) for a package installed on Synology",
@@ -36,6 +76,8 @@ service_config = rule(
         "title": attr.string(mandatory = True),
         "description": attr.string(mandatory = True),
         "port_forward": attr.bool(default = True, mandatory = False),
+        "mdns_alias_port": attr.int(default = 0, mandatory = False),
+        "web_config_mdns_alias": attr.string(default = "", mandatory = False),
         "src_ports": attr.string(mandatory = False),
         "dst_ports": attr.string(mandatory = True),
     },

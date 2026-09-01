@@ -69,3 +69,21 @@ def spk_component(name, spk, filename):
         outs = [filename],
         cmd = "tar xfO $< {} > $@".format(filename),
     )
+
+def validate_avahi(name, service_file, size = "small"):
+    """Create an Avahi XML validation test for a package-owned service file."""
+    native.sh_test(
+        name = name,
+        size = size,
+        srcs = ["@rules_synology//synology:validate_avahi_script"],
+        args = [
+            "$(location {})".format(service_file),
+            "$(location @rules_synology//synology:avahi_service_dtd)",
+            "$(location @libxml2//:xmllint)",
+        ],
+        data = [
+            service_file,
+            "@rules_synology//synology:avahi_service_dtd",
+            "@libxml2//:xmllint",
+        ],
+    )
