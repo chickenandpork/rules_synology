@@ -1,0 +1,11 @@
+load("@aspect_bazel_lib//lib:write_source_files.bzl", "write_source_files")
+load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+
+write_source_files(
+    name = "collate_docs",
+    files = {
+        "docs.md": "//:docs",
+        #"index.md": "//docs/gen:index",
+    },
+)
