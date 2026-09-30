@@ -8,7 +8,7 @@ load("//synology:maintainer.bzl", "Maintainer", _maintainer = "maintainer")
 load("//synology:port-service-configure.bzl", _protocol_file = "protocol_file", _service_config = "service_config")
 load("//synology:privilege-configure.bzl", _privilege_config = "privilege_config")
 load("//synology:resource-configure.bzl", _resource_config = "resource_config")
-load("//synology:unittests.bzl", _confirm_binary_matches_platform = "confirm_binary_matches_platform", _spk_component = "spk_component")
+load("//synology:unittests.bzl", _confirm_binary_matches_platform = "confirm_binary_matches_platform", _spk_component = "spk_component", _validate_avahi = "validate_avahi")
 load("//synology:usr-local-linker.bzl", _usr_local_linker = "usr_local_linker")
 load("//synology:systemd-user-unit.bzl", _systemd_user_unit = "systemd_user_unit")
 
@@ -31,5 +31,6 @@ protocol_file = _protocol_file
 resource_config = _resource_config
 service_config = _service_config
 spk_component = _spk_component
+validate_avahi = _validate_avahi
 systemd_user_unit = _systemd_user_unit
 usr_local_linker = _usr_local_linker

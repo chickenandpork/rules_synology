@@ -43,6 +43,30 @@ write_file(
     visibility = ["//visibility:public"],
 )
 
+alias(
+    name = "avahi_service_dtd",
+    actual = "@avahi_service_dtd//file",
+    visibility = ["//visibility:public"],
+)
+
+write_file(
+    name = "validate_avahi_script",
+    out = "validate_avahi.sh",
+    content = [
+        "#!/bin/sh",
+        "set -eu",
+        "",
+        'xmllint="$3"',
+        'xml="$1"',
+        'dtd="$2"',
+        "",
+        '"$xmllint" --noout --dtdvalid "$dtd" "$xml"',
+        "",
+    ],
+    is_executable = True,
+    visibility = ["//visibility:public"],
+)
+
 [shellcheck_test(
     name = "shellcheck_{}_test".format(f),
     data = [":{}".format(f)],
