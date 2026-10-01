@@ -15,12 +15,12 @@ on:
 
 jobs:
   doc:
-    name: Docs on ubuntu-latest
+    name: Docs on ubuntu-26.04
     concurrency:
        # trivial group in this shallow matrix but autocatches expansion
        cancel-in-progress: true
        group: ${{ github.ref }}-${{ github.workflow }}-doc
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       #-
       #  name: Date-Based Cache key
@@ -53,7 +53,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-26.04]
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
