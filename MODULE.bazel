@@ -75,6 +75,7 @@ http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_
 http_file(
     name = "avahi_service_dtd",
     downloaded_file_path = "avahi-service.dtd",
+    integrity = "sha256-y9zadN8SWwTCVOSxpJXRjMsTm01v/qSM/kVbCP07rWo=",
     urls = [
         # Raw form of https://github.com/avahi/avahi/blob/master/avahi-daemon/avahi-service.dtd
         "https://raw.githubusercontent.com/avahi/avahi/master/avahi-daemon/avahi-service.dtd",
