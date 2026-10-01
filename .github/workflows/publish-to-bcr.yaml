@@ -1,0 +1,41 @@
+---
+name: Publish-to-BCR
+# yamllint disable-line rule:truthy
+on:
+  # Run the publish workflow after a successful release
+  # Will be triggered from the release.yaml workflow
+  workflow_call:
+    inputs:
+      tag_name:
+        required: true
+        type: string
+        description: |
+          The tag which is being released: v1.2.3
+  # In case of problems, let release engineers retry by manually dispatching
+  # the workflow from the GitHub UI
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        required: true
+        type: string
+        description: |
+          The tag which is being released: v1.2.3
+
+jobs:
+  publish:
+    uses: bazel-contrib/publish-to-bcr/.github/workflows/publish.yaml@ca23149e55cd4db07a6bcce69c02dea314c5a357 # v1.5.0
+    with:
+      tag_name: ${{ inputs.tag_name }}
+      # GitHub repository which is a fork of the upstream where the Pull Request will be opened.
+      registry_fork: chickenandpork/bazel-central-registry
+      # see note on Attestation Support
+      attest: false # not releasing (yet?) via bazel-contrib release_ruleset
+    permissions:
+      contents: write
+      # Necessary if attest:true
+      #id-token: write
+      # Necessary if attest:true
+      #attestations: write
+    secrets:
+      # Necessary to push to the BCR fork, and to open a pull request against a registry
+      publish_token: ${{ secrets.BCR_PUBLISH_TOKEN }}

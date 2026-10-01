@@ -9,7 +9,8 @@ tasks:
     bazel: ${{ bazel }}
     platform: ${{ platform }}
     build_targets:
-      - '@rules_synology//...'
+      - '//...'
       # Need a consistent "ignore" between .bazelignore, rules_bazel_integration_test, and other
-      # tools.  (NOTE: doing here out of caution to get BCR submit past un-repro-able issue)
-      - '-@rules_synology//examples/...'
+      # tools.  (NOTE: doing here out of caution to get BCR submit past un-repro-able issue: examples
+      # build in CI for any commit)
+      - '-//examples/...'
