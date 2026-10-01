@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       -
         name: Clone Repo
@@ -20,7 +20,7 @@ jobs:
           bazel run //docs:collate_docs
 
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
       pull-requests: write

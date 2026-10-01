@@ -8,7 +8,7 @@ on:
     # status: {}  # check_events only listenable in main/master branch in github app
 jobs:
   automerge:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#enable-auto-merge-on-a-pull-request
     # permissions: write-all
     permissions:
