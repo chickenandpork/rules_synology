@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.5](https://github.com/chickenandpork/rules_synology/compare/v0.2.4...v0.2.5) (2026-10-03)
+
+
+### Bug Fixes
+
+* back-step publish-to-bcr 1.5.0 -&gt; 1.4.2 to see if it helps ([#432](https://github.com/chickenandpork/rules_synology/issues/432)) ([35b22c1](https://github.com/chickenandpork/rules_synology/commit/35b22c17dd299d4924612ddb377fc67d259174ef))
+* fix BCR submission automation ([#429](https://github.com/chickenandpork/rules_synology/issues/429)) ([e95b5b8](https://github.com/chickenandpork/rules_synology/commit/e95b5b89d2f51feda17e3e40d81f417dccd0bda9))
+
+
+### Miscellaneous Chores
+
+* **deps:** update bazel-contrib/publish-to-bcr action to v1.5.0 ([#433](https://github.com/chickenandpork/rules_synology/issues/433)) ([8e2f1f9](https://github.com/chickenandpork/rules_synology/commit/8e2f1f9348f5ae7d732466723c839921e34917e6))
+* **deps:** update bazel-contrib/publish-to-bcr action to v1.5.1 ([#434](https://github.com/chickenandpork/rules_synology/issues/434)) ([57fa75e](https://github.com/chickenandpork/rules_synology/commit/57fa75eb0e474c9d858d47bdd8a20e2daf496b9c))
+
 ## [0.2.4](https://github.com/chickenandpork/rules_synology/compare/v0.2.3...v0.2.4) (2026-09-30)
 
 
