@@ -9,10 +9,11 @@
 # bazel build :main --platforms=@rules_synology//models:ds1819+ --incompatible_enable_cc_toolchain_resolution
 
 load("@bazel_tools//tools/cpp:unix_cc_toolchain_config.bzl", "cc_toolchain_config")
+load("@rules_cc//cc/toolchains:cc_toolchain.bzl", "cc_toolchain")
 
 filegroup(
     name = "all",
-    srcs = glob(["**/*",]),
+    srcs = glob(["**/*"]),
 )
 
 # this allows the cc_toolchain to be accessible from the Bazel target @denverton-gcc850_glibc226_x86_64-GPL//:cc_toolchain
@@ -25,36 +26,17 @@ cc_toolchain(
     dwp_files = ":all",
     linker_files = ":all",
     objcopy_files = ":all",
-    strip_files = ":all",
     static_runtime_lib = ":all",
+    strip_files = ":all",
     toolchain_config = ":_cc_toolchain_config",
 )
 
 cc_toolchain_config(
     name = "_cc_toolchain_config",
-    cpu = "x86_64",
-    compiler = "gcc",
-    toolchain_identifier = "denverton-gcc850_glibc226_x86_64-GPL",
-    host_system_name = "local",
-    target_system_name = "local",
-    target_libc = "unknown",
-    abi_version = "unknown",
     abi_libc_version = "unknown",
-    tool_paths = {
-        "gcc": "bin/x86_64-pc-linux-gnu-gcc",
-        "cpp": "bin/x86_64-pc-linux-gnu-cpp",
-        "ar": "bin/x86_64-pc-linux-gnu-ar",
-        "nm": "bin/x86_64-pc-linux-gnu-nm",
-        "ld": "bin/x86_64-pc-linux-gnu-ld",
-        "as": "bin/x86_64-pc-linux-gnu-as",
-        "objcopy": "bin/x86_64-pc-linux-gnu-objcopy",
-        "objdump": "bin/x86_64-pc-linux-gnu-objdump",
-        "gcov": "bin/x86_64-pc-linux-gnu-gcov",
-        "strip": "bin/x86_64-pc-linux-gnu-strip",
-        "llvm-cov": "/bin/false",
-    },
+    abi_version = "unknown",
     compile_flags = [
-	"-no-canonical-prefixes",  # based on "-no_canonical_headers in https://github.com/bazelbuild/bazel/issues/4605#issuecomment-944882878 (heaff1)
+        "-no-canonical-prefixes",  # based on "-no_canonical_headers in https://github.com/bazelbuild/bazel/issues/4605#issuecomment-944882878 (heaff1)
         "-isystem", "external/denverton-gcc850_glibc226_x86_64-GPL/lib/gcc/x86_64-pc-linux-gnu/8.5.0/include",
         "-isystem", "external/denverton-gcc850_glibc226_x86_64-GPL/x86_64-pc-linux-gnu/include",
         "-isystem", "external/denverton-gcc850_glibc226_x86_64-GPL/x86_64-pc-linux-gnu/include/c++/8.5.0",
@@ -66,6 +48,9 @@ cc_toolchain_config(
         #"-isystem", "external/denverton-gcc850_glibc226_x86_64-GPL/x86_64-pc-linux-gnu/sys-root/usr/include/gnu",
         #"-isystem", "external/denverton-gcc850_glibc226_x86_64-GPL/x86_64-pc-linux-gnu/sys-root/usr/include/bits/types",
     ],
+    compiler = "gcc",
+    cpu = "x86_64",
+    host_system_name = "local",
     # x86_64-pc-linux-gnu/x86_64-pc-linux-gnu/sys-root/usr/include/bits/syslog.h
     # cxx_builtin_include_directories = [
     #     "x86_64-pc-linux-gnu/x86_64-pc-linux-gnu",
@@ -97,4 +82,20 @@ cc_toolchain_config(
     #     "@denverton-gcc850_glibc226_x86_64-GPL/x86_64-pc-linux-gnu/sys-root/usr/include/bits/sys_errlist.h",
     # ],
     link_flags = [],
+    target_libc = "unknown",
+    target_system_name = "local",
+    tool_paths = {
+        "gcc": "bin/x86_64-pc-linux-gnu-gcc",
+        "cpp": "bin/x86_64-pc-linux-gnu-cpp",
+        "ar": "bin/x86_64-pc-linux-gnu-ar",
+        "nm": "bin/x86_64-pc-linux-gnu-nm",
+        "ld": "bin/x86_64-pc-linux-gnu-ld",
+        "as": "bin/x86_64-pc-linux-gnu-as",
+        "objcopy": "bin/x86_64-pc-linux-gnu-objcopy",
+        "objdump": "bin/x86_64-pc-linux-gnu-objdump",
+        "gcov": "bin/x86_64-pc-linux-gnu-gcov",
+        "strip": "bin/x86_64-pc-linux-gnu-strip",
+        "llvm-cov": "/bin/false",
+    },
+    toolchain_identifier = "denverton-gcc850_glibc226_x86_64-GPL",
 )

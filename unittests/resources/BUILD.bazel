@@ -1,6 +1,7 @@
 load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("//:defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
+load("//:defs.bzl", "info_file", "protocol_file", "resource_config", "service_config")
 
 info_file(
     name = "info",
@@ -29,8 +30,8 @@ service_config(
     description = "Resource Tester service",
     dst_ports = "1337/tcp",
     mdns_alias_port = 80,
-    web_config_mdns_alias = "resource_tester",
     title = "Resource Tester service port",
+    web_config_mdns_alias = "resource_tester",
 )
 
 service_config(
@@ -125,9 +126,9 @@ write_file(
         "",
         "<service-group>",
         '  <name replace-wildcards="yes">resource_tester.local</name>',
-        '  <service>',
+        "  <service>",
         "    <type>_http._tcp</type>",
-        '    <host-name>resource_tester.local</host-name>',
+        "    <host-name>resource_tester.local</host-name>",
         "    <port>80</port>",
         "  </service>",
         "</service-group>",
@@ -145,9 +146,9 @@ sh_test(
         "$(locations :rez)",
     ],
     data = [
-        ":rez",
-        ":resource-expected",
         ":avahi-expected",
+        ":resource-expected",
+        ":rez",
     ],
 )
 

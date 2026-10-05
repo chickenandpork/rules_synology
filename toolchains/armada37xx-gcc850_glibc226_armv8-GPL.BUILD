@@ -9,10 +9,11 @@
 # bazel build :main --platforms=@rules_synology//models:ds120j --incompatible_enable_cc_toolchain_resolution
 
 load("@bazel_tools//tools/cpp:unix_cc_toolchain_config.bzl", "cc_toolchain_config")
+load("@rules_cc//cc/toolchains:cc_toolchain.bzl", "cc_toolchain")
 
 filegroup(
     name = "all",
-    srcs = glob(["**/*",]),
+    srcs = glob(["**/*"]),
 )
 
 # this allows the cc_toolchain to be accessible from the Bazel target @armada37xx-gcc850_glibc226_armv8-GPL//:cc_toolchain
@@ -25,21 +26,30 @@ cc_toolchain(
     dwp_files = ":all",
     linker_files = ":all",
     objcopy_files = ":all",
-    strip_files = ":all",
     static_runtime_lib = ":all",
+    strip_files = ":all",
     toolchain_config = ":_cc_toolchain_config",
 )
 
 cc_toolchain_config(
     name = "_cc_toolchain_config",
-    cpu = "arm64",  # "armv8",
-    compiler = "gcc",
-    toolchain_identifier = "armada37xx-gcc850_glibc226_armv8-GPL",
-    host_system_name = "local",
-    target_system_name = "local",
-    target_libc = "unknown",
-    abi_version = "unknown",
     abi_libc_version = "unknown",
+    abi_version = "unknown",
+    compile_flags = [
+        "-no-canonical-prefixes",  # based on "-no_canonical_headers in https://github.com/bazelbuild/bazel/issues/4605#issuecomment-944882878 (heaff1)
+        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/lib/gcc/aarch64-unknown-linux-gnu/8.5.0/include",
+        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/include",
+        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/include/c++/8.5.0",
+        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/include/c++/8.5.0/aarch64-unknown-linux-gnu",
+        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/lib64",
+        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/sys-root/usr/include",
+    ],
+    compiler = "gcc",
+    cpu = "arm64",  # "armv8",
+    host_system_name = "local",
+    link_flags = [],
+    target_libc = "unknown",
+    target_system_name = "local",
     tool_paths = {
         "gcc": "bin/aarch64-unknown-linux-gnu-gcc",
         "cpp": "bin/aarch64-unknown-linux-gnu-cpp",
@@ -53,14 +63,5 @@ cc_toolchain_config(
         "strip": "bin/aarch64-unknown-linux-gnu-strip",
         "llvm-cov": "/bin/false",
     },
-    compile_flags = [
-	"-no-canonical-prefixes",  # based on "-no_canonical_headers in https://github.com/bazelbuild/bazel/issues/4605#issuecomment-944882878 (heaff1)
-        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/lib/gcc/aarch64-unknown-linux-gnu/8.5.0/include",
-        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/include",
-        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/include/c++/8.5.0",
-        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/include/c++/8.5.0/aarch64-unknown-linux-gnu",
-        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/lib64",
-        "-isystem", "external/armada37xx-gcc850_glibc226_armv8-GPL/aarch64-unknown-linux-gnu/sys-root/usr/include",
-    ],
-    link_flags = [],
+    toolchain_identifier = "armada37xx-gcc850_glibc226_armv8-GPL",
 )
