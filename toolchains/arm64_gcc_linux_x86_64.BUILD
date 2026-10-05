@@ -8,9 +8,12 @@
 #
 # bazel build :main --platforms=@rules_synology//toolchains:toolchain_arm64_gcc --incompatible_enable_cc_toolchain_resolution
 
+load("@bazel_tools//tools/cpp:unix_cc_toolchain_config.bzl", "cc_toolchain_config")
+load("@rules_cc//cc/toolchains:cc_toolchain.bzl", "cc_toolchain")
+
 filegroup(
     name = "all",
-    srcs = glob(["**/*",]),
+    srcs = glob(["**/*"]),
 )
 
 # this allows the cc_toolchain to be accessible from the Bazel target @arm64_gcc_linux_x86_64//:cc_toolchain
@@ -23,23 +26,28 @@ cc_toolchain(
     dwp_files = ":all",
     linker_files = ":all",
     objcopy_files = ":all",
-    strip_files = ":all",
     static_runtime_lib = ":all",
+    strip_files = ":all",
     toolchain_config = ":_cc_toolchain_config",
 )
 
-load("@bazel_tools//tools/cpp:unix_cc_toolchain_config.bzl", "cc_toolchain_config")
-
 cc_toolchain_config(
     name = "_cc_toolchain_config",
-    cpu = "arm64",
-    compiler = "gcc",
-    toolchain_identifier = "arm64_gcc",
-    host_system_name = "local",
-    target_system_name = "local",
-    target_libc = "unknown",
-    abi_version = "unknown",
     abi_libc_version = "unknown",
+    abi_version = "unknown",
+    compile_flags = [
+        "-isystem", "external/arm64_gcc_linux_x86_64/aarch64-none-linux-gnu/include/c++/12.2.1/aarch64-none-linux-gnu",
+        "-isystem", "external/arm64_gcc_linux_x86_64/aarch64-none-linux-gnu/include/c++/12.2.1",
+        "-isystem", "external/arm64_gcc_linux_x86_64/aarch64-none-linux-gnu/include",
+        "-isystem", "external/arm64_gcc_linux_x86_64/aarch64-none-linux-gnu/libc/usr/include",
+        "-isystem", "external/arm64_gcc_linux_x86_64/lib/gcc/aarch64-none-linux-gnu/12.2.1/include",
+    ],
+    compiler = "gcc",
+    cpu = "arm64",
+    host_system_name = "local",
+    link_flags = [],
+    target_libc = "unknown",
+    target_system_name = "local",
     tool_paths = {
         "gcc": "bin/aarch64-none-linux-gnu-gcc",
         "cpp": "bin/aarch64-none-linux-gnu-cpp",
@@ -53,12 +61,5 @@ cc_toolchain_config(
         "strip": "bin/aarch64-none-linux-gnu-strip",
         "llvm-cov": "/bin/false",
     },
-    compile_flags = [
-        "-isystem", "external/arm64_gcc_linux_x86_64/aarch64-none-linux-gnu/include/c++/12.2.1/aarch64-none-linux-gnu",
-        "-isystem", "external/arm64_gcc_linux_x86_64/aarch64-none-linux-gnu/include/c++/12.2.1",
-        "-isystem", "external/arm64_gcc_linux_x86_64/aarch64-none-linux-gnu/include",
-        "-isystem", "external/arm64_gcc_linux_x86_64/aarch64-none-linux-gnu/libc/usr/include",
-        "-isystem", "external/arm64_gcc_linux_x86_64/lib/gcc/aarch64-none-linux-gnu/12.2.1/include",
-    ],
-    link_flags = [],
+    toolchain_identifier = "arm64_gcc",
 )
