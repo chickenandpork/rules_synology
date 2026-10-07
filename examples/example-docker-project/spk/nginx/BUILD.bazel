@@ -1,7 +1,7 @@
 load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_files")
-load("@rules_pkg//pkg/private/tar:tar.bzl", "SUPPORTED_TAR_COMPRESSIONS", "pkg_tar")
+load("@rules_pkg//pkg/private/tar:tar.bzl", "pkg_tar")
 load(
     "@rules_synology//:defs.bzl",
     "SPK_REQUIRED_SCRIPTS",
@@ -9,11 +9,8 @@ load(
     "docker_project",
     "images",
     "info_file",
-    "maintainer",
     "privilege_config",
-    "protocol_file",
     "resource_config",
-    "service_config",
 )
 
 # This is the "project" in a docker-project sense: the name of the docker-compose subdir is the

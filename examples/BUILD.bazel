@@ -2,12 +2,10 @@ load("@bazel_binaries//:defs.bzl", "bazel_binaries")
 load(
     "@rules_bazel_integration_test//bazel_integration_test:defs.bzl",
     "bazel_integration_test",
-    "bazel_integration_tests",
     "default_test_runner",
     "integration_test_utils",
 )
-load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_files", "pkg_mkdirs", "strip_prefix")
-load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_files")
 load("@rules_synology//:defs.bzl", "images", "info_file", "maintainer", "protocol_file", "resource_config", "service_config")
 
 # If you edit this, you'll get this error:

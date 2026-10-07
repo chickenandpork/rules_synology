@@ -57,8 +57,6 @@ References:
 * [Synology: Systemd User Unit](https://help.synology.com/developer-guide/resource_acquisition/data_share.html)
 """
 
-
-
 DataShareInfo = provider(
     fields = {
         "name": "name of the share",
