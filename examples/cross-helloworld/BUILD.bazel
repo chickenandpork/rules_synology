@@ -1,3 +1,4 @@
+load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@rules_synology//:defs.bzl", "confirm_binary_matches_platform")
 
 cc_binary(

@@ -91,5 +91,5 @@ def _systemd_user_unit_impl(ctx):
 systemd_user_unit = rule(
     doc = doc,
     implementation = _systemd_user_unit_impl,
-    attrs = { },
+    attrs = {},
 )

@@ -1,5 +1,6 @@
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
 
 # In order to check that a linked binary is truly cross-compiled to match the chosen platform, we do this in three steps:
 # 1. create a template that confirms the result of a "file" command matches some static expression
@@ -47,8 +48,7 @@ def confirm_binary_matches_platform(binary, size = "small"):
         }),
         template = ":{}_test_arch_tmpl".format(token),
     )
-
-    native.sh_test(
+    sh_test(
         name = "{}_test_file_arch".format(token),
         size = size,
         srcs = [":{}_test_arch".format(token)],
@@ -72,7 +72,7 @@ def spk_component(name, spk, filename):
 
 def validate_avahi(name, service_file, size = "small"):
     """Create an Avahi XML validation test for a package-owned service file."""
-    native.sh_test(
+    sh_test(
         name = name,
         size = size,
         srcs = ["@rules_synology//synology:validate_avahi_script"],

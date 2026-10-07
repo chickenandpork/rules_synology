@@ -18,8 +18,6 @@ load("//toolchains:deps.bzl", TOOLCHAINS = "TOOLCHAINS_SHORT_LC")
 #    @rules_synology//arch:synology_arch  <-- to be removed
 #    @rules_synology//arch:x86  <-- to be removed
 
-load("@bazel_skylib//lib:selects.bzl", "selects")
-
 config_setting(
     name = "arm",
     values = {"cpu": "arm"},

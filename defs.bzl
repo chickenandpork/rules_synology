@@ -4,13 +4,13 @@ load("//synology:data-share.bzl", _data_share = "data_share")
 load("//synology:docker-project.bzl", _docker_compose = "docker_compose", _docker_project = "docker_project")
 load("//synology:images.bzl", _image = "image", _images = "images")
 load("//synology:info-file.bzl", _info_file = "info_file")
-load("//synology:maintainer.bzl", "Maintainer", _maintainer = "maintainer")
+load("//synology:maintainer.bzl", _maintainer = "maintainer")
 load("//synology:port-service-configure.bzl", _protocol_file = "protocol_file", _service_config = "service_config")
 load("//synology:privilege-configure.bzl", _privilege_config = "privilege_config")
 load("//synology:resource-configure.bzl", _resource_config = "resource_config")
+load("//synology:systemd-user-unit.bzl", _systemd_user_unit = "systemd_user_unit")
 load("//synology:unittests.bzl", _confirm_binary_matches_platform = "confirm_binary_matches_platform", _spk_component = "spk_component", _validate_avahi = "validate_avahi")
 load("//synology:usr-local-linker.bzl", _usr_local_linker = "usr_local_linker")
-load("//synology:systemd-user-unit.bzl", _systemd_user_unit = "systemd_user_unit")
 
 SPK_REQUIRED_SCRIPTS = ["preinst", "postinst", "preuninst", "postuninst", "preupgrade", "postupgrade"]
 
@@ -19,6 +19,7 @@ SPK_REQUIRED_SCRIPTS = ["preinst", "postinst", "preuninst", "postuninst", "preup
 confirm_binary_matches_platform = _confirm_binary_matches_platform
 
 data_share = _data_share
+
 #docker_compose = _docker_compose
 docker_compose = _docker_compose
 docker_project = _docker_project

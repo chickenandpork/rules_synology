@@ -30,7 +30,7 @@ def _avahi_service_content(hostname, port):
         '  <name replace-wildcards="yes">{}</name>'.format(hostname),
         "  <service>",
         "    <type>{}</type>".format(service_type),
-        '    <host-name>{}</host-name>'.format(hostname),
+        "    <host-name>{}</host-name>".format(hostname),
         "    <port>{}</port>".format(port),
         "  </service>",
         "</service-group>",
@@ -54,11 +54,11 @@ def _resource_config_impl(ctx):
         if DataShareInfo in r and r[DataShareInfo]:
             ds = {"name": r[DataShareInfo].name, "permission": {}}
             if r[DataShareInfo].permission_ro:
-                ds["permission"].update({ "ro": r[DataShareInfo].permission_ro })
+                ds["permission"].update({"ro": r[DataShareInfo].permission_ro})
             if r[DataShareInfo].permission_rw:
-                ds["permission"].update({ "rw": r[DataShareInfo].permission_rw })
+                ds["permission"].update({"rw": r[DataShareInfo].permission_rw})
             if "data-share" not in resource_list:
-                resource_list["data-share"] = { "shares": [] }
+                resource_list["data-share"] = {"shares": []}
             resource_list["data-share"]["shares"].append(ds)
             found_provider = True
         if DockerProject in r and r[DockerProject]:

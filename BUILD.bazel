@@ -16,7 +16,9 @@ stardoc(
     input = "defs.bzl",
     table_of_contents_template = "@stardoc//stardoc:templates/markdown_tables/table_of_contents.vm",
     visibility = ["//visibility:public"],
-    deps = ["//synology:docs"],
+    deps = [
+        "//synology:docs",
+    ],
 )
 
 # This target collects all of the parent workspace files needed by the child workspaces.

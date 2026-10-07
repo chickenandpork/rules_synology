@@ -128,7 +128,6 @@ InfoFile = provider(fields = {
     "arch": "Space-separated text indicating compatible architectures for this SPK: 'noarch x86_64'",
     "ctl_stop": "Boolean: is there a start-stop-status script to allow the SPK to start or stop? (writes both startable and ctl_stop)",
     "thirdparty": "Boolean: is this SPK built outside of Synology corporation? (typically yes)",
-
     "os_max_ver": "Maximum DSM version that can install this package: a string without clear constraints: 'DSM 7.1.1-42962'",
     "displayname": "Package name shown in Package Center, overrides {package_name}.  Should be more human-readable.",
     "dsmuidir": "DSM UI folder name in package.tgz; typically 'ui'.",
@@ -227,7 +226,7 @@ def info_file_impl(ctx):
             dsmappname = " ".join(ctx.attr.dsmappname),
             dsmapppage = ctx.attr.dsmapppage,  # validate: confirm that all but last dot-separated values is member of dsmappname
             support_conf_folder = ctx.attr.support_conf_folder,  # deprecated DSM-6.0
-            startstop_restart_services = "nginx", # deprecated DSM-6.0
+            startstop_restart_services = "nginx",  # deprecated DSM-6.0
             ctl_stop = "yes" if ctx.attr.ctl_stop else "no",
             thirdparty = "yes",
             silent_install = "yes" if ctx.attr.silent_install else "no",
