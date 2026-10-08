@@ -9,6 +9,7 @@ load("//synology:docker-project.bzl", "DockerProject")
 load("//synology:port-service-configure.bzl", "MDNSAliasInfo", "PortConfigInfo", "WebConfigInfo")
 load("//synology:systemd-user-unit.bzl", "SystemdUserUnit")
 load("//synology:usr-local-linker.bzl", "UsrLocalLinker")
+load("//synology:web-config.bzl", "WebProxyInfo")
 
 def _web_config_type(port):
     if port == 80 or port == 443:
@@ -80,6 +81,11 @@ def _resource_config_impl(ctx):
                 "alias": [r[WebConfigInfo].hostname],
             })
             found_provider = True
+        if WebProxyInfo in r:
+            if "web-config" not in resource_list:
+                resource_list["web-config"] = {"nginx-static-config": {"enable": []}}
+            resource_list["web-config"]["nginx-static-config"]["enable"].append(r[WebProxyInfo].config)
+            found_provider = True
         if SystemdUserUnit in r and r[SystemdUserUnit]:
             resource_list["systemd-user-unit"] = r[SystemdUserUnit]
             found_provider = True
@@ -131,7 +137,13 @@ resource_config = rule(
     doc = "A function to define a resource configuration (conf/resource) configuring packages installed in Synology.",
     implementation = _resource_config_impl,
     attrs = {
-        "resources": attr.label_list(mandatory = True),
-        "out": attr.output(mandatory = False),
+        "resources": attr.label_list(
+            mandatory = True,
+            doc = "Targets providing data shares, Docker projects, port configurations, web configurations, systemd user units, or /usr/local links to collect into conf/resource. Service targets providing both mDNS alias and web configuration metadata also generate Avahi .service files.",
+        ),
+        "out": attr.output(
+            mandatory = False,
+            doc = "Output filename for the resource JSON file. Defaults to resource; package this file as conf/resource in the SPK.",
+        ),
     },
 )

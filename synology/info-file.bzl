@@ -195,12 +195,15 @@ def info_file_impl(ctx):
         'startable="{}"'.format("yes" if ctx.attr.ctl_stop else "no"),  # see also ctl_stop
         'thirdparty="yes"',
         'support_conf_folder="{}"'.format("yes" if ctx.attr.support_conf_folder else "no"),  # deprecated DSM-6.0
-        'startstop_restart_services="nginx"',  # deprecated DSM-6.0
+        'startstop_restart_services="{}"'.format(ctx.attr.startstop_restart_services),
         'silent_install="{}"'.format("yes" if ctx.attr.silent_install else "no"),
         'silent_uninstall="{}"'.format("yes" if ctx.attr.silent_uninstall else "no"),
         'silent_upgrade="{}"'.format("yes" if ctx.attr.silent_upgrade else "no"),
         'beta="{}"'.format("yes" if ctx.attr.beta else "no"),
     ]
+
+    if ctx.attr.instuninst_restart_services:
+        content.append('instuninst_restart_services="{}"'.format(ctx.attr.instuninst_restart_services))
 
     # optional bits
     if ctx.attr.maintainer[Maintainer].url:
@@ -226,7 +229,7 @@ def info_file_impl(ctx):
             dsmappname = " ".join(ctx.attr.dsmappname),
             dsmapppage = ctx.attr.dsmapppage,  # validate: confirm that all but last dot-separated values is member of dsmappname
             support_conf_folder = ctx.attr.support_conf_folder,  # deprecated DSM-6.0
-            startstop_restart_services = "nginx",  # deprecated DSM-6.0
+            startstop_restart_services = ctx.attr.startstop_restart_services,  # deprecated DSM-6.0
             ctl_stop = "yes" if ctx.attr.ctl_stop else "no",
             thirdparty = "yes",
             silent_install = "yes" if ctx.attr.silent_install else "no",
@@ -240,6 +243,14 @@ info_file = rule(
     doc = doc,
     implementation = info_file_impl,
     attrs = {
+        "instuninst_restart_services": attr.string(
+            default = "",
+            doc = "Space-separated DSM services to restart when installing or uninstalling the package. An empty value omits this INFO field.",
+        ),
+        "startstop_restart_services": attr.string(
+            default = "nginx",
+            doc = "Space-separated DSM services to restart when starting or stopping the package. Defaults to nginx; this legacy INFO field is deprecated since DSM 6.0.",
+        ),
         "package_name": attr.string(
             doc = "Name of the package, unique within Synology SPKs, hopefully resembles external package name",
             mandatory = True,
