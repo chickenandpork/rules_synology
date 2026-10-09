@@ -2,6 +2,7 @@ load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 
 # this was originally loaded from "@rules_pkg//:pkg.bzl" but no bzl_library for that file
 load("@rules_pkg//pkg/private/tar:tar.bzl", "pkg_tar")
+load("//synology:port-service-configure.bzl", _service_config = "service_config")
 
 # This set of functions allows population of a docker project struct inside the resource file:
 #
@@ -154,7 +155,16 @@ _docker_compose = rule(
     },
 )
 
-def docker_compose(name, compose, project_name = None, path = None, debug = False):
+def docker_compose(
+        name,
+        compose,
+        project_name = None,
+        path = None,
+        debug = False,
+        port_forward = None,
+        mdns_alias_port = None,
+        dst_ports = None,
+        web_config_mdns_alias = ""):
     """
     ## Configure a single Docker Project (a docker-compose)
 
@@ -210,3 +220,15 @@ def docker_compose(name, compose, project_name = None, path = None, debug = Fals
     )
 
     _docker_compose(name = name, compose_tar = "_compose_tarfile_{}".format(path), path = path, project_name = project_name or name)
+    if port_forward != None or mdns_alias_port != None:
+        if not dst_ports:
+            fail("dst_ports is required when configuring Compose service ports")
+        _service_config(
+            name = "{}_serviceconfig".format(name),
+            title = project_name or name,
+            description = "Ports for {}".format(project_name or name),
+            dst_ports = dst_ports,
+            port_forward = port_forward,
+            mdns_alias_port = mdns_alias_port,
+            web_config_mdns_alias = web_config_mdns_alias,
+        )

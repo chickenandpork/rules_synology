@@ -11,16 +11,14 @@ load("//synology:resource-configure.bzl", _resource_config = "resource_config")
 load("//synology:systemd-user-unit.bzl", _systemd_user_unit = "systemd_user_unit")
 load("//synology:unittests.bzl", _confirm_binary_matches_platform = "confirm_binary_matches_platform", _spk_component = "spk_component", _validate_avahi = "validate_avahi")
 load("//synology:usr-local-linker.bzl", _usr_local_linker = "usr_local_linker")
+load("//synology:web-config.bzl", _web_config = "web_config")
 
 SPK_REQUIRED_SCRIPTS = ["preinst", "postinst", "preuninst", "postuninst", "preupgrade", "postupgrade"]
 
 # pass-thru
 
 confirm_binary_matches_platform = _confirm_binary_matches_platform
-
 data_share = _data_share
-
-#docker_compose = _docker_compose
 docker_compose = _docker_compose
 docker_project = _docker_project
 image = _image
@@ -32,6 +30,7 @@ protocol_file = _protocol_file
 resource_config = _resource_config
 service_config = _service_config
 spk_component = _spk_component
-validate_avahi = _validate_avahi
 systemd_user_unit = _systemd_user_unit
 usr_local_linker = _usr_local_linker
+validate_avahi = _validate_avahi
+web_config = _web_config
