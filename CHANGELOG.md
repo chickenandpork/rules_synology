@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.2.5](https://github.com/chickenandpork/rules_synology/compare/v0.2.4...v0.2.5) (2026-10-10)
+
+
+### Features
+
+* bazel-9.0 compatibility ([#435](https://github.com/chickenandpork/rules_synology/issues/435)) ([dc77ee5](https://github.com/chickenandpork/rules_synology/commit/dc77ee5c704861883f9d91a57dbecfdd74f422e9))
+* mdns name/revproxy for (one) container service ([#437](https://github.com/chickenandpork/rules_synology/issues/437)) ([b734ad5](https://github.com/chickenandpork/rules_synology/commit/b734ad5ad51a3aff7a4208d734e3ee6d543563eb))
+
+
+### Bug Fixes
+
+* back-step publish-to-bcr 1.5.0 -&gt; 1.4.2 to see if it helps ([#432](https://github.com/chickenandpork/rules_synology/issues/432)) ([35b22c1](https://github.com/chickenandpork/rules_synology/commit/35b22c17dd299d4924612ddb377fc67d259174ef))
+* fix BCR submission automation ([#429](https://github.com/chickenandpork/rules_synology/issues/429)) ([e95b5b8](https://github.com/chickenandpork/rules_synology/commit/e95b5b89d2f51feda17e3e40d81f417dccd0bda9))
+
+
+### Miscellaneous Chores
+
+* **deps:** update bazel-contrib/publish-to-bcr action to v1.5.0 ([#433](https://github.com/chickenandpork/rules_synology/issues/433)) ([8e2f1f9](https://github.com/chickenandpork/rules_synology/commit/8e2f1f9348f5ae7d732466723c839921e34917e6))
+* **deps:** update bazel-contrib/publish-to-bcr action to v1.5.1 ([#434](https://github.com/chickenandpork/rules_synology/issues/434)) ([57fa75e](https://github.com/chickenandpork/rules_synology/commit/57fa75eb0e474c9d858d47bdd8a20e2daf496b9c))
+* **deps:** update dependency apple_support to v2.10.0 ([#441](https://github.com/chickenandpork/rules_synology/issues/441)) ([47406aa](https://github.com/chickenandpork/rules_synology/commit/47406aa7a0b9dcab04df92b5625fa5646e092c01))
+* **deps:** update dependency apple_support to v2.10.1 ([#443](https://github.com/chickenandpork/rules_synology/issues/443)) ([5642509](https://github.com/chickenandpork/rules_synology/commit/56425094a48963a7e2bd79df38b6d97a7bed157f))
+* **deps:** update dependency bazel to v9.3.0 ([#349](https://github.com/chickenandpork/rules_synology/issues/349)) ([7f2f548](https://github.com/chickenandpork/rules_synology/commit/7f2f5483dffcbcb5e8b6f6cadc41b4bccf6b327e))
+* **deps:** update dependency rules_go to v0.64.2 ([#438](https://github.com/chickenandpork/rules_synology/issues/438)) ([8796e3b](https://github.com/chickenandpork/rules_synology/commit/8796e3bbd20bdf5a9fb3b4ca65182fffc206bc2d))
+* **deps:** update dependency rules_pkg to v1.3.0 ([#417](https://github.com/chickenandpork/rules_synology/issues/417)) ([4c721c1](https://github.com/chickenandpork/rules_synology/commit/4c721c1fc3eb055edf87574dd27800197525db3d))
+* **deps:** update go module updates ([#439](https://github.com/chickenandpork/rules_synology/issues/439)) ([03dc922](https://github.com/chickenandpork/rules_synology/commit/03dc922c06ec12668e704ed9684596754d39bd2e))
+* **deps:** update go module updates ([#442](https://github.com/chickenandpork/rules_synology/issues/442)) ([5c9cf19](https://github.com/chickenandpork/rules_synology/commit/5c9cf19051e3d75247d46229588bec123fbb43b6))
+* **deps:** update module golang.org/x/sys to v0.49.0 ([#440](https://github.com/chickenandpork/rules_synology/issues/440)) ([2d597d9](https://github.com/chickenandpork/rules_synology/commit/2d597d94d9d004bf16dfd3d1396cfc7b9efd9c8a))
+* prepare for bazel-10 ([#436](https://github.com/chickenandpork/rules_synology/issues/436)) ([6fcccac](https://github.com/chickenandpork/rules_synology/commit/6fcccac6712f72d8bef42dc80cc2c0418efac5e9))
+
 ## [0.2.4](https://github.com/chickenandpork/rules_synology/compare/v0.2.3...v0.2.4) (2026-09-30)
 
 
