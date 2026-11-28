@@ -6,8 +6,8 @@ toolchain go1.27.4
 
 require (
 	github.com/disintegration/imaging v1.6.2
-	github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c
-	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef
+	github.com/srwiley/oksvg v0.0.0-20261128051108-63f39d1445ed
+	github.com/srwiley/rasterx v0.0.0-20261128054241-78f2104be592
 )
 
 require (
